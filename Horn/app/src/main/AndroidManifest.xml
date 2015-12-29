@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.horn.workshop">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
+    <application
+        android:name="app.AppController"
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/fb_app_id" />
+
+        <activity
+            android:name="activity.SplashScreen"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="activity.ChoiceLogin"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name="activity.GoogleLoginSetup"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name="activity.FacebookLoginSetup"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name="activity.Login"
+            android:theme="@style/AppTheme.CustomePopUpTheme" />
+        <activity
+            android:name="activity.Register"
+            android:label="@string/title_activity_signup"
+            android:theme="@style/AppFullScreenTheme" />
+        <activity
+            android:name="activity.OtpVerification"
+            android:theme="@style/AppTheme.CustomePopUpTheme"/>
+        <!-- SMS Receiver -->
+        <receiver android:name="receiver.SmsReceiver">
+            <intent-filter android:priority="99999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="service.HttpService"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

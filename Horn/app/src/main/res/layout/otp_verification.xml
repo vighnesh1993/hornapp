@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:background="@drawable/custom_login_bg"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:background="@drawable/custom_login_bg"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_above="@+id/btn_verify"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout2"
+        android:weightSum="1">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="right|top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/sit_relax_hint"
+            android:id="@+id/sit_relax"
+            android:textColor="@color/secondary_text"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:layout_marginBottom="40dp" />
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_otp"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/hint_color"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/input_otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:maxLength="6"
+                android:hint="@string/hint_verification_code" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <Button
+        style="@style/PrimaryButton"
+        android:id="@+id/btn_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/verification_btn_txt"
+        android:textAllCaps="false"
+        android:background="@drawable/primary_button_bg"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/verification_hint"
+        android:id="@+id/forgotPassword"
+        android:textColor="@color/secondary_text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignBottom="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        android:textSize="12dp" />
+
+
+</RelativeLayout>

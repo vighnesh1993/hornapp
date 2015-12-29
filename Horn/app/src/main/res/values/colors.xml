@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="primary_light">#C5CAE9</color>
+    <color name="accent">#FF4081</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>
+
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
+
+    <color name="horn_login_button">#0a4366</color>
+    <color name="horn_login_button_pressed">#FF02395B</color>
+    <color name="facebook_bg">#45619D</color>
+    <color name="pressedPrimary">#FF3043AF</color>
+    <color name="googlePressed">#FFD6D6D6</color>
+    <color name="hint_color">#8b8b8b</color>
+    <color name="off_white">#e2e2e2</color>
+
+
+
+
+</resources>

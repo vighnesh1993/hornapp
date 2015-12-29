@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/facebook_bg"
+    android:orientation="vertical"
+    android:weightSum="4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/google_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/g_top_margin"
+            android:contentDescription="@string/desc_facebook_icon"
+            android:src="@drawable/fb_white" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/title_text_fb"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fb_desc"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="true"
+            android:gravity="center"
+            android:maxLines="5"
+            android:padding="10dp"
+            android:text="@string/fb_warn_guest"
+            android:scrollbars="vertical"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:layout_marginTop="35dp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#fff"
+        android:layout_weight="0.59"
+        android:layout_gravity="left">
+
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="viewStart"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.77"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+</LinearLayout>

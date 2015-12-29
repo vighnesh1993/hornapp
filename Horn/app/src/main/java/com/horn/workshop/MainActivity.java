@@ -1,0 +1,257 @@
+package com.horn.workshop;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+
+import java.util.HashMap;
+
+import activity.ChoiceLogin;
+import helper.SQLiteHandler;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+
+    private TextView loggedUser, nav_name, nav_email;
+    private Button logout;
+    private UserLocalStore userLocalStore;
+    private SQLiteHandler sqLiteHandler;
+    private ImageView mProfileImage;
+    public GoogleApiClient mGoogleApiClient;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        userLocalStore = new UserLocalStore(this);
+        sqLiteHandler = new SQLiteHandler(this);
+
+        if (!userLocalStore.getFBUserLoggedIn()) {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        }
+        nav_name = (TextView) findViewById(R.id.nav_name);
+        nav_email = (TextView) findViewById(R.id.nav_email);
+        mProfileImage = (ImageView) findViewById(R.id.profile_picture);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // setFacebookUserProfile();
+       setUserProfile();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+
+            Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (id == R.id.action_logout) {
+            if (userLocalStore.getFBUserLoggedIn()) {
+                userFBLogout();
+                return true;
+            } else if (userLocalStore.getGoogleUserLoggedIn()) {
+                signOut();
+                return true;
+            }else if(userLocalStore.getUserLoggedIn()){
+                userLogout();
+                return true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            moveTaskToBack(true);
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camara) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+        }
+    }
+
+    private void userLogout() {
+        startActivity(new Intent(this, ChoiceLogin.class));
+        finish();
+        Toast.makeText(getApplicationContext(), R.string.horn_logout, Toast.LENGTH_LONG).show();
+        userLocalStore.setUserLoggedIn(false);
+        sqLiteHandler.deleteUsers();
+    }
+
+    private void userFBLogout() {
+        startActivity(new Intent(this, ChoiceLogin.class));
+        finish();
+        Toast.makeText(getApplicationContext(), R.string.fb_logedout, Toast.LENGTH_LONG).show();
+        LoginManager.getInstance().logOut();
+        userLocalStore.setFBUserLoggedIn(false);
+    }
+
+    private void signOut() {
+        startActivity(new Intent(this, ChoiceLogin.class));
+        finish();
+        userLocalStore.setGoogleUserLoggedIn(false);
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        Toast.makeText(getApplicationContext(), R.string.goo_signedout, Toast.LENGTH_LONG).show();
+        mGoogleApiClient.disconnect();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Toast.makeText(getApplicationContext(), R.string.goo_conne_failed, Toast.LENGTH_LONG).show();
+    }
+
+    public void setFacebookUserProfile() {
+        try{
+            FacebookUser fbuser = userLocalStore.getFacebookUserData();
+           // nav_name.setText(fbuser.name);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    private void setUserProfile(){
+        HashMap<String, String> user = sqLiteHandler.getUserDetails();
+        String name = user.get("name");
+        String email = user.get("email");
+        nav_name.setText(name);
+        nav_email.setText(email);
+        String lName = name.toLowerCase();
+        char alphabet = lName.charAt(0);
+        setProfilePictureWithAlphabet(alphabet);
+    }
+
+    private void setProfilePictureWithAlphabet(char alphabet){
+        char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e', f = 'f', g = 'g', h = 'h', i = 'i', j = 'j', k = 'k', l = 'l', m = 'm',
+                n = 'n', o = 'o', p = 'p', q = 'q', r = 'r', s = 's', t = 't', u = 'u', v = 'v', w = 'w', x = 'x', y = 'y', z = 'z';
+        if(alphabet == a){mProfileImage.setImageResource(R.drawable.a);
+        }else if(alphabet == b){mProfileImage.setImageResource(R.drawable.b);
+        }else if(alphabet == c){mProfileImage.setImageResource(R.drawable.c);
+        }else if(alphabet == d){mProfileImage.setImageResource(R.drawable.d);
+        }else if(alphabet == e){mProfileImage.setImageResource(R.drawable.e);
+        }else if(alphabet == f){mProfileImage.setImageResource(R.drawable.f);
+        }else if(alphabet == g){mProfileImage.setImageResource(R.drawable.g);
+        }else if(alphabet == h){mProfileImage.setImageResource(R.drawable.h);
+        }else if(alphabet == i){mProfileImage.setImageResource(R.drawable.i);
+        }else if(alphabet == j){mProfileImage.setImageResource(R.drawable.j);
+        }else if(alphabet == k){mProfileImage.setImageResource(R.drawable.k);
+        }else if(alphabet == l){mProfileImage.setImageResource(R.drawable.l);
+        }else if(alphabet == m){mProfileImage.setImageResource(R.drawable.m);
+        }else if(alphabet == n){mProfileImage.setImageResource(R.drawable.n);
+        }else if(alphabet == o){mProfileImage.setImageResource(R.drawable.o);
+        }else if(alphabet == p){mProfileImage.setImageResource(R.drawable.p);
+        }else if(alphabet == q){mProfileImage.setImageResource(R.drawable.q);
+        }else if(alphabet == r){mProfileImage.setImageResource(R.drawable.r);
+        }else if(alphabet == s){mProfileImage.setImageResource(R.drawable.s);
+        }else if(alphabet == t){mProfileImage.setImageResource(R.drawable.t);
+        }else if(alphabet == u){mProfileImage.setImageResource(R.drawable.u);
+        }else if(alphabet == v){mProfileImage.setImageResource(R.drawable.v);
+        }else if(alphabet == w){mProfileImage.setImageResource(R.drawable.w);
+        }else if(alphabet == x){mProfileImage.setImageResource(R.drawable.x);
+        }else if(alphabet == y){mProfileImage.setImageResource(R.drawable.y);
+        }else{mProfileImage.setImageResource(R.drawable.z);}
+
+    }
+
+}

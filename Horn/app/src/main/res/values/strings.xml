@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">Horn</string>
+    <string name="action_settings">Settings</string>
+    <string name="fb_app_id">730392117091918</string>
+
+
+    <string name="title_text">Google Sign-In</string>
+    <string name="title_text_fb">Facebook Log In</string>
+
+    <!-- Sign-in status messages -->
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signed_in">Signed in</string>
+    <string name="signing_in">Signing in…</string>
+    <string name="signed_out">Signed out</string>
+    <string name="signed_in_err">"Error: please check logs."</string>
+    <string name="error_null_person">
+        Error: Plus.PeopleApi.getCurrentPerson returned null. Ensure that the Google+ API is
+        enabled for your project, you have a properly configured google-services.json file
+        and that your device has an internet connection.
+    </string>
+    <string name="loading">Loading…</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
+
+    <!-- Google Play Services error for Toast -->
+    <string name="play_services_error_fmt">Google Play Services Error: %i</string>
+
+    <!-- Button labels -->
+    <string name="sign_out">Sign Out</string>
+    <string name="disconnect">Disconnect</string>
+
+    <!-- Content Description for images -->
+    <string name="desc_google_icon">Google Logo</string>
+    <string name="desc_facebook_icon">Faceboook Logo</string>
+
+    <!-- Rationale for asking for Contacts -->
+    <string name="contacts_permission_rationale">Contacts access is needed in order to retrieve your email address.</string>
+
+    <!-- Activity Names and Descriptions -->
+    <string name="name_sign_in_activity">SignInActivity</string>
+    <string name="desc_sign_in_activity">Signing in, signing out, and revoking access.</string>
+    <string name="desc_sign_in_activity_scopes">Signing in, signing out, and revoking access with Google Drive permissions.</string>
+    <string name="name_id_token_activity">IdTokenActivity</string>
+    <string name="desc_id_token_activity">Retrieving an ID Token for the user.</string>
+    <string name="desc_auth_code_activity">Demonstrate retrieving an auth code for authorizing your server.</string>
+    <string name="name_auth_code_activity">ServerAuthCodeActivity</string>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+         from https://console.developers.google.com/ -->
+    <string name="server_client_id">702165954865-8e6g6hlqim9lt2m0pd067cc8rt1cvq4q.apps.googleusercontent.com</string>
+    <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="fb_desc">Your basic information will be\n gathered from Facebook</string>
+    <string name="fb_warn_guest">Horn App will be processed you as a gust user \n or if you want to be a registered user \n go for Sign Up</string>
+    <string name="goo_desc">Your basic information will be\n gathered from Google</string>
+    <string name="google_warn_guest">Horn App will be processed you as a gust user \n or if you want to be a registered user \n go for Sign Up</string>
+    <string name="fg_login_success">Successfully Logged In</string>
+    <string name="fb_login_cancel">Login attempt canceled.</string>
+    <string name="fb_login_failed">Login attempt failed.</string>
+    <string name="goo_login_cache">Logged In From Cache</string>
+    <string name="goo_login_sucess">Successfully Logged In</string>
+    <string name="goo_signedout">Signed out from Google</string>
+    <string name="fb_logedout">Logged out from Facebook</string>
+    <string name="goo_conne_failed">Connection failed!!</string>
+    <string name="logged_via_fb">Logged In via Facebook</string>
+    <string name="signed_via_google">Signed In via Google</string>
+
+    <string name="hint_password">Password</string>
+    <string name="hint_email">Email</string>
+    <string name="login_txt">Login</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+    <string name="forgot_pasword">Forgot Password?</string>
+    <string name="title_activity_signup">Signup</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_phone">Enter your phone Number</string>
+    <string name="signup_txt">Sign Up</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="err_msg_name">Enter your name</string>
+    <string name="err_msg_phone">Invalid phone number</string>
+    <string name="err_msg_Cpassword">Password does not match</string>
+    <string name="horn_logout">Logged Out!</string>
+    <string name="title_activity_otp_verification_phone_number">OtpVerificationPhoneNumber</string>
+    <string name="verification_hint">(Enter the code above in case we fail to \n detect the SMS automatically)</string>
+    <string name="verification_btn_txt">Get verify me!</string>
+    <string name="hint_phoneR">Phone</string>
+    <string name="hint_otp">Verification code</string>
+    <string name="hint_verification_code">Verification code</string>
+    <string name="sit_relax_hint"><![CDATA[Sit back & Relax! While we verify your mobile number]]></string>
+</resources>
