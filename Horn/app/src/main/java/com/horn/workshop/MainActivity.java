@@ -1,7 +1,12 @@
 package com.horn.workshop;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
@@ -19,16 +25,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.pkmmte.view.CircularImageView;
 
+import java.io.File;
 import java.util.HashMap;
 
 import activity.ChoiceLogin;
+import activity.FacebookLoginSetup;
+import app.AppController;
 import helper.SQLiteHandler;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -39,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SQLiteHandler sqLiteHandler;
     private ImageView mProfileImage;
     public GoogleApiClient mGoogleApiClient;
+    private CircularImageView circularImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +82,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        circularImageView = (CircularImageView) findViewById(R.id.circularImage);
+
         userLocalStore = new UserLocalStore(this);
         sqLiteHandler = new SQLiteHandler(this);
 
-        if (!userLocalStore.getFBUserLoggedIn()) {
+        if (userLocalStore.getGoogleUserLoggedIn()) {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     .build();
@@ -80,17 +96,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .build();
         }
+
         nav_name = (TextView) findViewById(R.id.nav_name);
         nav_email = (TextView) findViewById(R.id.nav_email);
         mProfileImage = (ImageView) findViewById(R.id.profile_picture);
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-       // setFacebookUserProfile();
-       setUserProfile();
+        if (userLocalStore.getFBUserLoggedIn()) {
+            setFBUserProfile();
+        } else if (userLocalStore.getGoogleUserLoggedIn()) {
+            setGoogleUserProfile();
+        } else if (userLocalStore.getUserLoggedIn()) {
+            setUserProfile();
+        }else if(userLocalStore.getGuestUserLoggedIn()){
+            setGuestUserProfile();
+        }
+
     }
 
     @Override
@@ -119,9 +143,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (userLocalStore.getGoogleUserLoggedIn()) {
                 signOut();
                 return true;
-            }else if(userLocalStore.getUserLoggedIn()){
+            } else if (userLocalStore.getUserLoggedIn()) {
                 userLogout();
                 return true;
+            }else if(userLocalStore.getGuestUserLoggedIn()){
+                guestUserLogout();
             }
         }
 
@@ -178,6 +204,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userLocalStore.setUserLoggedIn(false);
         sqLiteHandler.deleteUsers();
     }
+    private void guestUserLogout() {
+        startActivity(new Intent(this, ChoiceLogin.class));
+        finish();
+        Toast.makeText(getApplicationContext(), R.string.horn_logout, Toast.LENGTH_LONG).show();
+        userLocalStore.setGuestUserLoggedIn(false);
+        sqLiteHandler.deleteUsers();
+    }
 
     private void userFBLogout() {
         startActivity(new Intent(this, ChoiceLogin.class));
@@ -202,16 +235,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), R.string.goo_conne_failed, Toast.LENGTH_LONG).show();
     }
 
-    public void setFacebookUserProfile() {
-        try{
-            FacebookUser fbuser = userLocalStore.getFacebookUserData();
-           // nav_name.setText(fbuser.name);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-    private void setUserProfile(){
+    private void setUserProfile() {
+        circularImageView.setVisibility(View.GONE);
         HashMap<String, String> user = sqLiteHandler.getUserDetails();
         String name = user.get("name");
         String email = user.get("email");
@@ -222,36 +247,132 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setProfilePictureWithAlphabet(alphabet);
     }
 
-    private void setProfilePictureWithAlphabet(char alphabet){
+    private void setProfilePictureWithAlphabet(char alphabet) {
         char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e', f = 'f', g = 'g', h = 'h', i = 'i', j = 'j', k = 'k', l = 'l', m = 'm',
                 n = 'n', o = 'o', p = 'p', q = 'q', r = 'r', s = 's', t = 't', u = 'u', v = 'v', w = 'w', x = 'x', y = 'y', z = 'z';
-        if(alphabet == a){mProfileImage.setImageResource(R.drawable.a);
-        }else if(alphabet == b){mProfileImage.setImageResource(R.drawable.b);
-        }else if(alphabet == c){mProfileImage.setImageResource(R.drawable.c);
-        }else if(alphabet == d){mProfileImage.setImageResource(R.drawable.d);
-        }else if(alphabet == e){mProfileImage.setImageResource(R.drawable.e);
-        }else if(alphabet == f){mProfileImage.setImageResource(R.drawable.f);
-        }else if(alphabet == g){mProfileImage.setImageResource(R.drawable.g);
-        }else if(alphabet == h){mProfileImage.setImageResource(R.drawable.h);
-        }else if(alphabet == i){mProfileImage.setImageResource(R.drawable.i);
-        }else if(alphabet == j){mProfileImage.setImageResource(R.drawable.j);
-        }else if(alphabet == k){mProfileImage.setImageResource(R.drawable.k);
-        }else if(alphabet == l){mProfileImage.setImageResource(R.drawable.l);
-        }else if(alphabet == m){mProfileImage.setImageResource(R.drawable.m);
-        }else if(alphabet == n){mProfileImage.setImageResource(R.drawable.n);
-        }else if(alphabet == o){mProfileImage.setImageResource(R.drawable.o);
-        }else if(alphabet == p){mProfileImage.setImageResource(R.drawable.p);
-        }else if(alphabet == q){mProfileImage.setImageResource(R.drawable.q);
-        }else if(alphabet == r){mProfileImage.setImageResource(R.drawable.r);
-        }else if(alphabet == s){mProfileImage.setImageResource(R.drawable.s);
-        }else if(alphabet == t){mProfileImage.setImageResource(R.drawable.t);
-        }else if(alphabet == u){mProfileImage.setImageResource(R.drawable.u);
-        }else if(alphabet == v){mProfileImage.setImageResource(R.drawable.v);
-        }else if(alphabet == w){mProfileImage.setImageResource(R.drawable.w);
-        }else if(alphabet == x){mProfileImage.setImageResource(R.drawable.x);
-        }else if(alphabet == y){mProfileImage.setImageResource(R.drawable.y);
-        }else{mProfileImage.setImageResource(R.drawable.z);}
+        if (alphabet == a) {
+            mProfileImage.setImageResource(R.drawable.a);
+        } else if (alphabet == b) {
+            mProfileImage.setImageResource(R.drawable.b);
+        } else if (alphabet == c) {
+            mProfileImage.setImageResource(R.drawable.c);
+        } else if (alphabet == d) {
+            mProfileImage.setImageResource(R.drawable.d);
+        } else if (alphabet == e) {
+            mProfileImage.setImageResource(R.drawable.e);
+        } else if (alphabet == f) {
+            mProfileImage.setImageResource(R.drawable.f);
+        } else if (alphabet == g) {
+            mProfileImage.setImageResource(R.drawable.g);
+        } else if (alphabet == h) {
+            mProfileImage.setImageResource(R.drawable.h);
+        } else if (alphabet == i) {
+            mProfileImage.setImageResource(R.drawable.i);
+        } else if (alphabet == j) {
+            mProfileImage.setImageResource(R.drawable.j);
+        } else if (alphabet == k) {
+            mProfileImage.setImageResource(R.drawable.k);
+        } else if (alphabet == l) {
+            mProfileImage.setImageResource(R.drawable.l);
+        } else if (alphabet == m) {
+            mProfileImage.setImageResource(R.drawable.m);
+        } else if (alphabet == n) {
+            mProfileImage.setImageResource(R.drawable.n);
+        } else if (alphabet == o) {
+            mProfileImage.setImageResource(R.drawable.o);
+        } else if (alphabet == p) {
+            mProfileImage.setImageResource(R.drawable.p);
+        } else if (alphabet == q) {
+            mProfileImage.setImageResource(R.drawable.q);
+        } else if (alphabet == r) {
+            mProfileImage.setImageResource(R.drawable.r);
+        } else if (alphabet == s) {
+            mProfileImage.setImageResource(R.drawable.s);
+        } else if (alphabet == t) {
+            mProfileImage.setImageResource(R.drawable.t);
+        } else if (alphabet == u) {
+            mProfileImage.setImageResource(R.drawable.u);
+        } else if (alphabet == v) {
+            mProfileImage.setImageResource(R.drawable.v);
+        } else if (alphabet == w) {
+            mProfileImage.setImageResource(R.drawable.w);
+        } else if (alphabet == x) {
+            mProfileImage.setImageResource(R.drawable.x);
+        } else if (alphabet == y) {
+            mProfileImage.setImageResource(R.drawable.y);
+        } else {
+            mProfileImage.setImageResource(R.drawable.z);
+        }
 
     }
 
+    private void setFBUserProfile() {
+        HashMap<String, String> user = sqLiteHandler.getSocialUserDetails();
+        String name = user.get("name");
+        String email = user.get("email");
+        nav_name.setText(name);
+        nav_email.setText(email);
+
+        mProfileImage.setVisibility(View.GONE);
+        String url = userLocalStore.getFBuserProfileUrl();
+        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+        imageLoader.get(url, new ImageLoader.ImageListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+                    // load image into imageview
+                    circularImageView.addShadow();
+                    circularImageView.setImageBitmap(response.getBitmap());
+                }
+            }
+        });
+
+    }
+
+    private void setGoogleUserProfile() {
+        HashMap<String, String> user = sqLiteHandler.getSocialUserDetails();
+        String name = user.get("name");
+        String email = user.get("email");
+        nav_name.setText(name);
+        nav_email.setText(email);
+
+        mProfileImage.setVisibility(View.GONE);
+        String url = userLocalStore.getGoogleUserProfileUrl();
+        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+        imageLoader.get(url, new ImageLoader.ImageListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+                    // load image into imageview
+                    circularImageView.addShadow();
+                    circularImageView.setImageBitmap(response.getBitmap());
+                }
+            }
+        });
+
+    }
+    private void setGuestUserProfile(){
+        circularImageView.setVisibility(View.GONE);
+        HashMap<String, String> guestUser = userLocalStore.getGuestUserDetails();
+        String gstUserName = guestUser.get("name");
+        String gstUserEmail = guestUser.get("email");
+        nav_name.setText(gstUserName);
+        nav_email.setText(gstUserEmail);
+
+        String lName = gstUserName.toLowerCase();
+        char alphabet = lName.charAt(0);
+        setProfilePictureWithAlphabet(alphabet);
+    }
 }

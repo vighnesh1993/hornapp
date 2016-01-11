@@ -30,11 +30,14 @@ public class ChoiceLogin extends AppCompatActivity implements View.OnClickListen
         fbLobin = (Button) findViewById(R.id.fb_login);
         gpLogin = (Button) findViewById(R.id.gp_login);
         hornSignup = (TextView) findViewById(R.id.horn_signUp);
+        guestLogin = (TextView) findViewById(R.id.horn_guest_login);
 
         hornLogin.setOnClickListener(this);
         fbLobin.setOnClickListener(this);
         gpLogin.setOnClickListener(this);
         hornSignup.setOnClickListener(this);
+        guestLogin.setOnClickListener(this);
+
 
         userLocalStore = new UserLocalStore(this);
         checkVerified();
@@ -59,6 +62,9 @@ public class ChoiceLogin extends AppCompatActivity implements View.OnClickListen
             case R.id.horn_signUp:
                 startActivity(new Intent(ChoiceLogin.this, Register.class));
                 checkVerified();
+                break;
+            case R.id.horn_guest_login:
+                startActivity(new Intent(ChoiceLogin.this, GuestLogin.class));
                 break;
         }
     }

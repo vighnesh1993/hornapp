@@ -89,4 +89,13 @@
     <string name="hint_otp">Verification code</string>
     <string name="hint_verification_code">Verification code</string>
     <string name="sit_relax_hint"><![CDATA[Sit back & Relax! While we verify your mobile number]]></string>
+    <string name="title_activity_guest_login">GuestLogin</string>
+    <string name="hint_guestName">Full name</string>
+    <string name="signed_as_guest">Singed in as Guest!</string>
+    <string name="guest_login_txt">Guest Login</string>
+    <string name="retrieve_pswd_txt">Retrieve Password</string>
+    <string name="fp_getCode">Get Code</string>
+    <string name="hint_phone_reg">Registered Phone Number</string>
+    <string name="password_reset">Reset Password</string>
+    <string name="reset_pswd_txt">Reset</string>
 </resources>

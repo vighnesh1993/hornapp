@@ -25,6 +25,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     // Login table name
     private static final String TABLE_USER = "user";
+    private static final String TABLE_FB_USER = "fb_user";
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
@@ -46,7 +47,11 @@ public class SQLiteHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT,"
                 + KEY_EMAIL + " TEXT," + KEY_PHONE + " TEXT," + KEY_UID + " TEXT,"
                 + KEY_CREATED_AT + " TEXT" + ")";
+        String CREATE_FB_USER_TABLE = "CREATE TABLE " + TABLE_FB_USER + "("
+                + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_NAME + " TEXT,"
+                + KEY_EMAIL + " TEXT" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
+        db.execSQL(CREATE_FB_USER_TABLE);
 
         Log.d(TAG, "Database tables created");
     }
@@ -56,6 +61,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FB_USER);
 
         // Create tables again
         onCreate(db);
@@ -64,7 +70,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FB_USER);
         // Create tables again
         onCreate(db);
     }
@@ -88,23 +94,21 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
         Log.d(TAG, "New user inserted into sqlite: " + id);
     }
-//    public void updateUser(String name, String email, String phone, String uid, String created_at) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put(KEY_NAME, name); // Name
-//        values.put(KEY_EMAIL, email); // Email
-//        values.put(KEY_PHONE, phone); // Phone
-//        values.put(KEY_UID, uid); // uid
-//        values.put(KEY_CREATED_AT, created_at); // Created At
-//
-//        // Inserting Row
-//        long id = db.update(TABLE_USER, values, KEY_ID,null);
-//       // myDB.update(TableName, cv, "_id "+"="+1, null);
-//        db.close(); // Closing database connection
-//
-//        Log.d(TAG, "New user updated into sqlite: " + id);
-//    }
+
+    public void storeFBuser(String name, String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, name); // Name
+        values.put(KEY_EMAIL, email); // Email
+
+        // Inserting Row
+        long id = db.insert(TABLE_FB_USER, null, values);
+        db.close(); // Closing database connection
+
+        Log.d(TAG, "New user inserted into sqlite: " + id);
+    }
+
 
     /**
      * Getting user data from database
@@ -123,6 +127,26 @@ public class SQLiteHandler extends SQLiteOpenHelper {
             user.put("phone", cursor.getString(3));
             user.put("uid", cursor.getString(4));
             user.put("created_at", cursor.getString(5));
+            user.put("id", cursor.getString(0));
+        }
+        cursor.close();
+        db.close();
+        // return user
+        Log.d(TAG, "Fetching user from Sqlite: " + user.toString());
+
+        return user;
+    }
+    public HashMap<String, String> getSocialUserDetails() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        String selectQuery = "SELECT  * FROM " + TABLE_FB_USER;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        // Move to first row
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            user.put("name", cursor.getString(1));
+            user.put("email", cursor.getString(2));
             user.put("id", cursor.getString(0));
         }
         cursor.close();

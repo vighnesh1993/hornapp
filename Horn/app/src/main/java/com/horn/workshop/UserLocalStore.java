@@ -2,15 +2,19 @@ package com.horn.workshop;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 
 import com.facebook.Profile;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
 /**
  * Created by vighnu on 12/5/2015.
@@ -40,6 +44,12 @@ public class UserLocalStore {
 
     }
 
+    public void setGuestUserLoggedIn(boolean loggedIn) {
+        editor.putBoolean("gstLoggedIn", loggedIn);
+        editor.commit();
+
+    }
+
     public void setFBUserLoggedIn(boolean fbloggedIn) {
         editor.putBoolean("fbloggedIn", fbloggedIn);
         editor.commit();
@@ -52,8 +62,23 @@ public class UserLocalStore {
 
     }
 
+    public boolean getGoogleUserLoggedIn() {
+        if (pref.getBoolean("googleloggedIn", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public boolean getUserLoggedIn() {
         if (pref.getBoolean("loggedIn", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public boolean getGuestUserLoggedIn() {
+        if (pref.getBoolean("gstLoggedIn", false)) {
             return true;
         } else {
             return false;
@@ -68,51 +93,95 @@ public class UserLocalStore {
         }
     }
 
-    public boolean getGoogleUserLoggedIn() {
-        if (pref.getBoolean("googleloggedIn", false)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void storeFacebookUser(Profile profile) {
-        editor.putString("FbUsername",profile.getName());
-        editor.commit();
-    }
-
-    public FacebookUser getFacebookUserData() {
-        String name = pref.getString("FbUsername", "");
-        FacebookUser fbUser = new FacebookUser(name);
-        return fbUser;
-    }
     public void setIsWaitingForSms(boolean isWaiting) {
         editor.putBoolean(KEY_IS_WAITING_FOR_SMS, isWaiting);
         editor.commit();
     }
+
     public boolean isWaitingForSms() {
         return pref.getBoolean(KEY_IS_WAITING_FOR_SMS, false);
     }
+
     public void setMobileNumber(String mobileNumber) {
         editor.putString(KEY_MOBILE_NUMBER, mobileNumber);
         editor.commit();
     }
+
     public String getMobileNumber() {
         return pref.getString(KEY_MOBILE_NUMBER, null);
     }
+
     public void setSmsVerified(boolean verified) {
         editor.putBoolean("verified", verified);
         editor.commit();
 
     }
-    public void storeEmailForLogin(String email){
+
+    public void storeEmailForLogin(String email) {
         editor.putString("emailforlogin", email);
         editor.commit();
     }
 
-    public String getEmailForLogin(){
-        String email = pref.getString("emailforlogin",null);
+    public String getEmailForLogin() {
+        String email = pref.getString("emailforlogin", null);
         return email;
+    }
+
+    public void StoreFBuserID(String userId) {
+        editor.putString("fbuserid", userId);
+        editor.commit();
+    }
+
+    public String getFBuserProfileUrl() {
+        String proPicUrl = pref.getString("fbuserid", null);
+        return proPicUrl;
+    }
+
+    public void storeGoogleUserProfileUrl(String gUrl) {
+        editor.putString("gUserUrl", gUrl);
+        editor.commit();
+    }
+
+    public String getGoogleUserProfileUrl() {
+        String gUrl = pref.getString("gUserUrl", null);
+        return gUrl;
+    }
+
+    public void storeGuestUser(String name, String email) {
+        editor.putString("guesName", name);
+        editor.putString("guestEmail", email);
+        editor.commit();
+    }
+
+    public HashMap<String, String> getGuestUserDetails() {
+        HashMap<String, String> user = new HashMap<String, String>();
+        user.put("name", pref.getString("guesName", null));
+        user.put("email", pref.getString("guestEmail", null));
+        return user;
+    }
+    public void storeUserForPasswordChange(String email, String phone){
+        editor.putString("fpUserEmail", email);
+        editor.putString("fpUserPhone", phone);
+        editor.commit();
+    }
+
+    public HashMap<String,String> getUserForPasswordChange(){
+        HashMap<String, String> user = new HashMap<String, String>();
+        user.put("fpUserEmail", pref.getString("fpUserEmail", null));
+        user.put("fpUserPhone", pref.getString("fpUserPhone", null));
+        return user;
+    }
+
+    public void setUserRequestForChangePassword(boolean requsted){
+        editor.putBoolean("passwordRequest", requsted);
+        editor.commit();
+    }
+    public boolean getUserRequestForChangePassword() {
+        if (pref.getBoolean("passwordRequest", false)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

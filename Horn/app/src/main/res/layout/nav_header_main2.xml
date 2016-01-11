@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -17,6 +18,23 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:src="@android:drawable/sym_def_app_icon" />
+
+    <com.pkmmte.view.CircularImageView
+        android:id="@+id/circularImage"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@android:drawable/sym_def_app_icon"
+        app:border="true"
+        app:border_color="#EEEEEE"
+        app:border_width="2dp"
+        app:shadow="true" >
+    </com.pkmmte.view.CircularImageView>
+
+    <!--<com.android.volley.toolbox.NetworkImageView-->
+        <!--android:id="@+id/profile_picture_fb"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:src="@android:drawable/sym_def_app_icon" />-->
 
     <TextView
         android:id="@+id/nav_name"

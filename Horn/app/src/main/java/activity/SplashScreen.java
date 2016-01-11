@@ -16,7 +16,7 @@ import com.horn.workshop.UserLocalStore;
 public class SplashScreen extends AppCompatActivity {
 
     private static int SPLASH_SCREEN_TIMEOUT = 3000;
-    UserLocalStore userLocalStore;
+    private UserLocalStore userLocalStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +34,10 @@ public class SplashScreen extends AppCompatActivity {
         }else if(userLocalStore.getUserLoggedIn()) {
             startActivity(new Intent(SplashScreen.this, MainActivity.class));
             finish();
+        }else if(userLocalStore.getGuestUserLoggedIn()){
+            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+            finish();
+            Toast.makeText(this, R.string.signed_as_guest,Toast.LENGTH_LONG).show();
         }else{
             setContentView(R.layout.activity_splash);
 //        ImageView logoAnimate = (ImageView) findViewById(R.id.logo);

@@ -12,6 +12,10 @@ public class AppConfig {
 
     public static final String URL_VERIFY_OTP = "http://blueripples.org/horn/app_server/verify_otp.php";
 
+    public static final String URL_FORGOT_PASSWORD = "http://blueripples.org/horn/app_server/forgot_password.php";
+
+    public static final String URL_CHANGE_PASSWORD = "http://blueripples.org/horn/app_server/changePassword.php";
+
     public static final String SMS_ORIGIN = "MSGIND";
 
     // special character to prefix the otp. Make sure this character appears only once in the sms

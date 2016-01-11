@@ -23,6 +23,8 @@ import com.horn.workshop.MainActivity;
 import com.horn.workshop.R;
 import com.horn.workshop.UserLocalStore;
 
+import helper.SQLiteHandler;
+
 /**
  * Created by vighnu on 12/3/2015.
  */
@@ -36,6 +38,7 @@ public class GoogleLoginSetup extends AppCompatActivity implements
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private UserLocalStore userLocalStore;
+    private SQLiteHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class GoogleLoginSetup extends AppCompatActivity implements
         // [END customize_button]
 
         userLocalStore = new UserLocalStore(this);
+        db = new SQLiteHandler(this);
     }
 
     @Override
@@ -95,7 +99,8 @@ public class GoogleLoginSetup extends AppCompatActivity implements
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
             Toast.makeText(getApplicationContext(), R.string.goo_login_cache, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(GoogleLoginSetup.this, MainActivity.class));
+            finish();
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
@@ -121,8 +126,9 @@ public class GoogleLoginSetup extends AppCompatActivity implements
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
             Toast.makeText(getApplicationContext(), R.string.goo_login_sucess, Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, MainActivity.class));
             userLocalStore.setGoogleUserLoggedIn(true);
+            startActivity(new Intent(GoogleLoginSetup.this, MainActivity.class));
+            finish();
         }
     }
     // [END onActivityResult]
@@ -134,6 +140,11 @@ public class GoogleLoginSetup extends AppCompatActivity implements
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            String gName = acct.getDisplayName();
+            String gEmail = acct.getEmail();
+            String gUrl = acct.getPhotoUrl().toString();
+            db.storeFBuser(gName, gEmail);
+            userLocalStore.storeGoogleUserProfileUrl(gUrl);
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.

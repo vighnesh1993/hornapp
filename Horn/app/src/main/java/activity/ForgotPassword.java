@@ -11,46 +11,47 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.horn.workshop.MainActivity;
 import com.horn.workshop.R;
 import com.horn.workshop.UserLocalStore;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import app.AppConfig;
 import app.AppController;
-import helper.SQLiteHandler;
 
 /**
- * Created by vighnu on 12/7/2015.
+ * Created by user on 07-01-2016.
  */
-public class Login extends AppCompatActivity {
+public class ForgotPassword extends AppCompatActivity {
 
-    private static final String TAG = Register.class.getSimpleName();
-
-    private Button loginBtn;
-    private TextInputLayout inputLayoutEmail, inputLayoutPassword;
-    private EditText inputEmail, inputPassword;
-    private TextView forgotPass;
-    private ProgressDialog pDialog;
+    private TextInputLayout inputLayoutPhone, inputLayoutEmail, inputLayoutOtp;
+    private EditText inputEmail, inputPhone;
+    private Button getCodeBtn;
     private UserLocalStore userLocalStore;
-    private SQLiteHandler db;
+    private ProgressDialog pDialog;
+    private static final String TAG = ForgotPassword.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_popup);
+        setContentView(R.layout.forgot_password);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -60,52 +61,41 @@ public class Login extends AppCompatActivity {
         getWindow().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
         getWindow().setLayout((int) (width * .8), (int) (height * .5));
 
+        inputLayoutPhone = (TextInputLayout) findViewById(R.id.input_layout_fpPhone);
+        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_fpEmail);
+        inputLayoutOtp = (TextInputLayout) findViewById(R.id.input_layout_otp);
+        inputEmail = (EditText) findViewById(R.id.input_fpEmail);
+        inputPhone = (EditText) findViewById(R.id.input_fpPhone);
+        getCodeBtn = (Button) findViewById(R.id.btn_fpGetCode);
+
+        //To Delete Later
+        inputEmail.setText("vighnu.hai@gmail.com");
+        inputPhone.setText("9745023134");
+        //
+        inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
+        inputPhone.addTextChangedListener(new MyTextWatcher(inputPhone));
+
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
+        userLocalStore = new UserLocalStore(this);
 
-        db = new SQLiteHandler(getApplicationContext());
-        userLocalStore = new UserLocalStore(getApplicationContext());
-
-        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
-        inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
-
-        inputEmail = (EditText) findViewById(R.id.input_email);
-        inputPassword = (EditText) findViewById(R.id.input_password);
-
-        loginBtn = (Button) findViewById(R.id.btn_login);
-
-        inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
-        String loEmail = userLocalStore.getEmailForLogin();
-        inputEmail.setText(loEmail);
-        inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        getCodeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitForm();
             }
         });
 
-        forgotPass = (TextView) findViewById(R.id.forgotPassword);
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               startActivity(new Intent(Login.this, ForgotPassword.class));
-                finish();
-            }
-        });
     }
 
     private void submitForm() {
 
-        if (!validateEmail() || !validatePassword()) {
+        if (!validateEmail() || !validatePhone()) {
             return;
         } else {
             String email = inputEmail.getText().toString().trim();
-            String password = inputPassword.getText().toString().trim();
-
-            checkLogin(email, password);
-            Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+            String phone = inputPhone.getText().toString().trim();
+            sendVerificationCode(email, phone);
         }
 
     }
@@ -124,20 +114,25 @@ public class Login extends AppCompatActivity {
         return true;
     }
 
-    private boolean validatePassword() {
-        if (inputPassword.getText().toString().trim().isEmpty()) {
-            inputLayoutPassword.setError(getString(R.string.err_msg_password));
-            requestFocus(inputPassword);
+    private boolean validatePhone() {
+        String phone = inputPhone.getText().toString().trim();
+
+        if (phone.isEmpty() || !isValidPhone(phone)) {
+            inputLayoutPhone.setError(getString(R.string.err_msg_phone));
+            requestFocus(inputPhone);
             return false;
         } else {
-            inputLayoutPassword.setErrorEnabled(false);
+            inputLayoutPhone.setErrorEnabled(false);
         }
-
         return true;
     }
 
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private static boolean isValidPhone(CharSequence phone) {
+        return !TextUtils.isEmpty(phone) && Patterns.PHONE.matcher(phone).matches();
     }
 
     private void requestFocus(View view) {
@@ -162,67 +157,51 @@ public class Login extends AppCompatActivity {
 
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
-                case R.id.input_email:
+                case R.id.input_fpEmail:
                     validateEmail();
                     break;
-                case R.id.input_password:
-                    validatePassword();
+                case R.id.input_fpPhone:
+                    validatePhone();
                     break;
             }
         }
     }
 
-    private void checkLogin(final String email, final String password) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_login";
+    private void sendVerificationCode(final String email, final String phone) {
+// Tag used to cancel the request
+        String tag_string_req = "req_sendcode";
 
-        pDialog.setMessage("Logging in ...");
+        pDialog.setMessage("Processing ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_LOGIN, new Response.Listener<String>() {
+                AppConfig.URL_FORGOT_PASSWORD, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Login Response: " + response);
+                Log.d(TAG, "Send Code Response: " + response.toString());
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
-
-                    // Check for error node in json
                     if (!error) {
-                        // user successfully logged in
-                        // Create login session
-                        userLocalStore.setUserLoggedIn(true);
 
-                        // Now store the user in SQLite
-                        String uid = jObj.getString("uid");
-
-                        JSONObject user = jObj.getJSONObject("user");
-                        String name = user.getString("name");
-                        String email = user.getString("email");
-                        String phone = user.getString("phone");
-                        String created_at = user.getString("created_at");
-
-                        // Inserting row in users table
-                        db.addUser(name, email, phone, uid, created_at);
-                        //db.updateUser(name, email, phone, uid, created_at);
-
-                        // Launch main activity
-                        startActivity(new Intent(Login.this, MainActivity.class));
+                        userLocalStore.storeUserForPasswordChange(email, phone);
+                        Toast.makeText(getApplicationContext(), email+" "+phone,Toast.LENGTH_LONG).show();
+                        userLocalStore.setUserRequestForChangePassword(true);
+                        startActivity(new Intent(ForgotPassword.this, OtpVerification.class));
                         finish();
                     } else {
-                        // Error in login. Get the error message
-                        String errorMsg = jObj.getString("error_msg");
+
+                        // Error occurred in registration. Get the error
+                        // message
+                        String errorMsg = jObj.getString("message");
                         Toast.makeText(getApplicationContext(),
                                 errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
-                    // JSON error
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -230,7 +209,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Login Error: " + error.getMessage());
+                Log.e(TAG, "Registration Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -239,15 +218,18 @@ public class Login extends AppCompatActivity {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting parameters to login url
+                // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
-                params.put("password", password);
-
+                params.put("phone", phone);
                 return params;
             }
 
         };
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        strReq.setRetryPolicy(policy);
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
