@@ -1,12 +1,7 @@
 package com.horn.workshop;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -14,9 +9,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +23,6 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
@@ -36,12 +31,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.pkmmte.view.CircularImageView;
 
-import java.io.File;
 import java.util.HashMap;
 
 import activity.ChoiceLogin;
-import activity.FacebookLoginSetup;
 import app.AppController;
+import helper.ServicesManager;
 import helper.SQLiteHandler;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -53,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView mProfileImage;
     public GoogleApiClient mGoogleApiClient;
     private CircularImageView circularImageView;
+    private RecyclerView mRecyclerView;
+    private ServicesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +78,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mRecyclerView = (RecyclerView)findViewById(R.id.list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mAdapter = new ServicesAdapter(ServicesManager.getInstance().getServices(), R.layout.activity_main_content, this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if(position == 0){
+                            Toast.makeText(getApplicationContext(),"Scheduled Maintenance : " +position,Toast.LENGTH_LONG).show();
+                        }else if(position == 1){
+                            Toast.makeText(getApplicationContext(),"Running Maintenance : " +position,Toast.LENGTH_LONG).show();
+                        }else if(position == 2){
+                            Toast.makeText(getApplicationContext(),"Body and Painting : " +position,Toast.LENGTH_LONG).show();
+                        }else if(position == 3){
+                            Toast.makeText(getApplicationContext(),"Value Added Services : " +position,Toast.LENGTH_LONG).show();
+                        }else if(position == 4){
+                            Toast.makeText(getApplicationContext(),"Others : " +position,Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                })
+        );
+
         circularImageView = (CircularImageView) findViewById(R.id.circularImage);
 
         userLocalStore = new UserLocalStore(this);
@@ -100,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_name = (TextView) findViewById(R.id.nav_name);
         nav_email = (TextView) findViewById(R.id.nav_email);
         mProfileImage = (ImageView) findViewById(R.id.profile_picture);
+
+
     }
 
     @Override
@@ -171,17 +196,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_cars) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_privacy) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_terms) {
 
         }
 

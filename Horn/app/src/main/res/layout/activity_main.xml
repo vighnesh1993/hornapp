@@ -8,6 +8,13 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"
+        tools:context=".MainActivity" />
+
     <include
         layout="@layout/app_bar_main2"
         android:layout_width="match_parent"
@@ -22,4 +29,7 @@
         app:headerLayout="@layout/nav_header_main2"
         app:menu="@menu/activity_main2_drawer" />
 
+
 </android.support.v4.widget.DrawerLayout>
+
+
