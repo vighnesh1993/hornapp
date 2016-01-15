@@ -22,8 +22,8 @@
     <color name="googlePressed">#FFD6D6D6</color>
     <color name="hint_color">#8b8b8b</color>
     <color name="off_white">#e2e2e2</color>
-
-
+    <color name="photo_tint">#88101010</color>
+    <color name="service_count_txt">#64f6e8</color>
 
 
 </resources>

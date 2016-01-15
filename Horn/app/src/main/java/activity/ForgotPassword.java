@@ -68,10 +68,6 @@ public class ForgotPassword extends AppCompatActivity {
         inputPhone = (EditText) findViewById(R.id.input_fpPhone);
         getCodeBtn = (Button) findViewById(R.id.btn_fpGetCode);
 
-        //To Delete Later
-        inputEmail.setText("vighnu.hai@gmail.com");
-        inputPhone.setText("9745023134");
-        //
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPhone.addTextChangedListener(new MyTextWatcher(inputPhone));
 
