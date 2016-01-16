@@ -20,5 +20,7 @@ public class AppConfig {
 
     // special character to prefix the otp. Make sure this character appears only once in the sms
     public static final String OTP_DELIMITER = ":";
+    public static String URL_SM_SERVICES = "http://blueripples.org/horn/app_server/SM.php";
+    public static String URL_SM_WORKSHOPDATA = "http://blueripples.org/horn/app_server/SM_WorkshopDatalist.php";
 }
 

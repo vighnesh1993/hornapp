@@ -64,6 +64,32 @@
         <activity
             android:name="activity.OtpVerification"
             android:theme="@style/AppTheme.CustomePopUpTheme" />
+        <activity
+            android:name=".ScheduledMaintenanaceHome"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>ellam ok ano ippo?
+        <activity
+            android:name=".ScheduledMaintenanceDesc"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" >
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceService"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" >
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceWorkshoplist"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" >
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceDetail"
+            android:label="@string/app_name"
+            android:theme="@style/AppFullScreenTheme" >
+        </activity>
+
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
             <intent-filter android:priority="99999">
