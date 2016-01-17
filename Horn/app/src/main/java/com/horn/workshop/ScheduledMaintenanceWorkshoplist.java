@@ -1,6 +1,7 @@
 package com.horn.workshop;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,6 +41,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity {
     private static RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
+    public ProgressDialog pDialog;
     public static ArrayList<WorkshopDatas> workshop;
     private static final String TAG = "SM_workshopdata_search";
     public SMLocalStore smLocalStore;
@@ -58,12 +62,14 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_workshoplist);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
         search_workshop();
         // myOnClickListener = new MyOnClickListener(this);
-
-
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Searching for workshops ...");
+        pDialog.show();
     }
 
     //    public void new_activity_launch(String workshopid)
@@ -99,7 +105,30 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity {
         adapter = new SMAdapter(workshop);
         recyclerView.setAdapter(adapter);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }else if(id ==R.id.home){
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
     public void search_workshop() {
     /*
     *Datas from DB starts
@@ -147,7 +176,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity {
                             coordinateArray[i] = coordinateArrayj.getString(i);
 
                         }
-
+                        pDialog.dismiss();
                         search_workshop_display();
                     }
                 } catch (JSONException e) {

@@ -98,4 +98,8 @@
     <string name="hint_phone_reg">Registered Phone Number</string>
     <string name="password_reset">Reset Password</string>
     <string name="reset_pswd_txt">Reset</string>
+    <string name="label_sm">Scheduled Maintenance</string>
+    <string name="app_sm_desc">Description</string>
+    <string name="app_sm_wrkshops">Workshops</string>
+    <string name="app_sm_servicelbl">Services</string>
 </resources>

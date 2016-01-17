@@ -34,14 +34,18 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final String[] sm_service = new String[]{"1000", "5000", "10000", "15000", "20000", "25000"};
+        final String[] sm_service = new String[]{"1000", "5000", "10000", "15000", "20000", "25000","30000","35000","40000","45000",
+                "50000","55000","60000","65000","70000","75000","80000","85000","90000","95000","100000","105000","110000",
+                "115000","120000","125000","130000","135000","140000","145000","150000","155000","160000","165000","170000","175000",
+                "180000"};
+
+        final String km = " km";
         for (int i = 0; i < sm_service.length; i++) {
             final Button myButton = new Button(this);
-            myButton.setText(sm_service[i]);
+            myButton.setText(sm_service[i] + km );
             LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
             ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
+            myButton.setHeight(150);
             ll.addView(myButton, lp);
             final String service = sm_service[i];
             myButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +91,9 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }else if(id ==R.id.home){
+            this.finish();
             return true;
         }
 

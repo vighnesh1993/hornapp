@@ -41,7 +41,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name="activity.ChoiceLogin"
             android:label="@string/app_name"
@@ -66,29 +70,42 @@
             android:theme="@style/AppTheme.CustomePopUpTheme" />
         <activity
             android:name=".ScheduledMaintenanaceHome"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>ellam ok ano ippo?
+            android:label="@string/label_sm"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+
+        </activity>
+
         <activity
             android:name=".ScheduledMaintenanceDesc"
-            android:label="@string/app_name"
-            android:theme="@style/AppFullScreenTheme" >
+            android:label="@string/app_sm_desc"
+           android:parentActivityName=".ScheduledMaintenanaceHome" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanaceHome" />
         </activity>
         <activity
             android:name=".ScheduledMaintenanceService"
-            android:label="@string/app_name"
-            android:theme="@style/AppFullScreenTheme" >
+            android:label="@string/app_sm_servicelbl"
+           android:parentActivityName=".ScheduledMaintenanceDesc">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceDesc" />
         </activity>
         <activity
             android:name=".ScheduledMaintenanceWorkshoplist"
-            android:label="@string/app_name"
-            android:theme="@style/AppFullScreenTheme" >
+            android:label="@string/app_sm_wrkshops"
+            android:parentActivityName=".ScheduledMaintenanceService">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceService" />
         </activity>
         <activity
             android:name=".ScheduledMaintenanceDetail"
             android:label="@string/app_name"
-            android:theme="@style/AppFullScreenTheme" >
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
@@ -112,6 +129,9 @@
             android:name="activity.ChangePassword"
             android:theme="@style/AppTheme.CustomePopUpTheme" />
 
+        <activity
+            android:name=".EmptyActivity"
+            android:label="Empty Activity"></activity>
     </application>
 
 </manifest>
