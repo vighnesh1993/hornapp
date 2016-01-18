@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/off_white"
     tools:context="com.horn.workshop.MainActivity">
 
     <!--<android.support.design.widget.AppBarLayout-->
@@ -34,9 +35,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
+                android:background="@drawable/rounded_cor_white_bg"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp">
                 <TableLayout
                     android:id="@+id/sm_service_list_table"
                     android:layout_width="match_parent"

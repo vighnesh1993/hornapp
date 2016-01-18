@@ -112,7 +112,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         TextView priceh = new TextView(this);
         TextView qtyh = new TextView(this);
         TextView sericeh = new TextView(this);
-        // sericeh.setText("Services");
+        sericeh.setText("Services");
         qtyh.setWidth(200);
         priceh.setWidth(100);
         sericeh.setWidth(400);
@@ -121,6 +121,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         rowh.addView(sericeh);
         rowh.addView(qtyh);
         rowh.addView(priceh);
+        rowh.setMinimumHeight(120);
         ll.addView(rowh, 0);
         final TextView total1 = new TextView(this);
         CheckBox[] check = new CheckBox[sm_service_list.length]; //maxCount is the number of rows in the database.
@@ -320,7 +321,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
             }
 
         };
-
 
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }

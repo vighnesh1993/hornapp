@@ -32,7 +32,7 @@ import app.AppController;
  */
 public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
     private ArrayList<WorkshopDatas> workshopDataSet;
-private Context context;
+    private Context context;
     private SMLocalStore smLocalStore;
 //public ScheduledMaintenanceWorkshoplist workshoplist = new ScheduledMaintenanceWorkshoplist();
 
@@ -44,8 +44,8 @@ private Context context;
         TextView Category;
         ImageView Picture;
         TextView Rating;
-      //  Button Booknow;
-               // private SMAdapter activity;
+        //  Button Booknow;
+        // private SMAdapter activity;
 
         // TextView id_;
         public MyViewHolder(final View itemView) {
@@ -57,13 +57,15 @@ private Context context;
             this.Category = (TextView) itemView.findViewById(R.id.workshop_category);
             this.Picture = (ImageView) itemView.findViewById(R.id.workshop_photo);
             this.Rating = (TextView) itemView.findViewById(R.id.rating);
-           // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
+            // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
-          //  Booknow.setOnClickListener(this);
+            //  Booknow.setOnClickListener(this);
         }
+
         public void setItem(Integer item) {
             mItem = item.toString();
-                   }
+        }
+
         @Override
         public void onClick(View v) {
             smLocalStore = new SMLocalStore(context);
@@ -72,9 +74,9 @@ private Context context;
             context.startActivity(intent1);
             //SMAdapteronclick smAdapteronclick = new SMAdapteronclick();
             //smAdapteronclick.onclick_nav();
-          //  workshoplist.new_activity_launch(mItem);
+            //  workshoplist.new_activity_launch(mItem);
 
-                //this.activity = SMAdapter.this;
+            //this.activity = SMAdapter.this;
 
 
         }
@@ -112,7 +114,7 @@ private Context context;
         TextView category1 = holder.Category;
         final ImageView picture1 = holder.Picture;
         TextView rating1 = holder.Rating;
-       // TextView id = holder.id_;
+        // TextView id = holder.id_;
 
 
         name1.setText(workshopDataSet.get(listPosition).getName());
@@ -136,7 +138,7 @@ private Context context;
                 }
             }
         });
-holder.setItem(workshopDataSet.get(listPosition).getworkshopid());
+        holder.setItem(workshopDataSet.get(listPosition).getworkshopid());
         rating1.setText(workshopDataSet.get(listPosition).getrating());
     }
 

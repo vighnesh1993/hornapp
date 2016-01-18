@@ -28,29 +28,23 @@ import app.AppController;
 
 public class ScheduledMaintenanceDetail extends AppCompatActivity {
     public SMLocalStore smLocalStore;
-    public String phone , name ,category , address , workshopid,rating, profilepic,coordinates ;
+    public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-       // String workshopid = "608";
+        // String workshopid = "608";
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
         String workshopid = smLocalStore.getSMworkshopdetail_id();
-getdetailFromDb(workshopid);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        getdetailFromDb(workshopid);
+
     }
-    public void getdetailFromDb(final String workshopid)
-    {
+
+    public void getdetailFromDb(final String workshopid) {
         String strreq = "workshop_detail";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_WORKSHOPDATA, new Response.Listener<String>() {
             @Override
@@ -60,7 +54,7 @@ getdetailFromDb(workshopid);
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
                         int len = jsonObject.length();
-                        Log.d("details:::",jsonObject.getString("number"));
+                        Log.d("details:::", jsonObject.getString("number"));
                         phone = jsonObject.getString("number");
                         name = jsonObject.getString("name");
                         category = jsonObject.getString("category");
@@ -71,7 +65,7 @@ getdetailFromDb(workshopid);
                         coordinates = jsonObject.getString("coordinates");
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
-                         
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -100,8 +94,7 @@ getdetailFromDb(workshopid);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 
-    public void workshopdisplay_detail()
-    {
+    public void workshopdisplay_detail() {
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
