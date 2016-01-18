@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -116,6 +117,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         qtyh.setWidth(200);
         priceh.setWidth(100);
         sericeh.setWidth(400);
+        sericeh.setGravity(Gravity.CENTER);
         qtyh.setText("Quantity");
         priceh.setText("Price");
         rowh.addView(sericeh);

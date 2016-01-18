@@ -22,5 +22,10 @@
         android:orderInCategory="100"
         android:title="Rate App"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/LocMap"
+        android:orderInCategory="100"
+        android:title="Map"
+        app:showAsAction="never" />
 
 </menu>

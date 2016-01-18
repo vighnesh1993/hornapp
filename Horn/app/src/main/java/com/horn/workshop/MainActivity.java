@@ -176,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }else if(userLocalStore.getGuestUserLoggedIn()){
                 guestUserLogout();
             }
+        }else if(id == R.id.LocMap){
+            startActivity(new Intent(MainActivity.this, MapsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -389,15 +391,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     private void setGuestUserProfile(){
-        circularImageView.setVisibility(View.GONE);
+      //  circularImageView.setVisibility(View.GONE);
         HashMap<String, String> guestUser = userLocalStore.getGuestUserDetails();
         String gstUserName = guestUser.get("name");
         String gstUserEmail = guestUser.get("email");
-        nav_name.setText(gstUserName);
-        nav_email.setText(gstUserEmail);
+     //   nav_name.setText(gstUserName);
+     //   nav_email.setText(gstUserEmail);
 
         String lName = gstUserName.toLowerCase();
         char alphabet = lName.charAt(0);
-        setProfilePictureWithAlphabet(alphabet);
+      //  setProfilePictureWithAlphabet(alphabet);
     }
 }
