@@ -13,6 +13,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -77,8 +78,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View nav_header = LayoutInflater.from(this).inflate(R.layout.nav_header_main2, null);
+        nav_name = ((TextView) nav_header.findViewById(R.id.nav_name));
+        nav_email = ((TextView) nav_header.findViewById(R.id.nav_email));
+        mProfileImage = ((ImageView) nav_header.findViewById(R.id.profile_picture));
+        circularImageView = ((CircularImageView) nav_header.findViewById(R.id.circularImage));
+        navigationView.addHeaderView(nav_header);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.list);
+        // nav_name = (TextView) findViewById(R.id.nav_name);
+        // nav_name.setText("test");
+        // nav_email = (TextView) findViewById(R.id.nav_email);
+        //  mProfileImage = (ImageView) findViewById(R.id.profile_picture);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -89,25 +101,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        if(position == 0){
+                        if (position == 0) {
                             Intent intent1 = new Intent(MainActivity.this, ScheduledMaintenanaceHome.class);
                             startActivity(intent1);
                             //Toast.makeText(getApplicationContext(),"Scheduled Maintenance : " +position,Toast.LENGTH_LONG).show();
-                        }else if(position == 1){
-                            Toast.makeText(getApplicationContext(),"Running Maintenance : " +position,Toast.LENGTH_LONG).show();
-                        }else if(position == 2){
-                            Toast.makeText(getApplicationContext(),"Body and Painting : " +position,Toast.LENGTH_LONG).show();
-                        }else if(position == 3){
-                            Toast.makeText(getApplicationContext(),"Value Added Services : " +position,Toast.LENGTH_LONG).show();
-                        }else if(position == 4){
-                            Toast.makeText(getApplicationContext(),"Others : " +position,Toast.LENGTH_LONG).show();
+                        } else if (position == 1) {
+                            Toast.makeText(getApplicationContext(), "Running Maintenance : " + position, Toast.LENGTH_LONG).show();
+                        } else if (position == 2) {
+                            Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
+                        } else if (position == 3) {
+                            Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
+                        } else if (position == 4) {
+                            Toast.makeText(getApplicationContext(), "Others : " + position, Toast.LENGTH_LONG).show();
                         }
 
                     }
                 })
         );
-
-        circularImageView = (CircularImageView) findViewById(R.id.circularImage);
 
         userLocalStore = new UserLocalStore(this);
         sqLiteHandler = new SQLiteHandler(this);
@@ -122,10 +132,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .build();
         }
 
-        nav_name = (TextView) findViewById(R.id.nav_name);
-        nav_email = (TextView) findViewById(R.id.nav_email);
-        mProfileImage = (ImageView) findViewById(R.id.profile_picture);
-
 
     }
 
@@ -138,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setGoogleUserProfile();
         } else if (userLocalStore.getUserLoggedIn()) {
             setUserProfile();
-        }else if(userLocalStore.getGuestUserLoggedIn()){
+        } else if (userLocalStore.getGuestUserLoggedIn()) {
             setGuestUserProfile();
         }
 
@@ -173,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (userLocalStore.getUserLoggedIn()) {
                 userLogout();
                 return true;
-            }else if(userLocalStore.getGuestUserLoggedIn()){
+            } else if (userLocalStore.getGuestUserLoggedIn()) {
                 guestUserLogout();
             }
-        }else if(id == R.id.LocMap){
+        } else if (id == R.id.LocMap) {
             startActivity(new Intent(MainActivity.this, MapsActivity.class));
         }
 
@@ -231,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userLocalStore.setUserLoggedIn(false);
         sqLiteHandler.deleteUsers();
     }
+
     private void guestUserLogout() {
         startActivity(new Intent(this, ChoiceLogin.class));
         finish();
@@ -390,16 +397,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    private void setGuestUserProfile(){
-      //  circularImageView.setVisibility(View.GONE);
+
+    private void setGuestUserProfile() {
+          circularImageView.setVisibility(View.GONE);
         HashMap<String, String> guestUser = userLocalStore.getGuestUserDetails();
         String gstUserName = guestUser.get("name");
         String gstUserEmail = guestUser.get("email");
-     //   nav_name.setText(gstUserName);
-     //   nav_email.setText(gstUserEmail);
+         nav_name.setText(gstUserName);
+          nav_email.setText(gstUserEmail);
 
         String lName = gstUserName.toLowerCase();
         char alphabet = lName.charAt(0);
-      //  setProfilePictureWithAlphabet(alphabet);
+          setProfilePictureWithAlphabet(alphabet);
     }
 }
