@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/workshop_photo"
+                    android:id="@+id/workshopdetail_photo"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
@@ -51,11 +51,11 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:text="Autthorised"
-                    android:id="@+id/workshop_category"
+                    android:id="@+id/workshopdetail_category"
                     android:gravity="center"
                     android:background="@drawable/bg_for_authorised"
                     android:textColor="@color/com_facebook_share_button_text_color"
-                    android:layout_alignBottom="@+id/workshop_photo"
+                    android:layout_alignBottom="@+id/workshopdetail_photo"
                     android:layout_alignParentStart="true"
                     android:layout_margin="10dp" />
 
@@ -63,12 +63,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="24.45 km"
-                    android:id="@+id/textView3"
+                    android:id="@+id/ws_distance"
                     android:gravity="center"
                     android:textColor="@color/com_facebook_share_button_text_color"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_alignBottom="@+id/workshop_category"
+                    android:layout_alignBottom="@+id/workshopdetail_category"
                     android:layout_alignEnd="@+id/rating" />
             </RelativeLayout>
 
@@ -94,7 +94,7 @@
 
                 <TextView
                     android:id="@+id/workshop_address"
-                    android:text="bzxbjhbzjhxcbjhzxbcj hzbxbczxb zxc zxczxczxczxczcsdcsc sdcsdcsdcsdcsdcsdcs sdcsdcsdcsdcsdc"
+                    android:text="Loading..."
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"

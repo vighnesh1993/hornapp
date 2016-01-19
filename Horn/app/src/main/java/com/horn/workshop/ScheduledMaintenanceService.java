@@ -44,6 +44,11 @@ import app.AppController;
  * Created by Sariga on 1/5/2016.
  */
 public class ScheduledMaintenanceService extends AppCompatActivity {
+
+    private TextView labour_cost, toatl_cost;
+    private Button search_wrkshp_btn;
+    private LinearLayout labr_cost_lyt, total_cost_tyt;
+    private View hLine1, hLine2;
     float price_total = 0, total = 0;
     public String[] sm_service_listprice = new String[30];
     public String[] sm_service_list = new String[30];
@@ -66,6 +71,15 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading ...");
+
+        labour_cost = (TextView) findViewById(R.id.labour_cost_value);
+        toatl_cost = (TextView) findViewById(R.id.total_cost_value);
+        search_wrkshp_btn = (Button) findViewById(R.id.search_wrkshop_btn);
+        labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
+        total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
+        hLine1 = findViewById(R.id.hori_1);
+        hLine2 = findViewById(R.id.hori_2);
+        total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
         /*
         * fetch the service list from db
         */
@@ -76,6 +90,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         */
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -93,7 +108,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id ==R.id.home){
+        } else if (id == R.id.home) {
             this.finish();
             return true;
         }
@@ -103,6 +118,11 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
     public void SM_Services_display() {
         pDialog.dismiss();
+        labr_cost_lyt.setVisibility(View.VISIBLE);
+        total_cost_tyt.setVisibility(View.VISIBLE);
+        search_wrkshp_btn.setVisibility(View.VISIBLE);
+        hLine1.setVisibility(View.VISIBLE);
+        hLine2.setVisibility(View.VISIBLE);
         //sm_service_list = new String[]{"Engine Oil", "Oil filter", "Spark Plug(P)"};
         //sm_service_listqty = new String[]{"1", "1", "1"};
         // sm_service_listprice = new String[]{"100", "150", "95"};
@@ -117,20 +137,20 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         qtyh.setWidth(200);
         priceh.setWidth(100);
         sericeh.setWidth(400);
-        sericeh.setGravity(Gravity.CENTER);
+        sericeh.setGravity(Gravity.CENTER_VERTICAL);
         qtyh.setText("Quantity");
         priceh.setText("Price");
         rowh.addView(sericeh);
         rowh.addView(qtyh);
         rowh.addView(priceh);
-        rowh.setMinimumHeight(120);
+        rowh.setMinimumHeight(100);
         ll.addView(rowh, 0);
-        final TextView total1 = new TextView(this);
         CheckBox[] check = new CheckBox[sm_service_list.length]; //maxCount is the number of rows in the database.
         price_total += Float.parseFloat(labour_Charge);
         for (int i = 0; i < sm_service_list.length; i++) {
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            row.setMinimumHeight(110);
             row.setLayoutParams(lp);
             price_total += Float.parseFloat(sm_service_listprice[i]);
             final float price_tot = Float.parseFloat(sm_service_listprice[i]);
@@ -158,7 +178,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
                     }
                     //price_total = price_total;
-                    total1.setText("Total : " + price_total);
+                    toatl_cost.setText("INR " + price_total);
                 }
             });
 
@@ -176,33 +196,17 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         }
         total = total + price_total;
         total = total + Float.parseFloat(labour_Charge);
-        final TextView price_total1 = new TextView(this);
-        price_total1.setText("Labour : " + labour_Charge);
-        total1.setText("Total : " + total);
-        LinearLayout ll1 = (LinearLayout) findViewById(R.id.sm_service_list);
-        ll1.addView(price_total1);
-        ll1.addView(total1);
-        price_total1.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        price_total1.setBottom(300);
-        price_total1.setHeight(50);
-        total1.setHeight(50);
-        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        llp.setMargins(0, 70, 0, 0);
-        price_total1.setLayoutParams(llp);
-        Button sm_button = new Button(this);
-        sm_button.setText("Search");
-        sm_button.setWidth(800);
-        sm_button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        ll1.addView(sm_button);
-        sm_button.setLayoutParams(llp);
-        sm_button.setOnClickListener(new View.OnClickListener() {
+        labour_cost.setText("INR " +labour_Charge);
+        toatl_cost.setText("INR " +(int) total);
+
+        search_wrkshp_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 //  Intent launchActivity1 = new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class);
 
-                String labour = price_total1.getText().toString();
-                String total = total1.getText().toString();
+                String labour = labour_cost.getText().toString();
+                String total = toatl_cost.getText().toString();
                 String selectedstring = selectedStrings.toString();
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceService.this);
 
@@ -211,15 +215,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
             }
         });
 
-
-               /*  FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
     }
 
@@ -304,7 +299,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceService.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceService.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 

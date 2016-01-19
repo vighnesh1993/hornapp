@@ -1,21 +1,13 @@
 package com.horn.workshop;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -54,8 +46,8 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
             this.Name = (TextView) itemView.findViewById(R.id.workshop_name);
             this.Address = (TextView) itemView.findViewById(R.id.workshop_address);
             this.Phone = (TextView) itemView.findViewById(R.id.workshop_phone);
-            this.Category = (TextView) itemView.findViewById(R.id.workshop_category);
-            this.Picture = (ImageView) itemView.findViewById(R.id.workshop_photo);
+            this.Category = (TextView) itemView.findViewById(R.id.workshopdetail_category);
+            this.Picture = (ImageView) itemView.findViewById(R.id.workshopdetail_photo);
             this.Rating = (TextView) itemView.findViewById(R.id.rating);
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);

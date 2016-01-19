@@ -1,11 +1,14 @@
 package com.horn.workshop;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -28,6 +32,7 @@ import app.AppController;
 
 public class ScheduledMaintenanceDetail extends AppCompatActivity {
     public SMLocalStore smLocalStore;
+    private ProgressDialog pDialog;
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
 
@@ -35,14 +40,47 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Loading ...");
+        pDialog.show();
         // String workshopid = "608";
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
         String workshopid = smLocalStore.getSMworkshopdetail_id();
         getdetailFromDb(workshopid);
 
+
+
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.home) {
+            this.finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void getdetailFromDb(final String workshopid) {
         String strreq = "workshop_detail";
@@ -95,19 +133,38 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     }
 
     public void workshopdisplay_detail() {
+        pDialog.dismiss();
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
-        ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
+        TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
+        final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
         TextView ratings = (TextView) findViewById(R.id.rating);
+        String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
+        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+        imageLoader.get(url, new ImageLoader.ImageListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+            }
+
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                if (response.getBitmap() != null) {
+                    // load image into imageview
+                    workshopimage.setImageBitmap(response.getBitmap());
+                }
+            }
+        });
 
         workshopname.setText(name);
         workshopaddress.setText(address);
         workshopcategory.setText(category);
-        workshopimage.setImageResource(pic);
         workshopphone.setText(phone);
         ratings.setText(rating);
+        ws_distance.setText("34.4 km");
     }
 
 }
