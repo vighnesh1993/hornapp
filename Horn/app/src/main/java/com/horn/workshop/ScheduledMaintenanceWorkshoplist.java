@@ -187,7 +187,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceWorkshoplist.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceWorkshoplist.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 

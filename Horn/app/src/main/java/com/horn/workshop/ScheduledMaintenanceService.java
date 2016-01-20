@@ -56,6 +56,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     public String labour_Charge;
     public String service_list;
     private static final String TAG = "SM_service";
+    String strreqTAG = "ServiceReqTAG";
     private SMLocalStore smLocalStore;
     public ProgressDialog pDialog;
     public ArrayList<String> selectedStrings = new ArrayList<String>();
@@ -134,9 +135,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         TextView qtyh = new TextView(this);
         TextView sericeh = new TextView(this);
         sericeh.setText("Services");
-        qtyh.setWidth(200);
-        priceh.setWidth(100);
-        sericeh.setWidth(400);
+//        qtyh.setWidth(200);
+//        priceh.setWidth(100);
+//        sericeh.setWidth(400);
         sericeh.setGravity(Gravity.CENTER_VERTICAL);
         qtyh.setText("Quantity");
         priceh.setText("Price");
@@ -219,7 +220,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     }
 
     public void SM_Services() {
-        String strreq = "cancel req";
 
         //final ProgressDialog loading;
 
@@ -319,7 +319,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
         };
 
-        AppController.getInstance().addToRequestQueue(stringRequest, strreq);
+        AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
     }
 
     public void no_service() {
@@ -339,4 +339,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 .setCancelable(false)
                 .show();
     }
+
 }
+

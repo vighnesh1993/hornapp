@@ -27,5 +27,16 @@
     <color name="todeletec">#64f6e8</color>
     <color name="icon_tint">#44101010</color>
 
+    <color name="rating_0">#dc3131</color>
+    <color name="rating_0.5">#e65421</color>
+    <color name="rating_1">#ff7b05</color>
+    <color name="rating_1.5">#ffaa05</color>
+    <color name="rating_2">#ffc705</color>
+    <color name="rating_2.5">#c1c803</color>
+    <color name="rating_3">#c1c803</color>
+    <color name="rating_3.5">#9ab711</color>
+    <color name="rating_4">#6ec803</color>
+    <color name="rating_4.5">#5ca702</color>
+    <color name="rating_5">#0bac3c</color>
 
 </resources>

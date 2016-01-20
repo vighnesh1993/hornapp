@@ -35,6 +35,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     private ProgressDialog pDialog;
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
+    TextView ratings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -140,7 +141,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
         TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
         final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
-        TextView ratings = (TextView) findViewById(R.id.rating);
+        ratings = (TextView) findViewById(R.id.rating);
         String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
@@ -164,7 +165,44 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         workshopcategory.setText(category);
         workshopphone.setText(phone);
         ratings.setText(rating);
+        setRatingBackround(rating);
         ws_distance.setText("34.4 km");
     }
-
+    private void setRatingBackround(String ratingValue) {
+        switch (ratingValue) {
+            case "0":
+                ratings.setBackgroundResource(R.drawable.rating_bg_0);
+                break;
+            case "0.5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_0_5);
+                break;
+            case "1":
+                ratings.setBackgroundResource(R.drawable.rating_bg_1);
+                break;
+            case "1.5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_1_5);
+                break;
+            case "2":
+                ratings.setBackgroundResource(R.drawable.rating_bg_2);
+                break;
+            case "2.5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_2_5);
+                break;
+            case "3":
+                ratings.setBackgroundResource(R.drawable.rating_bg_3);
+                break;
+            case "3.5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_3_5);
+                break;
+            case "4":
+                ratings.setBackgroundResource(R.drawable.rating_bg_4);
+                break;
+            case "4.5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_4_5);
+                break;
+            case "5":
+                ratings.setBackgroundResource(R.drawable.rating_bg_5);
+                break;
+        }
+    }
 }

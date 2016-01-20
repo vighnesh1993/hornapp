@@ -26,6 +26,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
     private ArrayList<WorkshopDatas> workshopDataSet;
     private Context context;
     private SMLocalStore smLocalStore;
+    TextView rating1;
 //public ScheduledMaintenanceWorkshoplist workshoplist = new ScheduledMaintenanceWorkshoplist();
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -105,7 +106,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView phone1 = holder.Phone;
         TextView category1 = holder.Category;
         final ImageView picture1 = holder.Picture;
-        TextView rating1 = holder.Rating;
+        rating1 = holder.Rating;
         // TextView id = holder.id_;
 
 
@@ -131,7 +132,48 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
             }
         });
         holder.setItem(workshopDataSet.get(listPosition).getworkshopid());
-        rating1.setText(workshopDataSet.get(listPosition).getrating());
+
+        String ratingValue = workshopDataSet.get(listPosition).getrating();
+        rating1.setText(ratingValue);
+        setRatingBackround(ratingValue);
+    }
+
+    private void setRatingBackround(String ratingValue) {
+        switch (ratingValue) {
+            case "0":
+                rating1.setBackgroundResource(R.drawable.rating_bg_0);
+                break;
+            case "0.5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_0_5);
+                break;
+            case "1":
+                rating1.setBackgroundResource(R.drawable.rating_bg_1);
+                break;
+            case "1.5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_1_5);
+                break;
+            case "2":
+                rating1.setBackgroundResource(R.drawable.rating_bg_2);
+                break;
+            case "2.5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_2_5);
+                break;
+            case "3":
+                rating1.setBackgroundResource(R.drawable.rating_bg_3);
+                break;
+            case "3.5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_3_5);
+                break;
+            case "4":
+                rating1.setBackgroundResource(R.drawable.rating_bg_4);
+                break;
+            case "4.5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_4_5);
+                break;
+            case "5":
+                rating1.setBackgroundResource(R.drawable.rating_bg_5);
+                break;
+        }
     }
 
     @Override
