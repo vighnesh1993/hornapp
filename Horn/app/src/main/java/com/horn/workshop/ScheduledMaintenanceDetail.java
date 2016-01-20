@@ -1,7 +1,10 @@
 package com.horn.workshop;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,19 +40,35 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
 
+    LatLng latLng1,latLng2;
+    private  double coordLatitude =0.0;
+    private double coordLongitude = 0.0;
+    ScheduledMaintenanceWorkshoplist sw;
+    String dist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_detail);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
+
+       // ed.putString("currentLatitude",""+currentLatitude);
+        //ed.putString("currentLongitude",""+currentLongitude);
+        smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+
+        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
+        String lat = latlog.get("lat");
+        String log = latlog.get("log");
+
+        double d1=Double.parseDouble(lat);
+        double d2=Double.parseDouble(log);
+
+        latLng1=new LatLng(d1,d2);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading ...");
         pDialog.show();
         // String workshopid = "608";
-        smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+
         String workshopid = smLocalStore.getSMworkshopdetail_id();
         getdetailFromDb(workshopid);
 
@@ -101,6 +121,18 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         rating = jsonObject.getString("rating");
                         profilepic = jsonObject.getString("profilepic");
                         coordinates = jsonObject.getString("coordinates");
+                        String[] parts = coordinates.split(",");
+                        String part1 = parts[0]; // 004
+                        String part2 = parts[1];
+
+                        smLocalStore.setSmdcoordinates(part1,part2);
+
+                        coordLatitude=Double.parseDouble(part1);
+                        coordLongitude=Double.parseDouble(part2);
+                        latLng2 = new LatLng(coordLatitude, coordLongitude);
+                        sw=new ScheduledMaintenanceWorkshoplist();
+                        dist=sw.getDistance(latLng1,latLng2);
+
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
 
@@ -113,7 +145,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -131,6 +163,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
+
 
     public void workshopdisplay_detail() {
         pDialog.dismiss();
@@ -164,7 +197,14 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         workshopcategory.setText(category);
         workshopphone.setText(phone);
         ratings.setText(rating);
-        ws_distance.setText("34.4 km");
+        ws_distance.setText(dist);
+        ws_distance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
+                startActivity(ob);
+            }
+        });
     }
 
 }

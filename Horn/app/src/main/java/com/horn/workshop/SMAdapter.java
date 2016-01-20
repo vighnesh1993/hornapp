@@ -36,6 +36,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView Category;
         ImageView Picture;
         TextView Rating;
+        TextView Distance;
         //  Button Booknow;
         // private SMAdapter activity;
 
@@ -49,6 +50,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
             this.Category = (TextView) itemView.findViewById(R.id.workshopdetail_category);
             this.Picture = (ImageView) itemView.findViewById(R.id.workshopdetail_photo);
             this.Rating = (TextView) itemView.findViewById(R.id.rating);
+            this.Distance = (TextView) itemView.findViewById(R.id.ws_distance);
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
             //  Booknow.setOnClickListener(this);
@@ -106,6 +108,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView category1 = holder.Category;
         final ImageView picture1 = holder.Picture;
         TextView rating1 = holder.Rating;
+        TextView dis1 = holder.Distance;
         // TextView id = holder.id_;
 
 
@@ -113,6 +116,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         address1.setText(workshopDataSet.get(listPosition).getAddress());
         phone1.setText(workshopDataSet.get(listPosition).getPhone());
         category1.setText(workshopDataSet.get(listPosition).getCategory());
+        dis1.setText(workshopDataSet.get(listPosition).getDistance());
         String url = workshopDataSet.get(listPosition).getProfilepic();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {

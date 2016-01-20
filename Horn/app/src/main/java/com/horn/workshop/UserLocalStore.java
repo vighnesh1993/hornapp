@@ -77,6 +77,7 @@ public class UserLocalStore {
             return false;
         }
     }
+
     public boolean getGuestUserLoggedIn() {
         if (pref.getBoolean("gstLoggedIn", false)) {
             return true;
@@ -159,23 +160,25 @@ public class UserLocalStore {
         user.put("email", pref.getString("guestEmail", null));
         return user;
     }
-    public void storeUserForPasswordChange(String email, String phone){
+
+    public void storeUserForPasswordChange(String email, String phone) {
         editor.putString("fpUserEmail", email);
         editor.putString("fpUserPhone", phone);
         editor.commit();
     }
 
-    public HashMap<String,String> getUserForPasswordChange(){
+    public HashMap<String, String> getUserForPasswordChange() {
         HashMap<String, String> user = new HashMap<String, String>();
         user.put("fpUserEmail", pref.getString("fpUserEmail", null));
         user.put("fpUserPhone", pref.getString("fpUserPhone", null));
         return user;
     }
 
-    public void setUserRequestForChangePassword(boolean requsted){
+    public void setUserRequestForChangePassword(boolean requsted) {
         editor.putBoolean("passwordRequest", requsted);
         editor.commit();
     }
+
     public boolean getUserRequestForChangePassword() {
         if (pref.getBoolean("passwordRequest", false)) {
             return true;
@@ -183,5 +186,6 @@ public class UserLocalStore {
             return false;
         }
     }
+
 }
 
