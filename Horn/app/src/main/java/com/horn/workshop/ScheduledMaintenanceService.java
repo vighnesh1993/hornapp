@@ -6,7 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +30,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +65,11 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     private SMLocalStore smLocalStore;
     public ProgressDialog pDialog;
     public ArrayList<String> selectedStrings = new ArrayList<String>();
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +100,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         *
         */
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -197,8 +210,8 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         }
         total = total + price_total;
         total = total + Float.parseFloat(labour_Charge);
-        labour_cost.setText("INR " +labour_Charge);
-        toatl_cost.setText("INR " +(int) total);
+        labour_cost.setText("INR " + labour_Charge);
+        toatl_cost.setText("INR " + (int) total);
 
         search_wrkshp_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -212,7 +225,36 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceService.this);
 
                 smLocalStore.setSMservice(labour, total, selectedstring);
-                startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
+               // Toast.makeText(ScheduledMaintenanceService.this,"here gps",Toast.LENGTH_LONG).show();
+
+
+
+                String provider = Settings.Secure.getString(getContentResolver(),
+                        Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+                if(!provider.equals("")){
+                    //GPS Enabled
+                    startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
+                }else{
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ScheduledMaintenanceService.this);
+                    builder.setTitle("Horn");
+                    builder.setMessage("Gps is not enabled.Click Ok to enable");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                                   Toast.makeText(MainActivity.this, "hgsadfasdf", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    builder.show();
+
+                }
+
+
             }
         });
 
@@ -339,6 +381,61 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 .setCancelable(false)
                 .show();
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ScheduledMaintenanceService Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "ScheduledMaintenanceService Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+
+
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+ /*   @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        startActivity(getIntent());
+    }*/
+
 
 }
 

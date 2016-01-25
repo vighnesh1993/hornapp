@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Sariga on 1/5/2016.
@@ -21,56 +22,73 @@ public class SMLocalStore {
         editor = pref.edit();
     }
 
-    public void setSMhome(String vehicle, String km, String varient)
-    {
+    public void setSMhome(String vehicle, String km, String varient) {
         editor.putString("sm_vehicle", vehicle);
         editor.putString("sm_kms", km);
-        editor.putString("sm_varient",varient);
+        editor.putString("sm_varient", varient);
         editor.commit();
     }
 
-    public void setSMdesc(String description)
-    {
+    public void setSMdesc(String description) {
         editor.putString("sm_description", description);
         editor.commit();
     }
 
-    public void setSMservice(String labour, String total, String selectedstring)
-    {
+    public void setSMservice(String labour, String total, String selectedstring) {
         editor.putString("sm_labour", labour);
-        editor.putString("sm_total",total);
+        editor.putString("sm_total", total);
         editor.putString("sm_Selectedservice", selectedstring);
         editor.commit();
     }
 
-    public void setSMworkshoplist(String workshopid)
-    {
+    public void setSMworkshoplist(String workshopid) {
         editor.putString("sm_workshopid", workshopid);
         editor.commit();
     }
 
-    public String getSMhome_vehicle()
-    {
+    public void setSmwCurrentLatlng(String lat, String log) {
+        editor.putString("hw_lat", lat);
+        editor.putString("hw_log", log);
+        editor.commit();
+    }
+    public void setSmdcoordinates(String lat, String log) {
+        editor.putString("smd_lat", lat);
+        editor.putString("smd_log", log);
+        editor.commit();
+    }
+
+    public String getSMhome_vehicle() {
         return pref.getString("sm_vehicle", null);
     }
 
-    public String getSMworkshopdetail_id()
-    {
+    public String getSMworkshopdetail_id() {
         return pref.getString("sm_workshopid", null);
     }
 
-    public String getSMhome_kms()
-    {
-        return pref.getString("sm_kms",null);
+    public String getSMhome_kms() {
+        return pref.getString("sm_kms", null);
     }
 
-    public String getSMhome_varient()
-    {
-        return pref.getString("sm_varient",null);
+    public String getSMhome_varient() {
+        return pref.getString("sm_varient", null);
     }
 
-    public String getSMdesc()
-    {
+    public String getSMdesc() {
         return pref.getString("sm_description", null);
+    }
+
+
+
+    public HashMap<String, String> getSmwCurrentLatlng() {
+        HashMap<String, String> latlog = new HashMap<String, String>();
+        latlog.put("lat", pref.getString("hw_lat", null));
+        latlog.put("log", pref.getString("hw_log", null));
+        return latlog;
+    }
+    public HashMap<String, String> getSmdcoordinates() {
+        HashMap<String, String> smdlatlog = new HashMap<String, String>();
+        smdlatlog.put("smdlat", pref.getString("smd_lat", null));
+        smdlatlog.put("smdlog", pref.getString("smd_log", null));
+        return smdlatlog;
     }
 }
