@@ -26,7 +26,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
     private ArrayList<WorkshopDatas> workshopDataSet;
     private Context context;
     private SMLocalStore smLocalStore;
-    TextView rating1;
+    private TextView rating1;
 //public ScheduledMaintenanceWorkshoplist workshoplist = new ScheduledMaintenanceWorkshoplist();
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -37,6 +37,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView Category;
         ImageView Picture;
         TextView Rating;
+        TextView Distance;
         //  Button Booknow;
         // private SMAdapter activity;
 
@@ -50,6 +51,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
             this.Category = (TextView) itemView.findViewById(R.id.workshopdetail_category);
             this.Picture = (ImageView) itemView.findViewById(R.id.workshopdetail_photo);
             this.Rating = (TextView) itemView.findViewById(R.id.rating);
+            this.Distance = (TextView) itemView.findViewById(R.id.ws_distance);
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
             //  Booknow.setOnClickListener(this);
@@ -106,7 +108,9 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView phone1 = holder.Phone;
         TextView category1 = holder.Category;
         final ImageView picture1 = holder.Picture;
-        rating1 = holder.Rating;
+
+        final TextView rating1 = holder.Rating;
+        TextView dis1 = holder.Distance;
         // TextView id = holder.id_;
 
 
@@ -114,6 +118,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         address1.setText(workshopDataSet.get(listPosition).getAddress());
         phone1.setText(workshopDataSet.get(listPosition).getPhone());
         category1.setText(workshopDataSet.get(listPosition).getCategory());
+       // dis1.setText(workshopDataSet.get(listPosition).getDistance());
         String url = workshopDataSet.get(listPosition).getProfilepic();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
@@ -135,10 +140,8 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
 
         String ratingValue = workshopDataSet.get(listPosition).getrating();
         rating1.setText(ratingValue);
-        setRatingBackround(ratingValue);
-    }
+        //setRatingBackround(ratingValue);
 
-    private void setRatingBackround(String ratingValue) {
         switch (ratingValue) {
             case "0":
                 rating1.setBackgroundResource(R.drawable.rating_bg_0);
@@ -174,6 +177,10 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
                 rating1.setBackgroundResource(R.drawable.rating_bg_5);
                 break;
         }
+    }
+
+    private void setRatingBackround(String ratingValue) {
+
     }
 
     @Override
