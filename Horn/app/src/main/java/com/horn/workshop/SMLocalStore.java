@@ -82,6 +82,22 @@ public class SMLocalStore {
         return pref.getString("sm_varient", null);
     }
 
+    public String getSMworkshop_name()
+    {
+        return pref.getString("sm_workshop_name",null);
+    }
+    public void setSMworkshopname(String workshopname)
+    {
+        editor.putString("sm_workshop_name", workshopname);
+        editor.commit();
+    }
+
+
+    public String getSMservices()
+    {
+        return pref.getString("sm_Selectedservice", null);
+    }
+
     public String getSMdesc() {
         return pref.getString("sm_description", null);
     }
