@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CircularImageView circularImageView;
     private RecyclerView mRecyclerView;
     private ServicesAdapter mAdapter;
+    private SMLocalStore smLocalStore;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        smLocalStore=new SMLocalStore(MainActivity.this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -109,8 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         } else if (position == 1) {
                             Toast.makeText(getApplicationContext(), "Running Maintenance : " + position, Toast.LENGTH_LONG).show();
                         } else if (position == 2) {
-                            Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
+                            smLocalStore.clearBpimages();
+                            smLocalStore.clrbpDescription();
+                            Intent in=new Intent(MainActivity.this,BodyPaintingHome.class);
+                            in.putExtra("value","1");
+                            startActivity(in);
                         } else if (position == 3) {
+
+                            //Intent ob=new Intent(MainActivity.this,Gcm.class);
+                            //startActivity(ob);
                             Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
                         } else if (position == 4) {
                             Toast.makeText(getApplicationContext(), "Others : " + position, Toast.LENGTH_LONG).show();

@@ -6,6 +6,7 @@ package app;
 public class AppConfig {
     // Server user login url
     public static String URL_LOGIN = "http://blueripples.org/horn/app_server/login.php";
+    public static String UPLOAD_URL="http://blueripples.org/horn/app_server/test.php";
 
     // Server user register url
     public static String URL_REGISTER = "http://blueripples.org/horn/app_server/register.php";

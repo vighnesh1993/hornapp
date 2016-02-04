@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/thumbImage"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:src="@drawable/japan"
+        android:layout_centerInParent="true" />
+
+    <CheckBox
+        android:id="@+id/itemCheckBox"
+        android:layout_width="230dp"
+        android:layout_height="190dp"
+        android:background="#88666666"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>
