@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 guestUserLogout();
             }
         } else if (id == R.id.LocMap) {
-            startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

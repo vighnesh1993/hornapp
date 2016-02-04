@@ -23,5 +23,6 @@ public class AppConfig {
     public static final String OTP_DELIMITER = ":";
     public static String URL_SM_SERVICES = "http://blueripples.org/horn/app_server/SM.php";
     public static String URL_SM_WORKSHOPDATA = "http://blueripples.org/horn/app_server/SM_WorkshopDatalist.php";
+    public static String URL_CARLIST = "http://blueripples.org/horn/app_server/cars.php";
 }
 
