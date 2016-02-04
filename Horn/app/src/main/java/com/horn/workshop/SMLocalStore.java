@@ -56,7 +56,16 @@ public class SMLocalStore {
         editor.putString("smd_log", log);
         editor.commit();
     }
+    public void setBpimages(String s) {
 
+        editor.putString("selectImages", s);
+        editor.commit();
+    }
+    public void clearBpimages() {
+
+        editor.putString("selectImages","");
+        editor.commit();
+    }
     public String getSMhome_vehicle() {
         return pref.getString("sm_vehicle", null);
     }
@@ -77,7 +86,9 @@ public class SMLocalStore {
         return pref.getString("sm_description", null);
     }
 
-
+    public String getBpimages() {
+        return pref.getString("selectImages", null);
+    }
 
     public HashMap<String, String> getSmwCurrentLatlng() {
         HashMap<String, String> latlog = new HashMap<String, String>();
@@ -90,5 +101,18 @@ public class SMLocalStore {
         smdlatlog.put("smdlat", pref.getString("smd_lat", null));
         smdlatlog.put("smdlog", pref.getString("smd_log", null));
         return smdlatlog;
+    }
+    public void bpDescription(String s) {
+
+        editor.putString("bpdesc", s);
+        editor.commit();
+    }
+    public void clrbpDescription() {
+
+        editor.putString("bpdesc","");
+        editor.commit();
+    }
+    public String getbpDescription() {
+        return pref.getString("bpdesc", null);
     }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_cor_white_bg"
+    android:fitsSystemWindows="true"
+    tools:context="com.horn.workshop.scheduled_maintenance_desc">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+        <GridView
+            android:id="@+id/maingrid"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+
+            android:layout_marginTop="65dp"
+            android:layout_above="@+id/upload_button"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="1dp" />
+        <!--<ImageView android:id="@+id/mainimg" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_centerInParent="true" />-->
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Description if any.."
+            android:id="@+id/descgalupload"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/upload_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center"
+            android:text="@string/upload"
+            />
+
+
+    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
