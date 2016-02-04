@@ -34,7 +34,6 @@ import com.pkmmte.view.CircularImageView;
 
 import java.util.HashMap;
 
-import activity.AddCar;
 import activity.ChoiceLogin;
 import app.AppController;
 import helper.ServicesManager;
@@ -185,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 guestUserLogout();
             }
         } else if (id == R.id.LocMap) {
-            startActivity(new Intent(MainActivity.this, AddCar.class));
         }
 
         return super.onOptionsItemSelected(item);
