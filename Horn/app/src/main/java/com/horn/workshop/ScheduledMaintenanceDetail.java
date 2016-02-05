@@ -132,7 +132,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         coordLongitude=Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
                         sw=new ScheduledMaintenanceWorkshoplist();
-                      //  dist=sw.getDistance(latLng1,latLng2);
+                        dist=sw.getDistance(latLng1,latLng2);
 
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
