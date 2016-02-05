@@ -22,10 +22,12 @@ public class SMLocalStore {
         editor = pref.edit();
     }
 
-    public void setSMhome(String vehicle, String km, String varient) {
+    public void setSMhome(String vehicle, String km, String varient,String make,String model) {
         editor.putString("sm_vehicle", vehicle);
         editor.putString("sm_kms", km);
         editor.putString("sm_varient", varient);
+        editor.putString("sm_make", make);
+        editor.putString("sm_model", model);
         editor.commit();
     }
 
@@ -80,6 +82,12 @@ public class SMLocalStore {
 
     public String getSMhome_varient() {
         return pref.getString("sm_varient", null);
+    }
+    public String getSMhome_make() {
+        return pref.getString("sm_make", null);
+    }
+    public String getSMhome_model() {
+        return pref.getString("sm_model", null);
     }
 
     public String getSMworkshop_name()

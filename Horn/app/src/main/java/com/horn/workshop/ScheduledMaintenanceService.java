@@ -50,15 +50,15 @@ import app.AppController;
  */
 public class ScheduledMaintenanceService extends AppCompatActivity {
 
-    private TextView labour_cost, toatl_cost;
+    private TextView labour_cost, toatl_cost,washing_cost;
     private Button search_wrkshp_btn;
-    private LinearLayout labr_cost_lyt, total_cost_tyt;
+    private LinearLayout labr_cost_lyt, total_cost_tyt,washing_cost_lyt;
     private View hLine1, hLine2;
     float price_total = 0, total = 0;
     public String[] sm_service_listprice = new String[30];
     public String[] sm_service_list = new String[30];
     public String[] sm_service_listqty = new String[30];
-    public String labour_Charge;
+    public String labour_Charge,washing;
     public String service_list;
     private static final String TAG = "SM_service";
     String strreqTAG = "ServiceReqTAG";
@@ -84,6 +84,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         pDialog.setMessage("Loading ...");
 
         labour_cost = (TextView) findViewById(R.id.labour_cost_value);
+        washing_cost = (TextView) findViewById(R.id.washing_cost_value);
         toatl_cost = (TextView) findViewById(R.id.total_cost_value);
         search_wrkshp_btn = (Button) findViewById(R.id.search_wrkshop_btn);
         labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
@@ -91,6 +92,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         hLine1 = findViewById(R.id.hori_1);
         hLine2 = findViewById(R.id.hori_2);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
+        washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
         /*
         * fetch the service list from db
         */
@@ -134,6 +136,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         pDialog.dismiss();
         labr_cost_lyt.setVisibility(View.VISIBLE);
         total_cost_tyt.setVisibility(View.VISIBLE);
+        washing_cost_lyt.setVisibility(View.VISIBLE);
         search_wrkshp_btn.setVisibility(View.VISIBLE);
         hLine1.setVisibility(View.VISIBLE);
         hLine2.setVisibility(View.VISIBLE);
@@ -161,13 +164,19 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         ll.addView(rowh, 0);
         CheckBox[] check = new CheckBox[sm_service_list.length]; //maxCount is the number of rows in the database.
         price_total += Float.parseFloat(labour_Charge);
+        price_total += Float.parseFloat(washing);
         for (int i = 0; i < sm_service_list.length; i++) {
+            try{
             TableRow row = new TableRow(this);
             TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
             row.setMinimumHeight(110);
             row.setLayoutParams(lp);
-            price_total += Float.parseFloat(sm_service_listprice[i]);
-            final float price_tot = Float.parseFloat(sm_service_listprice[i]);
+            Log.d(TAG, "qty:" + sm_service_listprice[i]);
+
+                price_total += Float.valueOf(sm_service_listprice[i]);
+                final float price_tot = Float.valueOf(sm_service_listprice[i]);
+
+
 
             check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
             check[i].setText(Integer.toString(i));
@@ -206,11 +215,15 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
             row.addView(price);
             row.setGravity(View.TEXT_ALIGNMENT_CENTER);
             ll.addView(row, i + 1);
-
+        }catch (NumberFormatException e)
+        {
+            e.printStackTrace();
+        }
         }
         total = total + price_total;
-        total = total + Float.parseFloat(labour_Charge);
+        //total = total + Float.parseFloat(labour_Charge)+Float.parseFloat(washing);
         labour_cost.setText("INR " + labour_Charge);
+        washing_cost.setText("INR " + washing);
         toatl_cost.setText("INR " + (int) total);
 
         search_wrkshp_btn.setOnClickListener(new View.OnClickListener() {
@@ -274,32 +287,40 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                     if (jsonObject != null) {
                         int len = jsonObject.length();
                         labour_Charge = jsonObject.getString("labour");
+                        washing = jsonObject.getString("washing");
                         JSONArray service_list_qty = jsonObject.getJSONArray("service_list_qty");
                         JSONArray service_list_price = jsonObject.getJSONArray("service_list_price");
+                        JSONArray service_list_js = jsonObject.getJSONArray("services");
+                        //JSONArray service_labour = jsonObject.getJSONArray("labour");
                         //String service_list = jsonObject.getString("service_list");
                         String varient = smLocalStore.getSMhome_varient();
-                        String petrol = "1";
-                        String diesel = "2";
-                        String NA = "NA";
-                        if (varient.equals(petrol)) {
-                            labour_Charge = labour_Charge.split(",")[0];
-                            if (labour_Charge.equals(NA)) {
-                                labour_Charge = "0";
-                                no_service();
-                            }
-                        } else if (varient.equals(diesel)) {
-                            labour_Charge = labour_Charge.split(",")[1];
-                            if (labour_Charge.equals(NA)) {
-                                labour_Charge = "0";
-                                no_service();
-                            }
-                        }
+//                        String petrol = "1";
+//                        String diesel = "2";
+//                        String NA = "NA";
+//                        if (varient.equals(petrol)) {
+//                            labour_Charge = labour_Charge.split(",")[0];
+//                            if (labour_Charge.equals(NA)) {
+//                                labour_Charge = "0";
+//                                no_service();
+//                            }
+//                        } else if (varient.equals(diesel)) {
+//                            labour_Charge = labour_Charge.split(",")[1];
+//                            if (labour_Charge.equals(NA)) {
+//                                labour_Charge = "0";
+//                                no_service();
+//                            }
+//                        }
                         // String[] testt = service_list.split(",");
+                       sm_service_listprice = new String[service_list_qty.length()];
+                        sm_service_list = new String[service_list_qty.length()];
+                        sm_service_listqty = new String[service_list_qty.length()];
                         for (int i = 0; i < service_list_qty.length(); i++) {
                             sm_service_listqty[i] = service_list_qty.getString(i);
-                            sm_service_listprice[i] = service_list_price.getString(i);
-                            //  Log.d(TAG,"qty:"+sm_service_listqty[i]);
+                            sm_service_listprice[i] = service_list_price.getString(i).toString();
+                            sm_service_list[i] = service_list_js.getString(i);
+
                         }
+                        SM_Services_display();
 //                                             for(int i=0;i<service_list.length();i++)
 //                                             {
 //                                                 sm_service_listqty[i] = testt[i].split("|")[0];
@@ -308,30 +329,34 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                         //  Log.d(TAG,"qty:"+sm_service_listqty[2]);
                         //      Log.d(TAG,"qty:"+sm_service_list);
                         //   Log.d(TAG,"price:"+sm_service_listprice);
-                        sm_service_list = new String[]{"Engine Oil", "Oil filter", "Spark Plug(P)", "Air Filter(D)", "Brake Fluid", "Fuel Filter(P)",
-                                "Fuel Filter(D)", "Clutch Plate", "Pressure Plate", "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)",
-                                "Rear Suspension(R)", "Steering Ball Joint(L)", "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
+//                        sm_service_list = new String[]{"Engine Oil", "Oil filter", "Spark Plug(P)", "Air Filter(D)", "Brake Fluid", "Fuel Filter(P)",
+//                                "Fuel Filter(D)", "Clutch Plate", "Pressure Plate", "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)",
+//                                "Rear Suspension(R)", "Steering Ball Joint(L)", "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
                         // if(varient.equals(petrol))
                         // {
-                        String var_petrol = "P";
-                        String var_diesel = "D";
-                        for (int i = 0; i < sm_service_list.length; i++) {
-                            String sm_service_list_varient = sm_service_list[i].substring(sm_service_list[i].length() - 3);
-                            sm_service_list_varient = sm_service_list_varient.replaceAll("[-+.^:,()]", "");
-                            if (varient.equals(petrol)) {
-                                sm_service_list = new String[]{"Engine Oil", "Oil filter", "Spark Plug(P)", "Brake Fluid", "Fuel Filter(P)",
-                                        "Clutch Plate", "Pressure Plate", "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)",
-                                        "Rear Suspension(R)", "Steering Ball Joint(L)", "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
-                            } else if (varient.equals(diesel)) {
-                                sm_service_list = new String[]{"Engine Oil", "Oil filter", "Air Filter(D)", "Brake Fluid", "Fuel Filter(D)", "Clutch Plate", "Pressure Plate",
-                                        "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)", "Rear Suspension(R)", "Steering Ball Joint(L)",
-                                        "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
-                            }
-                        }
+//                        String var_petrol = "P";
+//                        String var_diesel = "D";
+//                        for (int i = 0; i < sm_service_list.length; i++) {
+//                            String sm_service_list_varient = sm_service_list[i].substring(sm_service_list[i].length() - 3);
+//                            sm_service_list_varient = sm_service_list_varient.replaceAll("[-+.^:,()]", "");
+//                            if (varient.equals(petrol)) {
+//                                sm_service_list = new String[]{"Engine Oil", "Oil filter", "Spark Plug(P)", "Brake Fluid", "Fuel Filter(P)",
+//                                        "Clutch Plate", "Pressure Plate", "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)",
+//                                        "Rear Suspension(R)", "Steering Ball Joint(L)", "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
+//                            } else if (varient.equals(diesel)) {
+//                                sm_service_list = new String[]{"Engine Oil", "Oil filter", "Air Filter(D)", "Brake Fluid", "Fuel Filter(D)", "Clutch Plate", "Pressure Plate",
+//                                        "Clutch Bearings", "Ft Suspension(L)", "Ft Suspension(R)", "Rear Suspension(L)", "Rear Suspension(R)", "Steering Ball Joint(L)",
+//                                        "Steering Ball Joint(R)", "Lower Arm(L)", "Lower Arm(R)", "Starter Motor", "Alternatoe Assy", "Radiator", "Condensor"};
+//                            }
+//                        }
                         //      }
 
-                        SM_Services_display();
 
+
+                    }
+                    else
+                    {
+                        no_service();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -351,11 +376,15 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 String km = smLocalStore.getSMhome_kms();
                 String vehicle = smLocalStore.getSMhome_vehicle();
                 String varient = smLocalStore.getSMhome_varient();
+                String make = smLocalStore.getSMhome_make();
+                String model = smLocalStore.getSMhome_model();
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("vehicle", vehicle);
                 params.put("kms", km);
                 params.put("varient", varient);
+                params.put("make", make);
+                params.put("model", model);
                 return params;
             }
 
@@ -367,11 +396,12 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     public void no_service() {
         pDialog.dismiss();
         String varient_error = smLocalStore.getSMhome_varient();
-        String varient_check = "1";
-        varient_error = (varient_error.equals(varient_check)) ? "Petrol" : "Diesel";
+        String km_error = smLocalStore.getSMhome_kms();
+      //  String varient_check = "1";
+      //  varient_error = (varient_error.equals(varient_check)) ? "Petrol" : "Diesel";
         String vehicle_error = smLocalStore.getSMhome_vehicle();
         new AlertDialog.Builder(ScheduledMaintenanceService.this)
-                .setMessage("No Service is available for " + vehicle_error + " of varient " + varient_error)
+                .setMessage("No Service is available for " + vehicle_error + " for " + km_error)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanaceHome.class));
