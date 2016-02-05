@@ -118,7 +118,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         address1.setText(workshopDataSet.get(listPosition).getAddress());
         phone1.setText(workshopDataSet.get(listPosition).getPhone());
         category1.setText(workshopDataSet.get(listPosition).getCategory());
-       // dis1.setText(workshopDataSet.get(listPosition).getDistance());
+        dis1.setText(workshopDataSet.get(listPosition).getDistance());
         String url = workshopDataSet.get(listPosition).getProfilepic();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
