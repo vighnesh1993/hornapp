@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,14 +56,14 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         //ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
 
-        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
-        String lat = latlog.get("lat");
-        String log = latlog.get("log");
-
-        double d1=Double.parseDouble(lat);
-        double d2=Double.parseDouble(log);
-
-        latLng1=new LatLng(d1,d2);
+//        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
+//        String lat = latlog.get("lat");
+//        String log = latlog.get("log");
+//
+//        double d1=Double.parseDouble(lat);
+//        double d2=Double.parseDouble(log);
+//
+//        latLng1=new LatLng(d1,d2);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -71,6 +72,14 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         // String workshopid = "608";
 
         String workshopid = smLocalStore.getSMworkshopdetail_id();
+        Button booknow = (Button) findViewById(R.id.book_now);
+        booknow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                smLocalStore.setSMworkshopname(name);
+                startActivity(new Intent(ScheduledMaintenanceDetail.this,ScheduledMaintenanceAppointment.class));
+            }
+        });
         getdetailFromDb(workshopid);
 
 

@@ -118,7 +118,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ScheduledMaintenanceWorkshoplist" />
         </activity>
-
+        <activity
+            android:name=".ScheduledMaintenanceAppointment"
+            android:label="Appointment"
+            android:parentActivityName=".ScheduledMaintenanceAppointment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceAppointment" />
+        </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
             <intent-filter android:priority="99999">
