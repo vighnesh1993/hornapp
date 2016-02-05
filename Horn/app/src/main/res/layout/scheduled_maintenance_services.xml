@@ -84,6 +84,34 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="20sp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:id="@+id/washing_layout"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/labour_washlbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="0.5"
+                        android:text="Washing Cost  : "
+                        android:textAlignment="center"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/washing_cost_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textAlignment="textStart"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textSize="20sp" />
+                </LinearLayout>
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
@@ -133,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:paddingBottom="10dp"
                         android:visibility="gone"
-                        android:text="Serach Workshops"
+                        android:text="Search Workshops"
                         android:layout_marginBottom="10dp" />
                 </LinearLayout>
             </LinearLayout>
