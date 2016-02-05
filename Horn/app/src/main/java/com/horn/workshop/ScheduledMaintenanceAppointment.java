@@ -9,10 +9,12 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -267,9 +269,16 @@ public void timeviewclick(View v)
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
                 dateviews = (EditText) findViewById(R.id.dateview);
                 date_apmnt = dateviews.getText().toString();
-                time_apmnt = timeviews.getText().toString();
-
-
+                String time_apmnt1 = timeviews.getText().toString();
+                SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
+                Date date = new Date();
+                try {
+                    date = parseFormat.parse(time_apmnt1);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                time_apmnt = displayFormat.format(date).toString();
 
 
                 sqLiteHandler = new SQLiteHandler(ScheduledMaintenanceAppointment.this);
