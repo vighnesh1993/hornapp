@@ -10,6 +10,10 @@
             android:id="@+id/nav_cars"
             android:icon="@drawable/ic_directions_car_black_48dp"
             android:title="My Cars" />
+        <item
+            android:id="@+id/nav_appoinment"
+            android:icon="@drawable/ic_perm_contact_calendar_black_48dp"
+            android:title="My Appointments" />
     </group>
 
     <item android:title="Communicate">

@@ -229,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_terms) {
 
         }
+        else if (id == R.id.nav_appoinment) {
+            startActivity(new Intent(this, ProfileMyAppoinmentList.class));
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
