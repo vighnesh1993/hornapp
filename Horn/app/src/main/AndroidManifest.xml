@@ -118,7 +118,30 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ScheduledMaintenanceWorkshoplist" />
         </activity>
-
+        <activity
+            android:name=".ScheduledMaintenanceAppointment"
+            android:label="Appointment"
+            android:parentActivityName=".ScheduledMaintenanceAppointment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceAppointment" />
+        </activity>
+        <activity
+            android:name=".ProfileMyAppoinmentList"
+            android:label="My Appointments"
+            android:parentActivityName=".ProfileMyAppoinmentList">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileMyAppoinmentList" />
+        </activity>
+        <activity
+            android:name=".ProfileAppointmentDetail"
+            android:label="My Appointments"
+            android:parentActivityName=".ProfileAppointmentDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileAppointmentDetail" />
+        </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
             <intent-filter android:priority="99999">
@@ -182,6 +205,24 @@
         <activity
             android:name=".PlacesAutoCompleteActivity"
             android:label="@string/label_sm"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="activity.MyCars"
+            android:label="@string/label_my_cars"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="activity.AddCar"
+            android:label="@string/label_add_car"
+            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

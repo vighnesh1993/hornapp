@@ -35,6 +35,7 @@ import com.pkmmte.view.CircularImageView;
 import java.util.HashMap;
 
 import activity.ChoiceLogin;
+import activity.MyCars;
 import app.AppController;
 import helper.ServicesManager;
 import helper.SQLiteHandler;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SMLocalStore smLocalStore;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        smLocalStore=new SMLocalStore(MainActivity.this);
+        smLocalStore = new SMLocalStore(MainActivity.this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
                             smLocalStore.clearBpimages();
                             smLocalStore.clrbpDescription();
-                            Intent in=new Intent(MainActivity.this,BodyPaintingHome.class);
-                            in.putExtra("value","1");
+                            Intent in = new Intent(MainActivity.this, BodyPaintingHome.class);
+                            in.putExtra("value", "1");
                             startActivity(in);
                         } else if (position == 3) {
 
@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 guestUserLogout();
             }
         } else if (id == R.id.LocMap) {
-            startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
@@ -222,13 +221,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_profile) {
             // Handle the camera action
         } else if (id == R.id.nav_cars) {
-
+            startActivity(new Intent(MainActivity.this, MyCars.class));
         } else if (id == R.id.nav_about) {
 
         } else if (id == R.id.nav_privacy) {
 
         } else if (id == R.id.nav_terms) {
 
+        }
+        else if (id == R.id.nav_appoinment) {
+            startActivity(new Intent(this, ProfileMyAppoinmentList.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -412,15 +414,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setGuestUserProfile() {
-          circularImageView.setVisibility(View.GONE);
+        circularImageView.setVisibility(View.GONE);
         HashMap<String, String> guestUser = userLocalStore.getGuestUserDetails();
         String gstUserName = guestUser.get("name");
         String gstUserEmail = guestUser.get("email");
-         nav_name.setText(gstUserName);
-          nav_email.setText(gstUserEmail);
+        nav_name.setText(gstUserName);
+        nav_email.setText(gstUserEmail);
 
         String lName = gstUserName.toLowerCase();
         char alphabet = lName.charAt(0);
-          setProfilePictureWithAlphabet(alphabet);
+        setProfilePictureWithAlphabet(alphabet);
     }
 }

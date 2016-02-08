@@ -63,4 +63,12 @@
     <style name="PrimaryButton">
         <item name="colorButtonNormal">@color/primary</item>
     </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.CustomBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!-- Customize your theme here. -->
+    </style>
 </resources>
