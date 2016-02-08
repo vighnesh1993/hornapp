@@ -47,7 +47,10 @@ public class SMLocalStore {
         editor.putString("sm_workshopid", workshopid);
         editor.commit();
     }
-
+    public void setProfileAppointment(String apt_id){
+        editor.putString("profile_view_apt_id", apt_id);
+        editor.commit();
+    }
     public void setSmwCurrentLatlng(String lat, String log) {
         editor.putString("hw_lat", lat);
         editor.putString("hw_log", log);
@@ -70,6 +73,9 @@ public class SMLocalStore {
     }
     public String getSMhome_vehicle() {
         return pref.getString("sm_vehicle", null);
+    }
+    public String getProfileAppointment() {
+        return pref.getString("profile_view_apt_id", null);
     }
 
     public String getSMworkshopdetail_id() {
