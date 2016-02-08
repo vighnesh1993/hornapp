@@ -269,6 +269,16 @@ public void timeviewclick(View v)
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
                 dateviews = (EditText) findViewById(R.id.dateview);
                 date_apmnt = dateviews.getText().toString();
+
+                SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyyy");
+                SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
+                Date date1 = new Date();
+                try {
+                    date1 = parseFormat1.parse(date_apmnt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                String date_apmnt1 = displayFormat1.format(date1).toString();
                 String time_apmnt1 = timeviews.getText().toString();
                 SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
                 SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
@@ -286,6 +296,11 @@ public void timeviewclick(View v)
                 customername_apnmt = user.get("name");
                 email_apnmt = user.get("email");
                 phone_apnmt = user.get("phone");
+                Calendar cc = Calendar.getInstance();
+                int booked_on_day = cc.get(Calendar.DAY_OF_MONTH);
+                int booked_on_month = cc.get(Calendar.MONTH);
+                int booked_on_year = cc.get(Calendar.YEAR);
+                int booked_on = booked_on_year+'-'+booked_on_month+'-'+booked_on_day;
                 Log.d("datas",km_apnmt);
 
                 Map<String, String> params = new HashMap<String, String>();
@@ -294,12 +309,13 @@ public void timeviewclick(View v)
                 params.put("phone_apnmt", phone_apnmt);
                 params.put("email_apnmt", email_apnmt);
                 params.put("services_apmnt", services_apmnt);
-                params.put("date_apmnt", date_apmnt);
+                params.put("date_apmnt", date_apmnt1);
                 params.put("description_apnmt",description_apnmt );
                 params.put("km_apnmt", km_apnmt);
                 params.put("vehicle_apnmt", vehicle_apnmt);
                 params.put("time_apmnt",time_apmnt);
                 params.put("appointment_booking", "1");
+                params.put("booked_on", String.valueOf(booked_on));
                    return params;
             }
 
