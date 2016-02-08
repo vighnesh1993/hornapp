@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:layout_marginBottom="1dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/car_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="top" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/contact_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="sdcasdc"
+        android:textColor="@color/primary_text"
+        android:layout_gravity="left"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/car_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|left"
+        android:layout_marginLeft="16dp"
+        android:text="Lorem Ipsum is dummy text"
+        android:textColor="@color/secondary_text"
+        android:textAlignment="textStart" />
+
+</LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

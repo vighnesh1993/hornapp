@@ -278,7 +278,7 @@ public void timeviewclick(View v)
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                time_apmnt = displayFormat.format(date).toString();
+                time_apmnt = displayFormat.format(date);
 
 
                 sqLiteHandler = new SQLiteHandler(ScheduledMaintenanceAppointment.this);
