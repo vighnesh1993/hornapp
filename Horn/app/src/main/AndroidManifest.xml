@@ -81,7 +81,6 @@
         <activity
             android:name=".ScheduledMaintenanaceHome"
             android:label="@string/label_sm"
-            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -90,7 +89,6 @@
         <activity
             android:name=".ScheduledMaintenanceDesc"
             android:label="@string/app_sm_desc"
-            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ScheduledMaintenanaceHome">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -99,7 +97,6 @@
         <activity
             android:name=".ScheduledMaintenanceService"
             android:label="@string/app_sm_servicelbl"
-            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ScheduledMaintenanceDesc">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -108,7 +105,6 @@
         <activity
             android:name=".ScheduledMaintenanceWorkshoplist"
             android:label="@string/app_sm_wrkshops"
-            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ScheduledMaintenanceService">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -117,7 +113,6 @@
         <activity
             android:name=".ScheduledMaintenanceDetail"
             android:label="Workshop Details"
-            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ScheduledMaintenanceWorkshoplist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

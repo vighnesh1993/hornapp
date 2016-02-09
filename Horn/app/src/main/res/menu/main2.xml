@@ -29,9 +29,17 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_choose_loc"
-        android:icon="@drawable/ic_location_on_white_24dp"
-        android:title="Choose Location"
+        android:id="@+id/action_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_add_white_24dp"
+        android:title="search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
 
 </menu>
