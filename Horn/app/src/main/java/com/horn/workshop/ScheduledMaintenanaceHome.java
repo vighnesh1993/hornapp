@@ -42,7 +42,6 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     public String make ;
     public String model;
     public String[] sm_service;
-    private Toolbar toolbar;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
 
@@ -52,7 +51,7 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_home);
 
-        toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setHomeButtonEnabled(true);

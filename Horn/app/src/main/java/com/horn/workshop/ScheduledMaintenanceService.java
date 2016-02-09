@@ -75,17 +75,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_services);
-<<<<<<< HEAD
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
-        setSupportActionBar(toolbar);
-=======
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
->>>>>>> master
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

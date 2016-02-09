@@ -195,11 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (userLocalStore.getGuestUserLoggedIn()) {
                 guestUserLogout();
             }
-<<<<<<< HEAD
         }  else if (id == R.id.action_choose_loc) {
-=======
-        } else if (id == R.id.action_choose_loc) {
->>>>>>> master
             startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
         }
 
