@@ -42,12 +42,19 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     public String make ;
     public String model;
     public String[] sm_service;
+    private Toolbar toolbar;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_home);
+
+        toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
       dropdown_display();
 
@@ -170,7 +177,7 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return true;
     }
 
