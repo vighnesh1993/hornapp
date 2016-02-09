@@ -148,6 +148,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProfileAppointmentDetail" />
         </activity>
+        <activity
+            android:name=".ProfileAddCar"
+            android:label="Add Car"
+            android:parentActivityName=".ProfileAddCar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileAddCar" />
+        </activity>
+        <activity
+            android:name=".MyCarDetail"
+            android:label="My Car"
+            android:parentActivityName=".MyCarDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyCarDetail" />
+        </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
             <intent-filter android:priority="99999">
