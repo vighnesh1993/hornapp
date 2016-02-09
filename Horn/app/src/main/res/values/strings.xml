@@ -127,4 +127,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="autocomplete_hint">Search a Place</string>
     <string name="title_activity_gcm">GcmActivity</string>
+    <string name="label_my_cars">My Cars</string>
+    <string name="label_add_car">Add Car</string>
+    <string name="search_car_menulbl">Search Car</string>
 </resources>

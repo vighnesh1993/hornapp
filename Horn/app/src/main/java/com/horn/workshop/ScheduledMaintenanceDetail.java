@@ -82,8 +82,6 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         });
         getdetailFromDb(workshopid);
 
-
-
     }
 
     @Override
@@ -141,7 +139,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         coordLongitude=Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
                         sw=new ScheduledMaintenanceWorkshoplist();
-                      //  dist=sw.getDistance(latLng1,latLng2);
+                        //dist=sw.getDistance(latLng1,latLng2);
 
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
@@ -207,12 +205,13 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         workshopcategory.setText(category);
         workshopphone.setText(phone);
         ratings.setText(rating);
+        setRatingBackround(rating);
         ws_distance.setText(dist);
         ws_distance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
-                startActivity(ob);
+//                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
+//                startActivity(ob);
             }
         });
 
