@@ -1,14 +1,44 @@
 package activity;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.horn.workshop.MyCarDetail;
+import com.horn.workshop.ProfileAddCar;
 import com.horn.workshop.R;
+import com.horn.workshop.RecyclerItemClickListener;
+import com.horn.workshop.SMLocalStore;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import adapters.AddCarAdapter;
+import adapters.MyCarAdapter;
+import app.AppConfig;
+import app.AppController;
+import data.CarData;
+import helper.SQLiteHandler;
 
 /**
  * Created by user on 05-02-2016.
@@ -16,6 +46,13 @@ import com.horn.workshop.R;
 public class MyCars extends AppCompatActivity {
 
     private Toolbar toolbar;
+    ProgressDialog pDialog;
+    String [] nameArray,carImageArray,carIdArray;
+    RecyclerView rCarView;
+    SMLocalStore smLocalStore;
+    public static ArrayList<CarData> carDatas;
+    private MyCarAdapter adapter;
+    SQLiteHandler sqLiteHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +64,108 @@ public class MyCars extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loding...");
+        pDialog.setCancelable(false);
+        show_mycars();
     }
+public void show_mycars()
+{
+    pDialog.show();
+    /*
+    *Datas from DB starts
+    */
+    String strreq = "req";
 
+    //final ProgressDialog loading;
+
+    StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+            Log.d("sdsdsd", "car Response: " + response);
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                if (jsonObject != null) {
+                    int len = jsonObject.length();
+                    JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
+                    JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
+                    JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                    nameArray = new String[nameArrayj.length()];
+                    carImageArray = new String[carImageArrayj.length()];
+                    carIdArray = new String[carIdArrayj.length()];
+                    for (int i = 0; i < nameArrayj.length(); i++) {
+                        nameArray[i] = nameArrayj.getString(i);
+                        carImageArray[i] = carImageArrayj.getString(i);
+                        carIdArray[i] = carIdArrayj.getString(i);
+                    }
+                    pDialog.dismiss();
+                    mycarsDisplay();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    },
+            new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pDialog.dismiss();
+                    Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }) {
+
+        @Override
+        protected Map<String, String> getParams() {
+            String get_mycars = "get_mycars";
+            sqLiteHandler = new SQLiteHandler(MyCars.this);
+            HashMap<String, String> user = sqLiteHandler.getUserDetails();
+            String  apmnt_user_email = user.get("email");
+            // Posting parameters to login url
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("get_mycars", get_mycars);
+            params.put("get_mycars_email", apmnt_user_email);
+            return params;
+        }
+
+    };
+
+
+    AppController.getInstance().addToRequestQueue(stringRequest, strreq);
+}
+    public void mycarsDisplay()
+    {
+        rCarView = (RecyclerView) findViewById(R.id.my_car_rView);
+        rCarView.setHasFixedSize(true);
+        rCarView.setLayoutManager(new LinearLayoutManager(this));
+        rCarView.setItemAnimator(new DefaultItemAnimator());
+
+        carDatas = new ArrayList<CarData>();
+        for (int i = 0; i < nameArray.length; i++) {
+            carDatas.add(new CarData(
+                    nameArray[i],
+                    carImageArray[i],
+                    carIdArray[i]
+            ));
+        }
+        adapter = new MyCarAdapter(carDatas);
+        rCarView.setAdapter(adapter);
+
+        rCarView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        CarData carData = carDatas.get(position);
+                        String car_id = carData.getCarId();
+                        smLocalStore = new SMLocalStore(MyCars.this);
+                        smLocalStore.setProfileMyCar(car_id);
+                       Intent intent1 = new Intent(MyCars.this,MyCarDetail.class);
+                       startActivity(intent1);
+                        //  Toast.makeText(getApplicationContext(), "" + car_id, Toast.LENGTH_LONG).show();
+
+                    }
+                })
+        );
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -1,6 +1,7 @@
 package com.horn.workshop;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import app.AppConfig;
 import app.AppController;
+import helper.SQLiteHandler;
 
 /**
  * Created by Sariga on 1/5/2016.
@@ -42,15 +44,84 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     public String make ;
     public String model;
     public String[] sm_service;
+    String [] nameArray,carImageArray,carIdArray,carMakeArray,carModelArray;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
+    SQLiteHandler sqLiteHandler;
+    ProgressDialog pDialog;
+    String strreq = "req";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_home);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loding...");
+        pDialog.setCancelable(false);
+        dropdown_data();
 
-      dropdown_display();
 
+    }
+    public void dropdown_data()
+    {
+        pDialog.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("sdsdsd", "car Response: " + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject != null) {
+                        int len = jsonObject.length();
+                        JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
+                        JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
+                        JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                        JSONArray carMakeArrayj = jsonObject.getJSONArray("car_make");
+                        JSONArray carModelArrayj = jsonObject.getJSONArray("car_model");
+                        nameArray = new String[nameArrayj.length()];
+                        carImageArray = new String[carImageArrayj.length()];
+                        carIdArray = new String[carIdArrayj.length()];
+                        carMakeArray = new String[carMakeArrayj.length()];
+                        carModelArray = new String[carModelArrayj.length()];
+                        for (int i = 0; i < nameArrayj.length(); i++) {
+                            nameArray[i] = nameArrayj.getString(i);
+                            carImageArray[i] = carImageArrayj.getString(i);
+                            carIdArray[i] = carIdArrayj.getString(i);
+                            carMakeArray[i] = carMakeArrayj.getString(i);
+                            carModelArray[i] = carModelArrayj.getString(i);
+                        }
+                        pDialog.dismiss();
+                        dropdown_display();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
+                        Toast.makeText(ScheduledMaintenanaceHome.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                String get_mycars = "get_mycars";
+                sqLiteHandler = new SQLiteHandler(ScheduledMaintenanaceHome.this);
+                HashMap<String, String> user = sqLiteHandler.getUserDetails();
+                String  apmnt_user_email = user.get("email");
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_mycars", get_mycars);
+                params.put("get_mycars_email", apmnt_user_email);
+                return params;
+            }
+
+        };
+
+
+        AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }
 
@@ -59,7 +130,7 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
         /** SM vehicle dropdown **/
 
         Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
-        String[] items = new String[]{"Etios", "Innova", "Fortuner"};
+        String[] items = nameArray;//new String[]{"Etios", "Innova", "Fortuner"};
        varient = "1";
         make = "Maruthi";
         model = "A-star";

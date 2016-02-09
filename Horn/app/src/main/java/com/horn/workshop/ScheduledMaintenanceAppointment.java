@@ -215,15 +215,16 @@ public void timeviewclick(View v)
 
     public void sm_appointment(View v)
     {
+        pDialog = new ProgressDialog(ScheduledMaintenanceAppointment.this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Please wait while we are saving your details");
+        pDialog.show();
 
         String strreq = "workshop_appnmt";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pDialog = new ProgressDialog(ScheduledMaintenanceAppointment.this);
-                pDialog.setCancelable(false);
-                pDialog.setMessage("Please wait while we are saving your details");
-                pDialog.show();
+
                 Log.d("response",response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -236,12 +237,14 @@ public void timeviewclick(View v)
                                 .setMessage("Thank You!!! Your appointment id is: "+jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ScheduledMaintenanaceHome.class);
+                                        startActivity(launchActivity1);
                                     }
                                 })
                                 .setIcon(android.R.drawable.ic_dialog_info)
                                 .setCancelable(false)
                                 .show();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -270,8 +273,8 @@ public void timeviewclick(View v)
                 dateviews = (EditText) findViewById(R.id.dateview);
                 date_apmnt = dateviews.getText().toString();
 
-                SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyyy");
-                SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
+                SimpleDateFormat parseFormat1 = new SimpleDateFormat("dd/mm/yyyy");
+                SimpleDateFormat displayFormat1 = new SimpleDateFormat("yyyy-mm-dd");
                 Date date1 = new Date();
                 try {
                     date1 = parseFormat1.parse(date_apmnt);
