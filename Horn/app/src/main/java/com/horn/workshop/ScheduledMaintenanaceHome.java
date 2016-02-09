@@ -45,6 +45,8 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     private Toolbar toolbar;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
+
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,8 +186,7 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // automatically handle clicks on the Home/Up button, so longadd_car_menu/ as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

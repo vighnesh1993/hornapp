@@ -126,6 +126,7 @@
         <activity
             android:name=".ScheduledMaintenanceAppointment"
             android:label="Appointment"
+            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ScheduledMaintenanceAppointment">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
