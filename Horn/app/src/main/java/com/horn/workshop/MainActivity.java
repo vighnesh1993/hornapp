@@ -1,5 +1,6 @@
 package com.horn.workshop;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +20,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -123,6 +126,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                             //Intent ob=new Intent(MainActivity.this,Gcm.class);
                             //startActivity(ob);
+
+
+
+                                    // custom dialog
+                                    final Dialog dialog = new Dialog(MainActivity.this);
+                                    dialog.setContentView(R.layout.custom);
+                                    dialog.setTitle("Choose location from ?");
+
+                                    // set the custom dialog components - text, image and button
+                                    Button btn = (Button) dialog.findViewById(R.id.ok);
+                                    Button btn1 = (Button) dialog.findViewById(R.id.cancel);
+                                   // text.setText("Android custom dialog example!");
+                                   // ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                                    //image.setImageResource(R.drawable.ic_launcher);
+
+                                    // if button is clicked, close the custom dialog
+                            btn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
+
+                                            int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                                            // find the radiobutton by returned id
+                                            RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                                            Toast.makeText(MainActivity.this,
+                                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+                                            dialog.dismiss();
+
+                                        }
+                                    });
+                            btn1.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+
+                                }
+                            });
+
+                                    dialog.show();
+
+
                             Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
                         } else if (position == 4) {
                             Toast.makeText(getApplicationContext(), "Others : " + position, Toast.LENGTH_LONG).show();
