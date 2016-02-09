@@ -57,6 +57,12 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
        // ed.putString("currentLatitude",""+currentLatitude);
         //ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);

@@ -42,6 +42,7 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
     public String make ;
     public String model;
     public String[] sm_service;
+    private Toolbar toolbar;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
 
