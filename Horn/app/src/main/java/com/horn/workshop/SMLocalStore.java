@@ -105,8 +105,25 @@ public class SMLocalStore {
         editor.putString("sm_workshop_name", workshopname);
         editor.commit();
     }
+    public void setProfileAddCar(String car_id)
+    {
+        editor.putString("Profile_Add_Car", car_id);
+        editor.commit();
+    }
+    public void setProfileMyCar(String mycar_id)
+    {
+        editor.putString("Profile_My_Car", mycar_id);
+        editor.commit();
+    }
+    public String getProfileMyCar()
+    {
+        return pref.getString("Profile_My_Car", null);
+    }
 
-
+    public String getProfileAddCar()
+    {
+        return pref.getString("Profile_Add_Car", null);
+    }
     public String getSMservices()
     {
         return pref.getString("sm_Selectedservice", null);
