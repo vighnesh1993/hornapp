@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -50,48 +51,57 @@ import helper.SQLiteHandler;
  * Created by Sariga on 1/18/2016.
  */
 public class ScheduledMaintenanceAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-public String  km_apnmt,vehicle_apnmt,workshopid_apnmt,description_apnmt,customername_apnmt,services_apmnt,date_apmnt,email_apnmt,phone_apnmt, make_apnmt, model_apnmt, regno_apnmt,time_apmnt;
+    public String km_apnmt, vehicle_apnmt, workshopid_apnmt, description_apnmt, customername_apnmt, services_apmnt, date_apmnt, email_apnmt, phone_apnmt, make_apnmt, model_apnmt, regno_apnmt, time_apmnt;
     private SMLocalStore smLocalStore;
-public static EditText timeview,dateviews,timeviews;
+    public static EditText timeview, dateviews, timeviews;
     private SQLiteHandler sqLiteHandler;
 
     private ProgressDialog pDialog;
-   public static final Calendar c = Calendar.getInstance();
+    public static final Calendar c = Calendar.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_appoinment);
-        TextView workshopname= (TextView) findViewById(R.id.apmnt_name);
-        EditText vehicle= (EditText) findViewById(R.id.apmnt_vehicle);
-        EditText km= (EditText) findViewById(R.id.apmnt_km);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView workshopname = (TextView) findViewById(R.id.apmnt_name);
+        EditText vehicle = (EditText) findViewById(R.id.apmnt_vehicle);
+        EditText km = (EditText) findViewById(R.id.apmnt_km);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
-        km.setText(smLocalStore.getSMhome_kms()+" KM");
+        km.setText(smLocalStore.getSMhome_kms() + " KM");
         vehicle.setText(smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
-       timeview=(EditText)findViewById(R.id.apmnt_time);
+        timeview = (EditText) findViewById(R.id.apmnt_time);
 
-           }
-
-
-public void setDateTimeField(View v) {
+    }
 
 
-    DialogFragment newFragment = new DatePickerFragment();
-    newFragment.show(getSupportFragmentManager(), "datePicker");
-    
+    public void setDateTimeField(View v) {
 
- }
+
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+
+
+    }
 
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //do some stuff for example write on log and update TextField on activity
-        month = month+1;
+        month = month + 1;
         ((EditText) findViewById(R.id.dateview)).setText(day + "/" + month + "/" + year);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return true;
     }
 
@@ -105,7 +115,7 @@ public void setDateTimeField(View v) {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id ==R.id.home){
+        } else if (id == R.id.home) {
             this.finish();
             return true;
         }
@@ -118,22 +128,21 @@ public void setDateTimeField(View v) {
         setDateTimeField(v);
     }
 
-public void timeviewclick(View v)
-{
+    public void timeviewclick(View v) {
 
-    //final Calendar c = Calendar.getInstance();
-    int hour = c.get(Calendar.HOUR_OF_DAY);
-    int minute = c.get(Calendar.MINUTE);
-   int am_pm = c.get(Calendar.AM_PM);
-    CustomTimePickerDialog timePickerDialog = new CustomTimePickerDialog(ScheduledMaintenanceAppointment.this, timeSetListener, hour, minute, false);
+        //final Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int am_pm = c.get(Calendar.AM_PM);
+        CustomTimePickerDialog timePickerDialog = new CustomTimePickerDialog(ScheduledMaintenanceAppointment.this, timeSetListener, hour, minute, false);
 
-    timePickerDialog.setTitle("Set the time");
+        timePickerDialog.setTitle("Set the time");
         timePickerDialog.show();
-}
+    }
 
     public static class CustomTimePickerDialog extends TimePickerDialog {
 
-        public static final int TIME_PICKER_INTERVAL=15;
+        public static final int TIME_PICKER_INTERVAL = 15;
 
 
         public CustomTimePickerDialog(Context context, OnTimeSetListener callBack, int hourOfDay, int minute, boolean is24HourView) {
@@ -146,40 +155,36 @@ public void timeviewclick(View v)
             super.onTimeChanged(timePicker, hourOfDay, minute);
 
 
-
-               //minute = getRoundedMinute(minute);
-                c.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                c.set(Calendar.MINUTE,minute);
+            //minute = getRoundedMinute(minute);
+            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            c.set(Calendar.MINUTE, minute);
 
 
 //                timePicker.s
 //                timePicker.setMinute(minute);
- //            timePicker.setCurrentMinute(minute);
-                //timeview.setText(String.format("%02d", hourOfDay) + ":" +String.format("%02d", minute));
-                StringBuilder sb = new StringBuilder();
-                if(hourOfDay>12){
-                    sb.append(hourOfDay-12).append( ":" ).append(String.format("%02d", minute)).append(" PM");
+            //            timePicker.setCurrentMinute(minute);
+            //timeview.setText(String.format("%02d", hourOfDay) + ":" +String.format("%02d", minute));
+            StringBuilder sb = new StringBuilder();
+            if (hourOfDay > 12) {
+                sb.append(hourOfDay - 12).append(":").append(String.format("%02d", minute)).append(" PM");
 
-                }else if(hourOfDay==0){
-                    sb.append("12").append( ":" ).append(String.format("%02d", minute)).append(" AM");
-                }
-                else if(hourOfDay==12){
-                    sb.append("12").append( ":" ).append(String.format("%02d", minute)).append(" PM");
-                }
-                else{
-                    sb.append(hourOfDay).append( ":" ).append(String.format("%02d", minute)).append(" AM");
-                }
-                timeview.setText(sb);
-
+            } else if (hourOfDay == 0) {
+                sb.append("12").append(":").append(String.format("%02d", minute)).append(" AM");
+            } else if (hourOfDay == 12) {
+                sb.append("12").append(":").append(String.format("%02d", minute)).append(" PM");
+            } else {
+                sb.append(hourOfDay).append(":").append(String.format("%02d", minute)).append(" AM");
+            }
+            timeview.setText(sb);
 
 
         }
 
-        public static int getRoundedMinute(int minute){
-            if(minute % TIME_PICKER_INTERVAL != 0){
+        public static int getRoundedMinute(int minute) {
+            if (minute % TIME_PICKER_INTERVAL != 0) {
                 int minuteFloor = minute - (minute % TIME_PICKER_INTERVAL);
                 minute = minuteFloor + (minute == minuteFloor + 1 ? TIME_PICKER_INTERVAL : 0);
-                if (minute == 60)  minute=0;
+                if (minute == 60) minute = 0;
             }
 
             return minute;
@@ -191,30 +196,26 @@ public void timeviewclick(View v)
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-           //minute = CustomTimePickerDialog.getRoundedMinute(minute);
+            //minute = CustomTimePickerDialog.getRoundedMinute(minute);
 
-            c.set(Calendar.HOUR_OF_DAY,hourOfDay);
-            c.set(Calendar.MINUTE,minute);
+            c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            c.set(Calendar.MINUTE, minute);
             StringBuilder sb = new StringBuilder();
-            if(hourOfDay>12){
-                sb.append(hourOfDay-12).append( ":" ).append(String.format("%02d", minute)).append(" PM");
-            }
-            else if(hourOfDay==0){
-                sb.append("12").append( ":" ).append(String.format("%02d", minute)).append(" AM");
-            }
-            else if(hourOfDay==12){
-                sb.append("12").append( ":" ).append(String.format("%02d", minute)).append(" PM");
-            }
-            else{
-                sb.append(hourOfDay).append( ":" ).append(String.format("%02d", minute)).append(" AM");
+            if (hourOfDay > 12) {
+                sb.append(hourOfDay - 12).append(":").append(String.format("%02d", minute)).append(" PM");
+            } else if (hourOfDay == 0) {
+                sb.append("12").append(":").append(String.format("%02d", minute)).append(" AM");
+            } else if (hourOfDay == 12) {
+                sb.append("12").append(":").append(String.format("%02d", minute)).append(" PM");
+            } else {
+                sb.append(hourOfDay).append(":").append(String.format("%02d", minute)).append(" AM");
             }
             timeview.setText(sb);
         }
     };
 
 
-    public void sm_appointment(View v)
-    {
+    public void sm_appointment(View v) {
 
         String strreq = "workshop_appnmt";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
@@ -224,7 +225,7 @@ public void timeviewclick(View v)
                 pDialog.setCancelable(false);
                 pDialog.setMessage("Please wait while we are saving your details");
                 pDialog.show();
-                Log.d("response",response);
+                Log.d("response", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
@@ -233,7 +234,7 @@ public void timeviewclick(View v)
                         pDialog.dismiss();
                         Toast.makeText(ScheduledMaintenanceAppointment.this, "Successfully booked an appointment", Toast.LENGTH_LONG).show();
                         new AlertDialog.Builder(ScheduledMaintenanceAppointment.this)
-                                .setMessage("Thank You!!! Your appointment id is: "+jsonObject.getString("appointment_booked"))
+                                .setMessage("Thank You!!! Your appointment id is: " + jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
@@ -258,11 +259,11 @@ public void timeviewclick(View v)
             @Override
             protected Map<String, String> getParams() {
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
-                km_apnmt = smLocalStore.getSMhome_kms()+"K";
+                km_apnmt = smLocalStore.getSMhome_kms() + "K";
                 vehicle_apnmt = smLocalStore.getSMhome_vehicle();
                 workshopid_apnmt = smLocalStore.getSMworkshopdetail_id();
                 description_apnmt = smLocalStore.getSMdesc();
-               //make_apnmt =
+                //make_apnmt =
                 // model_apnmt =
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
@@ -300,8 +301,8 @@ public void timeviewclick(View v)
                 int booked_on_day = cc.get(Calendar.DAY_OF_MONTH);
                 int booked_on_month = cc.get(Calendar.MONTH);
                 int booked_on_year = cc.get(Calendar.YEAR);
-                int booked_on = booked_on_year+'-'+booked_on_month+'-'+booked_on_day;
-                Log.d("datas",km_apnmt);
+                int booked_on = booked_on_year + '-' + booked_on_month + '-' + booked_on_day;
+                Log.d("datas", km_apnmt);
 
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("workshopid_apnmt", workshopid_apnmt);
@@ -310,13 +311,13 @@ public void timeviewclick(View v)
                 params.put("email_apnmt", email_apnmt);
                 params.put("services_apmnt", services_apmnt);
                 params.put("date_apmnt", date_apmnt1);
-                params.put("description_apnmt",description_apnmt );
+                params.put("description_apnmt", description_apnmt);
                 params.put("km_apnmt", km_apnmt);
                 params.put("vehicle_apnmt", vehicle_apnmt);
-                params.put("time_apmnt",time_apmnt);
+                params.put("time_apmnt", time_apmnt);
                 params.put("appointment_booking", "1");
                 params.put("booked_on", String.valueOf(booked_on));
-                   return params;
+                return params;
             }
 
         };
