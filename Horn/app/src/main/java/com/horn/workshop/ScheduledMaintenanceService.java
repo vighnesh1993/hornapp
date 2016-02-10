@@ -2,6 +2,7 @@ package com.horn.workshop;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -60,6 +63,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     public String[] sm_service_listqty = new String[30];
     public String labour_Charge,washing;
     public String service_list;
+
+
+    String provider;
     private static final String TAG = "SM_service";
     String strreqTAG = "ServiceReqTAG";
     private SMLocalStore smLocalStore;
@@ -75,9 +81,12 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_services);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -110,7 +119,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return true;
     }
 
@@ -167,58 +176,58 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         price_total += Float.parseFloat(washing);
         for (int i = 0; i < sm_service_list.length; i++) {
             try{
-            TableRow row = new TableRow(this);
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-            row.setMinimumHeight(110);
-            row.setLayoutParams(lp);
-            Log.d(TAG, "qty:" + sm_service_listprice[i]);
+                TableRow row = new TableRow(this);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                row.setMinimumHeight(110);
+                row.setLayoutParams(lp);
+                Log.d(TAG, "qty:" + sm_service_listprice[i]);
 
                 price_total += Float.valueOf(sm_service_listprice[i]);
                 final float price_tot = Float.valueOf(sm_service_listprice[i]);
 
 
 
-            check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
-            check[i].setText(Integer.toString(i));
-            check[i].setId(100 + i);
-            check[i].setText(sm_service_list[i]);
-            check[i].setTextColor(Color.parseColor("#000000"));
-            check[i].setChecked(true);
-            row.addView(check[i]);
-            check[i].setId(100 + i);
-            selectedStrings.add(check[i].getText().toString());
-            final String check_selected = check[i].getText().toString();
-            check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
+                check[i].setText(Integer.toString(i));
+                check[i].setId(100 + i);
+                check[i].setText(sm_service_list[i]);
+                check[i].setTextColor(Color.parseColor("#000000"));
+                check[i].setChecked(true);
+                row.addView(check[i]);
+                check[i].setId(100 + i);
+                selectedStrings.add(check[i].getText().toString());
+                final String check_selected = check[i].getText().toString();
+                check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!buttonView.isChecked()) {
-                        price_total -= price_tot;
-                        selectedStrings.remove(check_selected);
-                    } else {
-                        selectedStrings.add(check_selected);
-                        price_total += price_tot;
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (!buttonView.isChecked()) {
+                            price_total -= price_tot;
+                            selectedStrings.remove(check_selected);
+                        } else {
+                            selectedStrings.add(check_selected);
+                            price_total += price_tot;
 
+                        }
+                        //price_total = price_total;
+                        toatl_cost.setText("INR " + price_total);
                     }
-                    //price_total = price_total;
-                    toatl_cost.setText("INR " + price_total);
-                }
-            });
+                });
 
-            TextView price = new TextView(this);
-            TextView qty = new TextView(this);
-            qty.setText(sm_service_listqty[i]);
-            price.setText(sm_service_listprice[i]);
-            price.setPadding(10, 10, 10, 10);
-            qty.setPadding(10, 10, 10, 10);
-            row.addView(qty);
-            row.addView(price);
-            row.setGravity(View.TEXT_ALIGNMENT_CENTER);
-            ll.addView(row, i + 1);
-        }catch (NumberFormatException e)
-        {
-            e.printStackTrace();
-        }
+                TextView price = new TextView(this);
+                TextView qty = new TextView(this);
+                qty.setText(sm_service_listqty[i]);
+                price.setText(sm_service_listprice[i]);
+                price.setPadding(10, 10, 10, 10);
+                qty.setPadding(10, 10, 10, 10);
+                row.addView(qty);
+                row.addView(price);
+                row.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                ll.addView(row, i + 1);
+            }catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+            }
         }
         total = total + price_total;
         //total = total + Float.parseFloat(labour_Charge)+Float.parseFloat(washing);
@@ -238,13 +247,88 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceService.this);
 
                 smLocalStore.setSMservice(labour, total, selectedstring);
-               // Toast.makeText(ScheduledMaintenanceService.this,"here gps",Toast.LENGTH_LONG).show();
+                // Toast.makeText(ScheduledMaintenanceService.this,"here gps",Toast.LENGTH_LONG).show();
 
 
 
-                String provider = Settings.Secure.getString(getContentResolver(),
+                provider = Settings.Secure.getString(getContentResolver(),
                         Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-                if(!provider.equals("")){
+
+
+                final Dialog dialog = new Dialog(ScheduledMaintenanceService.this);
+                dialog.setContentView(R.layout.custom);
+                dialog.setTitle("Choose location from ?");
+
+                // set the custom dialog components - text, image and button
+                Button btn = (Button) dialog.findViewById(R.id.ok);
+                Button btn1 = (Button) dialog.findViewById(R.id.cancel);
+                // text.setText("Android custom dialog example!");
+                // ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                //image.setImageResource(R.drawable.ic_launcher);
+
+                // if button is clicked, close the custom dialog
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
+
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                        // find the radiobutton by returned id
+                        RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                        if(radioButton.getText().equals("Current Location"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceService.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+                            if(!provider.equals("")){
+                                //GPS Enabled
+                                startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
+                            }else{
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ScheduledMaintenanceService.this);
+                                builder.setTitle("Horn");
+                                builder.setMessage("Gps is not enabled.Click Ok to enable");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                                   Toast.makeText(MainActivity.this, "hgsadfasdf", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                builder.show();
+
+                            }
+                        }
+                        else if(radioButton.getText().equals("Choose manually"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceService.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(ScheduledMaintenanceService.this,PlacesAutoCompleteActivity.class));
+
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                });
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.show();
+
+
+                /*if(!provider.equals("")){
                     //GPS Enabled
                     startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
                 }else{
@@ -265,7 +349,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                             });
                     builder.show();
 
-                }
+                }*/
 
 
             }
@@ -311,7 +395,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 //                            }
 //                        }
                         // String[] testt = service_list.split(",");
-                       sm_service_listprice = new String[service_list_qty.length()];
+                        sm_service_listprice = new String[service_list_qty.length()];
                         sm_service_list = new String[service_list_qty.length()];
                         sm_service_listqty = new String[service_list_qty.length()];
                         for (int i = 0; i < service_list_qty.length(); i++) {
@@ -397,8 +481,8 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         pDialog.dismiss();
         String varient_error = smLocalStore.getSMhome_varient();
         String km_error = smLocalStore.getSMhome_kms();
-      //  String varient_check = "1";
-      //  varient_error = (varient_error.equals(varient_check)) ? "Petrol" : "Diesel";
+        //  String varient_check = "1";
+        //  varient_error = (varient_error.equals(varient_check)) ? "Petrol" : "Diesel";
         String vehicle_error = smLocalStore.getSMhome_vehicle();
         new AlertDialog.Builder(ScheduledMaintenanceService.this)
                 .setMessage("No Service is available for " + vehicle_error + " for " + km_error)
@@ -468,4 +552,3 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
 
 }
-

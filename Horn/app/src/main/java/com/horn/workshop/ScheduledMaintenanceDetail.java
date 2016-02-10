@@ -51,19 +51,24 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_detail);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
        // ed.putString("currentLatitude",""+currentLatitude);
         //ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
 
-//        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
-//        String lat = latlog.get("lat");
-//        String log = latlog.get("log");
-//
-//        double d1=Double.parseDouble(lat);
-//        double d2=Double.parseDouble(log);
-//
-//        latLng1=new LatLng(d1,d2);
+        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
+        String lat = latlog.get("lat");
+        String log = latlog.get("log");
+
+        double d1=Double.parseDouble(lat);
+        double d2=Double.parseDouble(log);
+
+        latLng1=new LatLng(d1,d2);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -87,7 +92,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return true;
     }
 
@@ -139,7 +144,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         coordLongitude=Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
                         sw=new ScheduledMaintenanceWorkshoplist();
-                        //dist=sw.getDistance(latLng1,latLng2);
+                        dist=sw.getDistance(latLng1,latLng2);
 
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
@@ -210,8 +215,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         ws_distance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
-//                startActivity(ob);
+                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
+                startActivity(ob);
             }
         });
 

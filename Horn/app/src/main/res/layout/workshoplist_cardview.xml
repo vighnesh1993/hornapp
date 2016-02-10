@@ -64,18 +64,10 @@
                     android:orientation="horizontal"
                     android:layout_alignBottom="@+id/workshopdetail_category"
                     android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/workshopdetail_category">
+                    android:layout_toEndOf="@+id/workshopdetail_category"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="0.5"
-                        android:layout_height="wrap_content"
-                        android:text="24.45 km"
-                        android:layout_gravity="center"
-                        android:id="@+id/ws_distance"
-                        android:gravity="center"
-                        android:textColor="@color/com_facebook_share_button_text_color"
-                        />
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -84,6 +76,16 @@
                         android:tint="@color/icons"
                         android:layout_alignTop="@+id/workshopdetail_category"
                         android:layout_toStartOf="@+id/ws_distance" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="244.45 km"
+                        android:layout_gravity="center"
+                        android:id="@+id/ws_distance"
+                        android:gravity="center"
+                        android:textColor="@color/icons"
+                        />
 
                 </LinearLayout>
             </RelativeLayout>
