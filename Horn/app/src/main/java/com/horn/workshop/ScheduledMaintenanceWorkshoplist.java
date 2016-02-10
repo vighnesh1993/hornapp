@@ -147,7 +147,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
             coordLatitude=Double.parseDouble(part1);
             coordLongitude=Double.parseDouble(part2);
             latLng1 = new LatLng(coordLatitude, coordLongitude);
-         //   distance[i]=getDistance(latLng, latLng1);
+            distance[i]=getDistance(latLng, latLng1);
             // Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
 
           //  Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
