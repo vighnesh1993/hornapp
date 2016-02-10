@@ -80,8 +80,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     private LatLng latLng1;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    SharedPreferences sp;
-    SharedPreferences.Editor ed;
+    private Menu optionsMenu;
 
     //  static View.OnClickListener myOnClickListener;
 
@@ -90,10 +89,12 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_workshoplist);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
 
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -107,14 +108,12 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                 .setInterval(10 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000);
 
-
-
-        search_workshop();
-        // myOnClickListener = new MyOnClickListener(this);
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Searching for workshops ...");
-        pDialog.show();
+        search_workshop();
+        // myOnClickListener = new MyOnClickListener(this);
+
     }
 
     //    public void new_activity_launch(String workshopid)
@@ -237,7 +236,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main2, menu);
+        getMenuInflater().inflate(R.menu.refresh_menu, menu);
         return true;
     }
 
@@ -249,7 +248,8 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
+            search_workshop();
             return true;
         }else if(id ==R.id.home){
             this.finish();
@@ -259,6 +259,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         return super.onOptionsItemSelected(item);
     }
     public void search_workshop() {
+        pDialog.show();
     /*
     *Datas from DB starts
     */
@@ -307,8 +308,8 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
 
                         }
-                        pDialog.dismiss();
                         search_workshop_display();
+                        pDialog.dismiss();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -319,6 +320,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(ScheduledMaintenanceWorkshoplist.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        pDialog.dismiss();
                     }
                 }) {
 
@@ -401,6 +403,5 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     /*
     *Datas from db ends
      */
-
 }
 
