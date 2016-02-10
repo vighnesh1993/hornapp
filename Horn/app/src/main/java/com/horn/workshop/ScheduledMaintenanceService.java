@@ -2,6 +2,7 @@ package com.horn.workshop;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -60,6 +63,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     public String[] sm_service_listqty = new String[30];
     public String labour_Charge,washing;
     public String service_list;
+
+
+    String provider;
     private static final String TAG = "SM_service";
     String strreqTAG = "ServiceReqTAG";
     private SMLocalStore smLocalStore;
@@ -242,9 +248,84 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
 
 
-                String provider = Settings.Secure.getString(getContentResolver(),
+                provider = Settings.Secure.getString(getContentResolver(),
                         Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-                if(!provider.equals("")){
+
+
+                final Dialog dialog = new Dialog(ScheduledMaintenanceService.this);
+                dialog.setContentView(R.layout.custom);
+                dialog.setTitle("Choose location from ?");
+
+                // set the custom dialog components - text, image and button
+                Button btn = (Button) dialog.findViewById(R.id.ok);
+                Button btn1 = (Button) dialog.findViewById(R.id.cancel);
+                // text.setText("Android custom dialog example!");
+                // ImageView image = (ImageView) dialog.findViewById(R.id.image);
+                //image.setImageResource(R.drawable.ic_launcher);
+
+                // if button is clicked, close the custom dialog
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
+
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                        // find the radiobutton by returned id
+                        RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                        if(radioButton.getText().equals("Current Location"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceService.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+                            if(!provider.equals("")){
+                                //GPS Enabled
+                                startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
+                            }else{
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ScheduledMaintenanceService.this);
+                                builder.setTitle("Horn");
+                                builder.setMessage("Gps is not enabled.Click Ok to enable");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                                   Toast.makeText(MainActivity.this, "hgsadfasdf", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                builder.show();
+
+                            }
+                        }
+                        else if(radioButton.getText().equals("Choose manually"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceService.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(ScheduledMaintenanceService.this,PlacesAutoCompleteActivity.class));
+
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                });
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.show();
+
+
+                /*if(!provider.equals("")){
                     //GPS Enabled
                     startActivity(new Intent(ScheduledMaintenanceService.this, ScheduledMaintenanceWorkshoplist.class));
                 }else{
@@ -265,7 +346,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                             });
                     builder.show();
 
-                }
+                }*/
 
 
             }
