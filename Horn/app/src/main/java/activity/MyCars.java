@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,6 +29,7 @@ import com.horn.workshop.SMLocalStore;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,69 +71,79 @@ public class MyCars extends AppCompatActivity {
         pDialog.setCancelable(false);
         show_mycars();
     }
-public void show_mycars()
-{
-    pDialog.show();
+    public void show_mycars()
+    {
+        pDialog.show();
     /*
     *Datas from DB starts
     */
-    String strreq = "req";
+        String strreq = "req";
 
-    //final ProgressDialog loading;
+        //final ProgressDialog loading;
 
-    StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
-        @Override
-        public void onResponse(String response) {
-            Log.d("sdsdsd", "car Response: " + response);
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                if (jsonObject != null) {
-                    int len = jsonObject.length();
-                    JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
-                    JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
-                    JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
-                    nameArray = new String[nameArrayj.length()];
-                    carImageArray = new String[carImageArrayj.length()];
-                    carIdArray = new String[carIdArrayj.length()];
-                    for (int i = 0; i < nameArrayj.length(); i++) {
-                        nameArray[i] = nameArrayj.getString(i);
-                        carImageArray[i] = carImageArrayj.getString(i);
-                        carIdArray[i] = carIdArrayj.getString(i);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("sdsdsd", "car Response: " + response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject != null) {
+                        int len = jsonObject.length();
+                        String status_car = jsonObject.getString("status");
+                        Log.d("stat",status_car);
+                        if(status_car.equals("Have_cars")) {
+                            JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
+                            JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
+                            JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                            nameArray = new String[nameArrayj.length()];
+                            carImageArray = new String[carImageArrayj.length()];
+                            carIdArray = new String[carIdArrayj.length()];
+                            for (int i = 0; i < nameArrayj.length(); i++) {
+                                nameArray[i] = nameArrayj.getString(i);
+                                carImageArray[i] = carImageArrayj.getString(i);
+                                carIdArray[i] = carIdArrayj.getString(i);
+                            }
+
+                            mycarsDisplay();
+                        }
+                        else
+                        {
+
+                            Toast.makeText(MyCars.this, "You have not yet added any cars", Toast.LENGTH_LONG).show();
+                        }
                     }
-                    pDialog.dismiss();
-                    mycarsDisplay();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
-    },
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pDialog.dismiss();
-                    Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }) {
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pDialog.dismiss();
+                        Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
 
-        @Override
-        protected Map<String, String> getParams() {
-            String get_mycars = "get_mycars";
-            sqLiteHandler = new SQLiteHandler(MyCars.this);
-            HashMap<String, String> user = sqLiteHandler.getUserDetails();
-            String  apmnt_user_email = user.get("email");
-            // Posting parameters to login url
-            Map<String, String> params = new HashMap<String, String>();
-            params.put("get_mycars", get_mycars);
-            params.put("get_mycars_email", apmnt_user_email);
-            return params;
-        }
+            @Override
+            protected Map<String, String> getParams() {
+                pDialog.dismiss();
+                String get_mycars = "get_mycars";
+                sqLiteHandler = new SQLiteHandler(MyCars.this);
+                HashMap<String, String> user = sqLiteHandler.getUserDetails();
+                String  apmnt_user_email = user.get("email");
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("get_mycars", get_mycars);
+                params.put("get_mycars_email", apmnt_user_email);
+                return params;
+            }
 
-    };
+        };
 
 
-    AppController.getInstance().addToRequestQueue(stringRequest, strreq);
-}
+        AppController.getInstance().addToRequestQueue(stringRequest, strreq);
+    }
     public void mycarsDisplay()
     {
         rCarView = (RecyclerView) findViewById(R.id.my_car_rView);
@@ -158,8 +170,8 @@ public void show_mycars()
                         String car_id = carData.getCarId();
                         smLocalStore = new SMLocalStore(MyCars.this);
                         smLocalStore.setProfileMyCar(car_id);
-                       Intent intent1 = new Intent(MyCars.this,MyCarDetail.class);
-                       startActivity(intent1);
+                        Intent intent1 = new Intent(MyCars.this,MyCarDetail.class);
+                        startActivity(intent1);
                         //  Toast.makeText(getApplicationContext(), "" + car_id, Toast.LENGTH_LONG).show();
 
                     }
