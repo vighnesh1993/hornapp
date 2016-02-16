@@ -245,10 +245,10 @@
             android:name="activity.AddCar"
             android:label="@string/label_add_car"
             android:theme="@style/AppTheme.CustomBarTheme"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="activity.AddCar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value="activity.AddCar" />
         </activity>
     </application>
 

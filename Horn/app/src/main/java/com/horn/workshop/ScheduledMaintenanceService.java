@@ -163,6 +163,9 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 //        qtyh.setWidth(200);
 //        priceh.setWidth(100);
 //        sericeh.setWidth(400);
+        qtyh.setPadding(15, 0, 15, 0);
+        priceh.setPadding(15,0,15,0);
+       sericeh.setPadding(15,0,15,0);
         sericeh.setGravity(Gravity.CENTER_VERTICAL);
         qtyh.setText("Quantity");
         priceh.setText("Price");
@@ -218,8 +221,8 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 TextView qty = new TextView(this);
                 qty.setText(sm_service_listqty[i]);
                 price.setText(sm_service_listprice[i]);
-                price.setPadding(10, 10, 10, 10);
-                qty.setPadding(10, 10, 10, 10);
+                price.setPadding(15, 10, 15, 10);
+                qty.setPadding(15, 10, 15, 10);
                 row.addView(qty);
                 row.addView(price);
                 row.setGravity(View.TEXT_ALIGNMENT_CENTER);

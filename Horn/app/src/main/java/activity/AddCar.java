@@ -92,21 +92,6 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
     adapter = new AddCarAdapter(carDatas);
     rCarView.setAdapter(adapter);
 
-    rCarView.addOnItemTouchListener(
-            new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-        @Override
-        public void onItemClick(View view, int position) {
-            CarData carData = carDatas.get(position);
-            String car_id = carData.getCarId();
-            smLocalStore = new SMLocalStore(AddCar.this);
-            smLocalStore.setProfileAddCar(car_id);
-            Intent intent1 = new Intent(AddCar.this,ProfileAddCar.class);
-            startActivity(intent1);
-            //  Toast.makeText(getApplicationContext(), "" + car_id, Toast.LENGTH_LONG).show();
-
-        }
-    })
-            );
 }
 
     @Override
