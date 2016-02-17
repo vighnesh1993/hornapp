@@ -39,6 +39,7 @@ import java.util.HashMap;
 
 import activity.ChoiceLogin;
 import activity.MyCars;
+import activity.MyProfile;
 import app.AppController;
 import helper.ServicesManager;
 import helper.SQLiteHandler;
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+            startActivity(new Intent(MainActivity.this, MyProfile.class));
         } else if (id == R.id.nav_cars) {
             startActivity(new Intent(MainActivity.this, MyCars.class));
         } else if (id == R.id.nav_about) {

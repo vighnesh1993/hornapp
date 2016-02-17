@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,12 +50,14 @@ public class MyCars extends AppCompatActivity {
 
     private Toolbar toolbar;
     ProgressDialog pDialog;
-    String [] nameArray,carImageArray,carIdArray;
+    String[] nameArray, carImageArray, carIdArray;
     RecyclerView rCarView;
     SMLocalStore smLocalStore;
     public static ArrayList<CarData> carDatas;
     private MyCarAdapter adapter;
     SQLiteHandler sqLiteHandler;
+    TextView noCarsFound;
+    ImageView noCarsImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +69,17 @@ public class MyCars extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        noCarsFound = (TextView) findViewById(R.id.nocars_founf_txt);
+        noCarsImg = (ImageView) findViewById(R.id.no_cars_img);
+
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
         show_mycars();
     }
-    public void show_mycars()
-    {
+
+    public void show_mycars() {
         pDialog.show();
     /*
     *Datas from DB starts
@@ -90,8 +97,10 @@ public class MyCars extends AppCompatActivity {
                     if (jsonObject != null) {
                         int len = jsonObject.length();
                         String status_car = jsonObject.getString("status");
-                        Log.d("stat",status_car);
-                        if(status_car.equals("Have_cars")) {
+                        Log.d("stat", status_car);
+                        if (status_car.equals("Have_cars")) {
+                            noCarsFound.setVisibility(View.GONE);
+                            noCarsImg.setVisibility(View.GONE);
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
@@ -103,13 +112,13 @@ public class MyCars extends AppCompatActivity {
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
                             }
-
                             mycarsDisplay();
-                        }
-                        else
-                        {
 
+                        } else {
+                            noCarsFound.setVisibility(View.VISIBLE);
+                            noCarsImg.setVisibility(View.VISIBLE);
                             Toast.makeText(MyCars.this, "You have not yet added any cars", Toast.LENGTH_LONG).show();
+                            pDialog.dismiss();
                         }
                     }
                 } catch (JSONException e) {
@@ -131,7 +140,7 @@ public class MyCars extends AppCompatActivity {
                 String get_mycars = "get_mycars";
                 sqLiteHandler = new SQLiteHandler(MyCars.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  apmnt_user_email = user.get("email");
+                String apmnt_user_email = user.get("email");
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("get_mycars", get_mycars);
@@ -144,8 +153,8 @@ public class MyCars extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
-    public void mycarsDisplay()
-    {
+
+    public void mycarsDisplay() {
         rCarView = (RecyclerView) findViewById(R.id.my_car_rView);
         rCarView.setHasFixedSize(true);
         rCarView.setLayoutManager(new LinearLayoutManager(this));
@@ -170,14 +179,16 @@ public class MyCars extends AppCompatActivity {
                         String car_id = carData.getCarId();
                         smLocalStore = new SMLocalStore(MyCars.this);
                         smLocalStore.setProfileMyCar(car_id);
-                        Intent intent1 = new Intent(MyCars.this,MyCarDetail.class);
+                        Intent intent1 = new Intent(MyCars.this, MyCarDetail.class);
                         startActivity(intent1);
                         //  Toast.makeText(getApplicationContext(), "" + car_id, Toast.LENGTH_LONG).show();
 
                     }
                 })
         );
+        pDialog.dismiss();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

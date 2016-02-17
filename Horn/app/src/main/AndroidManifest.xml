@@ -245,6 +245,15 @@
             android:name="activity.AddCar"
             android:label="@string/label_add_car"
             android:theme="@style/AppTheme.CustomBarTheme"
+            android:parentActivityName="activity.MyCars">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="activity.MyCars" />
+        </activity>
+        <activity
+            android:name="activity.MyProfile"
+            android:label="@string/label_my_profile"
+            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
