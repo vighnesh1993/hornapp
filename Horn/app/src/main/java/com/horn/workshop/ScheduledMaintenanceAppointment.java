@@ -74,7 +74,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
         EditText km = (EditText) findViewById(R.id.apmnt_km);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
         km.setText(smLocalStore.getSMhome_kms() + " KM");
-        vehicle.setText(smLocalStore.getSMhome_vehicle());
+        vehicle.setText(smLocalStore.getSMhome_make()+' '+smLocalStore.getSMhome_model()+' '+smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
         timeview = (EditText) findViewById(R.id.apmnt_time);
 
@@ -260,8 +260,8 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 vehicle_apnmt = smLocalStore.getSMhome_vehicle();
                 workshopid_apnmt = smLocalStore.getSMworkshopdetail_id();
                 description_apnmt = smLocalStore.getSMdesc();
-                //make_apnmt =
-                // model_apnmt =
+                make_apnmt = smLocalStore.getSMhome_make();
+                 model_apnmt = smLocalStore.getSMhome_model();
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
@@ -312,6 +312,8 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 params.put("km_apnmt", km_apnmt);
                 params.put("vehicle_apnmt", vehicle_apnmt);
                 params.put("time_apmnt", time_apmnt);
+                params.put("make_apmnt", make_apnmt);
+                params.put("model_apmnt", model_apnmt);
                 params.put("appointment_booking", "1");
                 params.put("booked_on", String.valueOf(booked_on));
                 return params;

@@ -30,7 +30,7 @@ import helper.SQLiteHandler;
  */
 public class MyCarDetail extends AppCompatActivity {
     public SMLocalStore smLocalStore;
-    TextView car_id,car_names,car_make,car_model,car_varient;
+    TextView car_id,car_names,car_make,car_model,car_varient,car_vehicle;
     ImageView car_image;
     SQLiteHandler sqLiteHandler;
     ProgressDialog pDialog;
@@ -59,6 +59,7 @@ public class MyCarDetail extends AppCompatActivity {
                         String car_models = jsonObject.getString("car_model");
                         String car_images = jsonObject.getString("car_image");
                         String car_varients = jsonObject.getString("car_varient");
+                        String car_vehicles = jsonObject.getString("car_vehicle");
                         switch(car_varients)
                         {
                             case "0" : car_varients = "Petrol"; break;
@@ -69,10 +70,12 @@ public class MyCarDetail extends AppCompatActivity {
                         car_make = (TextView) findViewById(R.id.mycar_make);
                         car_model = (TextView) findViewById(R.id.mycar_model);
                         car_varient = (TextView) findViewById(R.id.mycar_varient);
+                        car_vehicle = (TextView) findViewById(R.id.mycar_vehicle);
                         car_image = (ImageView) findViewById(R.id.mycar_photo);
                         car_make.setText(car_makes);
                         car_model.setText(car_models);
                         car_names.setText(car_namess);
+                        car_vehicle.setText(car_vehicles);
                         car_varient.setText(car_varients);
 
                         String url = "http://blueripples.org/horn/app_server/cars/"+car_images+"";
