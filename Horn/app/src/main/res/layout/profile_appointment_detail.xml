@@ -176,7 +176,44 @@
                         android:textSize="14dp" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/apmntvehicle_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Vehicle"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_10"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntvehicle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

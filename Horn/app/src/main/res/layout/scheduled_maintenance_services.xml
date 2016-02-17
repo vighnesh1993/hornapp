@@ -5,9 +5,9 @@
     android:background="@color/off_white"
     android:orientation="vertical">
 
-    <include
+   <!-- <include
         android:id="@+id/my_tool_bar"
-        layout="@layout/my_tool_bar" />
+        layout="@layout/my_tool_bar" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rounded_cor_white_bg"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -138,23 +138,57 @@
 
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
 
-                    <Button
-                        android:id="@+id/search_wrkshop_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingBottom="10dp"
-                        android:visibility="gone"
-                        android:text="Search Workshops"
-                        android:layout_marginBottom="10dp" />
-                </LinearLayout>
             </LinearLayout>
         </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_cor_white_bg"
+            android:orientation="vertical"
+            android:padding="10dp">
 
 
+                <TextView
+                    android:id="@+id/sm_suggestion_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textStyle="bold"
+                    android:text="Any suggestion / complaints"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/sm_suggestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/search_wrkshop_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:text="Search Workshops"
+                android:layout_marginBottom="10dp" />
+        </RelativeLayout>
     </LinearLayout>
+
+
 </RelativeLayout>

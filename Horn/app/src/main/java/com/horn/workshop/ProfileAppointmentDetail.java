@@ -53,6 +53,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         String kilometers = jsonObject.getString("kilometers");
                         String status = jsonObject.getString("status");
                         String appointment_on = jsonObject.getString("appointment_on");
+                        String vehicle_name = jsonObject.getString("vehicle_name");
                         String id = jsonObject.getString("id");
                         String services_list = "";
                         for(int i=0;i<service.length();i++)
@@ -68,6 +69,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         TextView apmntdetails = (TextView) findViewById(R.id.apmntdetails);
                         TextView apmntservices = (TextView) findViewById(R.id.apmntservices);
                         TextView apmnttime = (TextView) findViewById(R.id.apmnttime);
+                        TextView apmntvehicle = (TextView) findViewById(R.id.apmntvehicle);
 
                         SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
                         SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyy");
@@ -101,6 +103,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         apmntdetails.setText(work_details);
                         apmntservices.setText(services_list);
                         apmnttime.setText(time1);
+                        apmntvehicle.setText(vehicle_name);
 
 
                     }

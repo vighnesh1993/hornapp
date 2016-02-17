@@ -35,7 +35,7 @@ import helper.SQLiteHandler;
  */
 public class ProfileAddCar extends AppCompatActivity {
     public SMLocalStore smLocalStore;
-    TextView car_id,car_names,car_make,car_model,car_varient;
+    TextView car_id,car_names,car_make,car_model,car_varient,car_vehicle;
     ImageView car_image;
     Button add_car;
     SQLiteHandler sqLiteHandler;
@@ -65,6 +65,7 @@ public class ProfileAddCar extends AppCompatActivity {
                        String car_models = jsonObject.getString("car_model");
                        String car_images = jsonObject.getString("car_image");
                        String car_varients = jsonObject.getString("car_varient");
+                        String car_vehicles = jsonObject.getString("car_vehicle");
                         switch(car_varients)
                         {
                             case "0" : car_varients = "Petrol"; break;
@@ -75,11 +76,13 @@ public class ProfileAddCar extends AppCompatActivity {
                         car_make = (TextView) findViewById(R.id.addcar_make);
                         car_model = (TextView) findViewById(R.id.addcar_model);
                         car_varient = (TextView) findViewById(R.id.addcar_varient);
+                        car_vehicle = (TextView) findViewById(R.id.addcar_vehicle);
                         car_image = (ImageView) findViewById(R.id.addcar_photo);
                         car_make.setText(car_makes);
                         car_model.setText(car_models);
                         car_names.setText(car_namess);
                         car_varient.setText(car_varients);
+                        car_vehicle.setText(car_vehicles);
 
                         String url = "http://blueripples.org/horn/app_server/cars/"+car_images+"";
                         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
