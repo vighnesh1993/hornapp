@@ -250,6 +250,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="activity.AddCar" />
         </activity>
+        <activity
+            android:name=".ScheduledMaintenanceScreen"
+            android:label="Scheduled Maintenance"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:parentActivityName=".ScheduledMaintenanceScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceScreen" />
+        </activity>
     </application>
 
 </manifest>

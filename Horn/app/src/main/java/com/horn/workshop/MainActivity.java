@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onItemClick(View view, int position) {
                         if (position == 0) {
-                            Intent intent1 = new Intent(MainActivity.this, ScheduledMaintenanaceHome.class);
+                            Intent intent1 = new Intent(MainActivity.this, ScheduledMaintenanceScreen.class);
                             startActivity(intent1);
                             //Toast.makeText(getApplicationContext(),"Scheduled Maintenance : " +position,Toast.LENGTH_LONG).show();
                         } else if (position == 1) {
