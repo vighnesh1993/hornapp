@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,6 +42,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 import app.AppConfig;
 import app.AppController;
@@ -81,6 +83,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Menu optionsMenu;
+    private UserLocalStore userLocalStore;
 
     //  static View.OnClickListener myOnClickListener;
 
@@ -92,21 +95,40 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
-
+        smLocalStore=new SMLocalStore(this);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        userLocalStore=new UserLocalStore(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .addApi(AppIndex.API).build();
+        String latlng=userLocalStore.getManualLocationLatlong();
+        if(!latlng.equals(""))
+        {
 
-        // Create the LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000);
+            String[] ltlg = latlng.split(",");
+            String ltlg1 = ltlg[0]; // 004
+            String ltlg2 = ltlg[1];
+
+            Double ltt=Double.parseDouble(ltlg1);
+            Double lgg=Double.parseDouble(ltlg2);
+
+            latLng = new LatLng(ltt,lgg);
+            smLocalStore.setSmwCurrentLatlng(ltlg1,ltlg2);
+        }
+        else
+        {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .addApi(AppIndex.API).build();
+
+            // Create the LocationRequest object
+            mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                    .setFastestInterval(1 * 1000);
+
+        }
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -133,24 +155,20 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         workshop = new ArrayList<WorkshopDatas>();
         for (int i = 0; i < nameArray.length; i++) {
-           // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
 
 
             String[] parts = coordinateArray[i].split(",");
             String part1 = parts[0]; // 004
             String part2 = parts[1];
 
-            //Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
-
-            // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
-
-//            coordLatitude=Double.parseDouble(part1);
-//            coordLongitude=Double.parseDouble(part2);
-//            latLng1 = new LatLng(coordLatitude, coordLongitude);
-//            distance[i]=getDistance(latLng, latLng1);
+            coordLatitude=Double.parseDouble(part1);
+            coordLongitude=Double.parseDouble(part2);
+            latLng1 = new LatLng(coordLatitude, coordLongitude);
+            distance[i]=getDistance(latLng, latLng1);
             // Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
 
-          //  Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
+            //  Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
 
             workshop.add(new WorkshopDatas(
                     nameArray[i],
@@ -169,48 +187,51 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         recyclerView.setAdapter(adapter);
     }
 
-   // public String getDistance(LatLng origin, LatLng dest) {
-//        Location l1=new Location("One");
-//        l1.setLatitude(origin.latitude);
-//        l1.setLongitude(origin.longitude);
-//
-//        Location l2=new Location("Two");
-//        l2.setLatitude(dest.latitude);
-//        l2.setLongitude(dest.longitude);
-//
-//        float distance=l1.distanceTo(l2);
-//        String dist=distance+" M";
-//
-//        if(distance>1000.0f)
-//        {
-//            distance=distance/1000.0f;
-//
-//
-//            DecimalFormat df = new DecimalFormat("#.##");
-//            double di = Double.valueOf(df.format(distance));
-//
-//            dist=di+" KM";
-//        }
-//        return dist;
+    public String getDistance(LatLng origin, LatLng dest) {
+        Location l1=new Location("One");
+        l1.setLatitude(origin.latitude);
+        l1.setLongitude(origin.longitude);
 
-  //  }
+        Location l2=new Location("Two");
+        l2.setLatitude(dest.latitude);
+        l2.setLongitude(dest.longitude);
+
+        float distance=l1.distanceTo(l2);
+        String dist=distance+" M";
+
+        if(distance>1000.0f)
+        {
+            distance=distance/1000.0f;
+
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            double di = Double.valueOf(df.format(distance));
+
+            dist=di+" KM";
+        }
+        return dist;
+
+    }
     public void onStart() {
         super.onStart();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        mGoogleApiClient.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Maps Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.horn.workshop/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
+        String latlng=userLocalStore.getManualLocationLatlong();
+        if(latlng.equals("")) {
+            mGoogleApiClient.connect();
+            Action viewAction = Action.newAction(
+                    Action.TYPE_VIEW, // TODO: choose an action type.
+                    "Maps Page", // TODO: Define a title for the content shown.
+                    // TODO: If you have web page content that matches this app activity's content,
+                    // make sure this auto-generated web page URL is correct.
+                    // Otherwise, set the URL to null.
+                    Uri.parse("http://host/path"),
+                    // TODO: Make sure this auto-generated app deep link URI is correct.
+                    Uri.parse("android-app://com.horn.workshop/http/host/path")
+            );
+            AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
+        }
     }
 
     private void handleNewLocation(Location location) {
@@ -218,20 +239,12 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
         currentLatitude = location.getLatitude();
         currentLongitude = location.getLongitude();
-        smLocalStore=new SMLocalStore(this);
+
 
         smLocalStore.setSmwCurrentLatlng(""+currentLatitude,""+currentLongitude);
 
         latLng = new LatLng(currentLatitude, currentLongitude);
 
-
-        //latLng = new LatLng(8.499586,76.959026);
-
-        Log.d("latttttttttttt",""+currentLatitude);
-        Log.d("lnggggggggggg ",""+currentLongitude);
-
-       // Toast.makeText(getApplicationContext(),"lat:"+currentLatitude,Toast.LENGTH_LONG).show();
-       // Toast.makeText(getApplicationContext(),"log:"+currentLongitude,Toast.LENGTH_LONG).show();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -260,13 +273,8 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     }
     public void search_workshop() {
         pDialog.show();
-    /*
-    *Datas from DB starts
-    */
+
         String strreq = "req";
-
-        //final ProgressDialog loading;
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_WORKSHOPDATA, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -335,7 +343,10 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
             }
 
         };
-
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
@@ -346,12 +357,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -393,15 +399,16 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
-
-
     @Override
     protected void onResume() {
         super.onResume();
-        mGoogleApiClient.connect();
+        String latlng=userLocalStore.getManualLocationLatlong();
+        if(latlng.equals("")) {
+
+            mGoogleApiClient.connect();
+        }
+
     }
-    /*
-    *Datas from db ends
-     */
+
 }
 
