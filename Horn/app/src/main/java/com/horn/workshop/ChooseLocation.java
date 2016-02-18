@@ -45,13 +45,20 @@ public class ChooseLocation extends AppCompatActivity {
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                turnGPSOn();
-                startActivity(new Intent(ChooseLocation.this, MainActivity.class));
+                //turnGPSOn();
+
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                //startActivity(new Intent(ChooseLocation.this, MainActivity.class));
             }
         });
 
-
-
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent dialogIntent = new Intent(this, MainActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(dialogIntent);
     }
     public void turnGPSOn()
     {
