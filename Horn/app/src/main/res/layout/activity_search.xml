@@ -43,7 +43,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NEXT"
+        android:text="OK"
+        android:background="@color/accent"
         android:layout_alignBottom="@+id/recyclerView"
         android:id="@+id/nextbtn"/>
 

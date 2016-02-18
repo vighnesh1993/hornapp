@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-</RelativeLayout>
+    </RelativeLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -40,14 +40,13 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/ic_logggo" />
 </RelativeLayout>
 
     <!--
 
     </android.support.design.widget.CoordinatorLayout>-->
+

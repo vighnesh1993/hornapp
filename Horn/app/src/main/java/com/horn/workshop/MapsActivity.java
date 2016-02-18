@@ -58,9 +58,11 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     ArrayList<LatLng> markerPoints;
     SMLocalStore smLocalStore;
+
+    String workshop;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final String TAG = MapsActivity.class.getSimpleName();
-
+    public static final float hgghg = 235.0F;
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,16 @@ public class MapsActivity extends FragmentActivity implements
         toolbar.setTitle("Routing");
         toolbar.setTitleTextColor(Color.WHITE);
 
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        Intent ob = getIntent();
+        workshop = ob.getStringExtra("workshop");
+
+        mMap.getUiSettings().setTiltGesturesEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
         //getActionBar().hide();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -267,12 +278,20 @@ public class MapsActivity extends FragmentActivity implements
 
         if(markerPoints.size()==1)
         {
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            mMap.addMarker(markerOptions);
+            //markerOptions.icon(BitmapDescriptorFactory.(Color.parseColor("#f1d600"));
+
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+            //markerOptions.icon(BitmapDescriptorFactory.fromFile(String.valueOf(Color.parseColor("#ffffff"))));
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.addMarker(markerOptions).showInfoWindow();
         }else if(markerPoints.size()==2)
         {
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-            mMap.addMarker(markerOptions).setTitle("Destination");
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
+            markerOptions.title(workshop);
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.addMarker(markerOptions).showInfoWindow();
 
         }
 
@@ -458,8 +477,10 @@ public class MapsActivity extends FragmentActivity implements
 
                 // Adding all the points in the route to LineOptions
                 lineOptions.addAll(points);
-                lineOptions.width(2);
-                lineOptions.color(Color.RED);
+                lineOptions.width(8);
+                //lineOptions.color(Color.RED);
+
+                lineOptions.color(Color.parseColor("#3F51B5"));
             }
            // Toast.makeText(getApplicationContext(), "Distance:" + distance + ", Duration:" + duration, Toast.LENGTH_LONG);
 

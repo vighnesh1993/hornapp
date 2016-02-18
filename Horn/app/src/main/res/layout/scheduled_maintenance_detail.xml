@@ -85,7 +85,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:text="24.45 km"
+                        android:text="Loading..."
                         android:id="@+id/ws_distance"
                         android:gravity="center"
                         android:textColor="@color/com_facebook_share_button_text_color"

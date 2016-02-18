@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.horn.workshop.ChooseLocation;
 import com.horn.workshop.MainActivity;
 import com.horn.workshop.R;
 import com.horn.workshop.UserLocalStore;
@@ -211,8 +213,16 @@ public class Login extends AppCompatActivity {
                         //db.updateUser(name, email, phone, uid, created_at);
 
                         // Launch main activity
-                        startActivity(new Intent(Login.this, MainActivity.class));
-                        finish();
+
+                        if(getGpsStatus()){
+                            startActivity(new Intent(Login.this, ChooseLocation.class));
+                            finish();
+
+                        }else{
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                            finish();
+                        }
+
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
@@ -261,5 +271,12 @@ public class Login extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    private boolean getGpsStatus(){
+
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        return provider.equals("");
     }
 }

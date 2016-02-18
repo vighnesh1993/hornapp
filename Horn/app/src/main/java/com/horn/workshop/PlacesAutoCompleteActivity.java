@@ -57,7 +57,7 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "hii", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(PlacesAutoCompleteActivity.this,ScheduledMaintenanceWorkshoplist.class));
+                startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
 
             }
         });

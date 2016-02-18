@@ -157,13 +157,21 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         for (int i = 0; i < nameArray.length; i++) {
             // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
 
+            try
+            {
+                String[] parts = coordinateArray[i].split(",");
+                String part1 = parts[0]; // 004
+                String part2 = parts[1];
+                Log.e("part1 :",parts[0]);
+                Log.e("part2 :",parts[1]);
 
-            String[] parts = coordinateArray[i].split(",");
-            String part1 = parts[0]; // 004
-            String part2 = parts[1];
-
-            coordLatitude=Double.parseDouble(part1);
-            coordLongitude=Double.parseDouble(part2);
+                coordLatitude=Double.parseDouble(part1);
+                coordLongitude=Double.parseDouble(part2);
+            }
+            catch (Exception e)
+            {
+                Log.e("Exception :",""+e);
+            }
             latLng1 = new LatLng(coordLatitude, coordLongitude);
             distance[i]=getDistance(latLng, latLng1);
             // Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
@@ -177,7 +185,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                     categoryArray[i],
                     profilepicArray[i],
                     workshopidArray[i],
-                    ratingArray[i],distance[i]
+                    ratingArray[i], distance[i]
             ));
         }
 
