@@ -10,7 +10,9 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/add_car_rView"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_below="@+id/my_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:context="com.horn.workshop.Addcar"/>
 </RelativeLayout>

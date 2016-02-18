@@ -144,10 +144,10 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
             // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
 
-            coordLatitude=Double.parseDouble(part1);
-            coordLongitude=Double.parseDouble(part2);
-            latLng1 = new LatLng(coordLatitude, coordLongitude);
-         //   distance[i]=getDistance(latLng, latLng1);
+//            coordLatitude=Double.parseDouble(part1);
+//            coordLongitude=Double.parseDouble(part2);
+//            latLng1 = new LatLng(coordLatitude, coordLongitude);
+//            distance[i]=getDistance(latLng, latLng1);
             // Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
 
           //  Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
@@ -169,31 +169,31 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         recyclerView.setAdapter(adapter);
     }
 
-    public String getDistance(LatLng origin, LatLng dest) {
-        Location l1=new Location("One");
-        l1.setLatitude(origin.latitude);
-        l1.setLongitude(origin.longitude);
+   // public String getDistance(LatLng origin, LatLng dest) {
+//        Location l1=new Location("One");
+//        l1.setLatitude(origin.latitude);
+//        l1.setLongitude(origin.longitude);
+//
+//        Location l2=new Location("Two");
+//        l2.setLatitude(dest.latitude);
+//        l2.setLongitude(dest.longitude);
+//
+//        float distance=l1.distanceTo(l2);
+//        String dist=distance+" M";
+//
+//        if(distance>1000.0f)
+//        {
+//            distance=distance/1000.0f;
+//
+//
+//            DecimalFormat df = new DecimalFormat("#.##");
+//            double di = Double.valueOf(df.format(distance));
+//
+//            dist=di+" KM";
+//        }
+//        return dist;
 
-        Location l2=new Location("Two");
-        l2.setLatitude(dest.latitude);
-        l2.setLongitude(dest.longitude);
-
-        float distance=l1.distanceTo(l2);
-        String dist=distance+" M";
-
-        if(distance>1000.0f)
-        {
-            distance=distance/1000.0f;
-
-
-            DecimalFormat df = new DecimalFormat("#.##");
-            double di = Double.valueOf(df.format(distance));
-
-            dist=di+" KM";
-        }
-        return dist;
-
-    }
+  //  }
     public void onStart() {
         super.onStart();
 

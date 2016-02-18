@@ -27,6 +27,7 @@ public class ScheduledMaintenanceDesc extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         final Button sm_sug_button = (Button) findViewById(R.id.sm_sug_button);
         sm_sug_button.setOnClickListener(new View.OnClickListener() {
 

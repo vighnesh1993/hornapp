@@ -7,343 +7,410 @@
     android:background="@color/off_white"
     android:fitsSystemWindows="true"
     tools:context="com.horn.workshop.ProfileAppointmentDetail">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ScrollView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_cor_white_bg"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/apmntid_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:text="Appointment Id"
-            android:textColor="@color/primary_text"
-            android:textSize="18dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
 
-        <View
-            android:id="@+id/hori_1"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0" />
+                    <TextView
+                        android:id="@+id/apmntid_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Appointment Id"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
 
-        <TextView
-            android:id="@+id/apmntid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:padding="15dp"
-            android:text="Loading..."
-            android:textColor="@color/secondary_text"
-            android:textSize="14dp" />
+                    <View
+                        android:id="@+id/hori_1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntworkshop_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Workshop"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntworkshop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntkm_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Service KMs"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntkm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntstatus_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Status"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntstatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntvehicle_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Vehicle"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_10"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntvehicle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntdatefor_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Appointment For"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntdatefor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntdateon_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Appointment On"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntdateon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmnttime_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Time"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_9"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmnttime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntdetails_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Work Suggestions"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_7"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntdetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/apmntservices_lbl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:paddingBottom="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:text="Services"
+                        android:textColor="@color/primary_text"
+                        android:textSize="18dp" />
+
+                    <View
+                        android:id="@+id/hori_8"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1dp"
+                        android:background="#c0c0c0" />
+
+                    <TextView
+                        android:id="@+id/apmntservices"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading..."
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
-        <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_cor_white_bg"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/apmntworkshop_lbl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:paddingBottom="15dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:text="Workshop"
-            android:textColor="@color/primary_text"
-            android:textSize="18dp" />
-
-        <View
-            android:id="@+id/hori_2"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#c0c0c0" />
-
-        <TextView
-            android:id="@+id/apmntworkshop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:padding="15dp"
-            android:text="Loading..."
-            android:textColor="@color/secondary_text"
-            android:textSize="14dp" />
-
-    </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntkm_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Service KMs"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_3"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntkm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntstatus_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Status"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_4"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntstatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntdatefor_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Appointment For"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_5"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntdatefor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntdateon_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Appointment On"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_6"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntdateon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmnttime_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Time"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_9"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmnttime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntdetails_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Work Suggestions"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_7"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntdetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/rounded_cor_white_bg"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/apmntservices_lbl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp"
-                android:text="Services"
-                android:textColor="@color/primary_text"
-                android:textSize="18dp" />
-
-            <View
-                android:id="@+id/hori_8"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="#c0c0c0" />
-
-            <TextView
-                android:id="@+id/apmntservices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:padding="15dp"
-                android:text="Loading..."
-                android:textColor="@color/secondary_text"
-                android:textSize="14dp" />
-
-        </LinearLayout>
-        </LinearLayout>
-
-    </ScrollView>
-
-</LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

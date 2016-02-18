@@ -24,5 +24,6 @@ public class AppConfig {
     public static String URL_SM_SERVICES = "http://blueripples.org/horn/app_server/SM.php";
     public static String URL_SM_WORKSHOPDATA = "http://blueripples.org/horn/app_server/SM_WorkshopDatalist.php";
     public static String URL_CARLIST = "http://blueripples.org/horn/app_server/cars.php";
+    public static String URL_ADDCARDETAIL = "http://blueripples.org/horn/app_server/add_cars.php";
 }
 

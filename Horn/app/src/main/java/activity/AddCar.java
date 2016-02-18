@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.MainActivity;
+import com.horn.workshop.ProfileAddCar;
 import com.horn.workshop.R;
 import com.horn.workshop.RecyclerItemClickListener;
+import com.horn.workshop.SMLocalStore;
+import com.horn.workshop.ScheduledMaintenanceDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,9 +49,11 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
     public static ArrayList<CarData> carDatas;
     public static String[] nameArray;
     public static String[] carImageArray;
+    public static String[] carIdArray;
     private ProgressDialog pDialog;
     private RecyclerView rCarView;
     private AddCarAdapter adapter;
+    private SMLocalStore smLocalStore;
 
     private Toolbar toolbar;
 
@@ -70,30 +76,23 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
 
     public void carsDisplay() {
 
-        rCarView = (RecyclerView) findViewById(R.id.add_car_rView);
-        rCarView.setHasFixedSize(true);
-        rCarView.setLayoutManager(new LinearLayoutManager(this));
-        rCarView.setItemAnimator(new DefaultItemAnimator());
+          rCarView = (RecyclerView) findViewById(R.id.add_car_rView);
+    rCarView.setHasFixedSize(true);
+    rCarView.setLayoutManager(new LinearLayoutManager(this));
+    rCarView.setItemAnimator(new DefaultItemAnimator());
 
-        carDatas = new ArrayList<CarData>();
-        for (int i = 0; i < nameArray.length; i++) {
-            carDatas.add(new CarData(
-                    nameArray[i],
-                    carImageArray[i]
-            ));
-        }
-        adapter = new AddCarAdapter(carDatas);
-        rCarView.setAdapter(adapter);
-
-        rCarView.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_LONG).show();
-                    }
-                })
-        );
+    carDatas = new ArrayList<CarData>();
+    for (int i = 0; i < nameArray.length; i++) {
+        carDatas.add(new CarData(
+                nameArray[i],
+                carImageArray[i],
+                carIdArray[i]
+        ));
     }
+    adapter = new AddCarAdapter(carDatas);
+    rCarView.setAdapter(adapter);
+
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,18 +172,21 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_CARLIST, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+Log.d("sdsdsd", "car Response: " + response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
                         int len = jsonObject.length();
                         JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                         JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
+                        JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
                         nameArray = new String[nameArrayj.length()];
                         carImageArray = new String[carImageArrayj.length()];
+                        carIdArray = new String[carIdArrayj.length()];
                         for (int i = 0; i < nameArrayj.length(); i++) {
                             nameArray[i] = nameArrayj.getString(i);
                             carImageArray[i] = carImageArrayj.getString(i);
+                            carIdArray[i] = carIdArrayj.getString(i);
                         }
                         pDialog.dismiss();
                         carsDisplay();

@@ -7,10 +7,12 @@ package data;
 public class CarData {
     private String mName;
     private String imageName;
+    private String carId;
 
-    public CarData(String name, String imageName) {
+    public CarData(String name, String imageName,String carId) {
         this.mName = name;
         this.imageName = imageName;
+        this.carId = carId;
     }
 
 
@@ -19,6 +21,9 @@ public class CarData {
     }
     public String getImageName() {
         return imageName;
+    }
+    public String getCarId() {
+        return carId;
     }
 
 }

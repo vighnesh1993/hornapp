@@ -8,4 +8,31 @@
         layout="@layout/my_tool_bar"
         />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/my_car_rView"
+        android:layout_below="@+id/my_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_directions_car_black_48dp"
+        android:tint="@color/common_action_bar_splitter"
+        android:id="@+id/no_cars_img"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/no_cars_img"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="No Cars Found"
+        android:textColor="@color/common_action_bar_splitter"
+        android:id="@+id/nocars_founf_txt"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>

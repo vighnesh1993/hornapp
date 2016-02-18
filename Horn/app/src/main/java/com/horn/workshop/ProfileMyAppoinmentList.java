@@ -1,5 +1,8 @@
 package com.horn.workshop;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,9 +54,9 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         apnmnt = new ArrayList<ProfileappointmentData>();
 
-       // recyclerView.setAdapter(adapter);
-       // apnmnt = new ArrayList<ProfileappointmentData>();
-       // adapter = new ProfileAppoinmentAdapter(apnmnt);
+        // recyclerView.setAdapter(adapter);
+        // apnmnt = new ArrayList<ProfileappointmentData>();
+        // adapter = new ProfileAppoinmentAdapter(apnmnt);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
             @Override
@@ -63,38 +66,56 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
                         int len = jsonObject.length();
-                        JSONArray partner_id = jsonObject.getJSONArray("partner_id");
-                        JSONArray apmntid = jsonObject.getJSONArray("apmntid");
-                        JSONArray date = jsonObject.getJSONArray("date");
-                        JSONArray status = jsonObject.getJSONArray("status");
-                        JSONArray appointment_on = jsonObject.getJSONArray("appointment_on");
+                        String status_apnmnt = jsonObject.getString("status_apt");
+                        Log.d("stat", status_apnmnt);
+                        if (status_apnmnt.equals("Have_appointment")) {
 
-                        partner_ids = new String[partner_id.length()];
-                        apmntids = new String[apmntid.length()];
-                        dates = new String[date.length()];
-                        statuss = new String[status.length()];
-                        appointment_ons = new String[appointment_on.length()];
+                            JSONArray partner_id = jsonObject.getJSONArray("partner_id");
+                            JSONArray apmntid = jsonObject.getJSONArray("apmntid");
+                            JSONArray date = jsonObject.getJSONArray("date");
+                            JSONArray status = jsonObject.getJSONArray("status");
+                            JSONArray appointment_on = jsonObject.getJSONArray("appointment_on");
 
-                        for (int i = 0; i < partner_id.length(); i++) {
+                            partner_ids = new String[partner_id.length()];
+                            apmntids = new String[apmntid.length()];
+                            dates = new String[date.length()];
+                            statuss = new String[status.length()];
+                            appointment_ons = new String[appointment_on.length()];
 
-                            partner_ids[i] = partner_id.getString(i);
-                            apmntids[i] = apmntid.getString(i);
-                            dates[i] = date.getString(i);
-                            statuss[i] = status.getString(i);
-                            appointment_ons[i] = appointment_on.getString(i);
+                            for (int i = 0; i < partner_id.length(); i++) {
 
-                            apnmnt.add(new ProfileappointmentData(
-                                    partner_ids[i],
-                                    apmntids[i],
-                                    dates[i],
-                                    statuss[i],
-                                    appointment_ons[i]
-                            ));
+                                partner_ids[i] = partner_id.getString(i);
+                                apmntids[i] = apmntid.getString(i);
+                                dates[i] = date.getString(i);
+                                statuss[i] = status.getString(i);
+                                appointment_ons[i] = appointment_on.getString(i);
+
+                                apnmnt.add(new ProfileappointmentData(
+                                        partner_ids[i],
+                                        apmntids[i],
+                                        dates[i],
+                                        statuss[i],
+                                        appointment_ons[i]
+                                ));
+                            }
+
+                            adapter = new ProfileAppoinmentAdapter(apnmnt);
+                            recyclerView.setAdapter(adapter);
                         }
+                        else if (status_apnmnt.equals("No_appointment"))
+                        {
+                            new AlertDialog.Builder(ProfileMyAppoinmentList.this)
+                                    .setMessage("No appoinmtment has been booked yet")
+                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            startActivity(new Intent(ProfileMyAppoinmentList.this, MainActivity.class));
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setCancelable(false)
+                                    .show();
 
-                        adapter = new ProfileAppoinmentAdapter(apnmnt);
-                        recyclerView.setAdapter(adapter);
-
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -111,7 +132,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 smLocalStore = new SMLocalStore(ProfileMyAppoinmentList.this);
-             //  String apnmnt_id =  smLocalStore.getProfileAppointment();
+                //  String apnmnt_id =  smLocalStore.getProfileAppointment();
                 sqLiteHandler = new SQLiteHandler(ProfileMyAppoinmentList.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
                 String  apmnt_user_email = user.get("email");
@@ -120,7 +141,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("apmnt_user_email", apmnt_user_email);
                 params.put("apmnt_user_name", apmnt_user_name);
-                              return params;
+                return params;
             }
 
         };

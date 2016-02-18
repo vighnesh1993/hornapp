@@ -63,7 +63,6 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_appoinment);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
 
@@ -75,22 +74,17 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
         EditText km = (EditText) findViewById(R.id.apmnt_km);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
         km.setText(smLocalStore.getSMhome_kms() + " KM");
-        vehicle.setText(smLocalStore.getSMhome_vehicle());
+        vehicle.setText(smLocalStore.getSMhome_make()+' '+smLocalStore.getSMhome_model()+' '+smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
         timeview = (EditText) findViewById(R.id.apmnt_time);
 
     }
 
-
     public void setDateTimeField(View v) {
-
-
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
 
-
     }
-
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //do some stuff for example write on log and update TextField on activity
@@ -216,15 +210,16 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
 
 
     public void sm_appointment(View v) {
+        pDialog = new ProgressDialog(ScheduledMaintenanceAppointment.this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Please wait while we are saving your details");
+        pDialog.show();
 
         String strreq = "workshop_appnmt";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                pDialog = new ProgressDialog(ScheduledMaintenanceAppointment.this);
-                pDialog.setCancelable(false);
-                pDialog.setMessage("Please wait while we are saving your details");
-                pDialog.show();
+
                 Log.d("response", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
@@ -234,15 +229,17 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                         pDialog.dismiss();
                         Toast.makeText(ScheduledMaintenanceAppointment.this, "Successfully booked an appointment", Toast.LENGTH_LONG).show();
                         new AlertDialog.Builder(ScheduledMaintenanceAppointment.this)
-                                .setMessage("Thank You!!! Your appointment id is: " + jsonObject.getString("appointment_booked"))
+                                .setTitle("Thank you!")
+                                .setMessage("Your Appointment has been placed. \n Appointment id:" + jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-
+                                        Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
+                                        startActivity(launchActivity1);
                                     }
                                 })
-                                .setIcon(android.R.drawable.ic_dialog_info)
                                 .setCancelable(false)
                                 .show();
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -263,16 +260,16 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 vehicle_apnmt = smLocalStore.getSMhome_vehicle();
                 workshopid_apnmt = smLocalStore.getSMworkshopdetail_id();
                 description_apnmt = smLocalStore.getSMdesc();
-                //make_apnmt =
-                // model_apnmt =
+                make_apnmt = smLocalStore.getSMhome_make();
+                 model_apnmt = smLocalStore.getSMhome_model();
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
                 dateviews = (EditText) findViewById(R.id.dateview);
                 date_apmnt = dateviews.getText().toString();
 
-                SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyyy");
-                SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
+                SimpleDateFormat parseFormat1 = new SimpleDateFormat("dd/mm/yyyy");
+                SimpleDateFormat displayFormat1 = new SimpleDateFormat("yyyy-mm-dd");
                 Date date1 = new Date();
                 try {
                     date1 = parseFormat1.parse(date_apmnt);
@@ -315,6 +312,8 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 params.put("km_apnmt", km_apnmt);
                 params.put("vehicle_apnmt", vehicle_apnmt);
                 params.put("time_apmnt", time_apmnt);
+                params.put("make_apmnt", make_apnmt);
+                params.put("model_apmnt", model_apnmt);
                 params.put("appointment_booking", "1");
                 params.put("booked_on", String.valueOf(booked_on));
                 return params;

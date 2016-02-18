@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contextClickable="false"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/mycar_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:contentDescription="Loading..."
+                    android:scaleType="centerCrop"
+                    android:tint="@color/photo_tint" />
+
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignBottom="@+id/mycar_photo"
+                    android:layout_alignParentStart="false"
+                    android:background="#55000000"
+                    android:id="@+id/linearLayout1"
+                    android:layout_alignParentEnd="false">
+
+                    <TextView
+                        android:id="@+id/mycar_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignStart="@+id/workshopdetail_category"
+                        android:layout_gravity="left|center_vertical"
+                        android:fontFamily="sans-serif-light"
+                        android:text="Loading..."
+                        android:textColor="#ffffff"
+                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mycar_make_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Make"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_make"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mycar_model_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Model"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mycar_vehicle_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Varient"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_vehicle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/addcar_varient_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Fuel Type"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_varient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -9,5 +9,5 @@
         android:icon="@drawable/ic_autorenew_white_24dp"
         android:title="Reload"
         app:showAsAction="ifRoom" />
-
 </menu>
+
