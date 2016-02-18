@@ -186,6 +186,13 @@ public class UserLocalStore {
             return false;
         }
     }
+    public void setManualLocationLatlong(String mLatlong) {
+        editor.putString("mLatLong", mLatlong);
+        editor.commit();
+    }
+    public String getManualLocationLatlong() {
+        return pref.getString("mLatLong","");
+    }
 
 }
 
