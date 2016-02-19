@@ -18,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -74,11 +76,19 @@ public class Login extends AppCompatActivity {
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
 
+        //TODO: Remove before push the code *Start
+
+        inputPassword.setText("aneeshkp");
+        inputEmail.setText("aneeshkp1990@gmail.com");
+
+        //Remove before push the code *end
+
         loginBtn = (Button) findViewById(R.id.btn_login);
 
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         String loEmail = userLocalStore.getEmailForLogin();
-        inputEmail.setText(loEmail);
+        //TODO : Uncomment line below before push
+       // inputEmail.setText(loEmail);
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,13 +203,9 @@ public class Login extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
 
-                    // Check for error node in json
                     if (!error) {
-                        // user successfully logged in
-                        // Create login session
-                        userLocalStore.setUserLoggedIn(true);
 
-                        // Now store the user in SQLite
+                        userLocalStore.setUserLoggedIn(true);
                         String uid = jObj.getString("uid");
 
                         JSONObject user = jObj.getJSONObject("user");
@@ -208,20 +214,18 @@ public class Login extends AppCompatActivity {
                         String phone = user.getString("phone");
                         String created_at = user.getString("created_at");
 
-                        // Inserting row in users table
+
                         db.addUser(name, email, phone, uid, created_at);
-                        //db.updateUser(name, email, phone, uid, created_at);
 
-                        // Launch main activity
+                        /*if(getGpsStatus()){
 
-                        if(getGpsStatus()){
                             startActivity(new Intent(Login.this, ChooseLocation.class));
                             finish();
 
-                        }else{
+                        }else{*/
                             startActivity(new Intent(Login.this, MainActivity.class));
-                            finish();
-                        }
+
+                        //startActivity(new Intent(Login.this, ChooseLocation.class));
 
                     } else {
                         // Error in login. Get the error message
@@ -258,7 +262,10 @@ public class Login extends AppCompatActivity {
             }
 
         };
-
+       /* strReq.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }

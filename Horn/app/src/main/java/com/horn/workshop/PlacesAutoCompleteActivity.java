@@ -58,7 +58,8 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "hii", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
-
+                String mLocation = mAutocompleteView.getText().toString();
+                userLocalStore.setManualLocation(mLocation);
             }
         });
 

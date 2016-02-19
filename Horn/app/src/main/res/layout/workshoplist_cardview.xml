@@ -30,6 +30,7 @@
                     android:id="@+id/workshopdetail_photo"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:src="@drawable/horn_toload"
                     android:scaleType="centerCrop"
                     android:tint="@color/photo_tint"
                     android:contentDescription="Loading..." />

@@ -15,7 +15,6 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/relativeLayout">
 
-
     </RelativeLayout>
 
 <ImageView
@@ -23,16 +22,18 @@
     android:layout_height="wrap_content"
     android:id="@+id/img"
     android:src="@drawable/locationcompass"
-    android:layout_marginTop="81dp"
-    android:layout_alignParentTop="true"
+
+    android:layout_above="@+id/textindicator"
     android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textindicator"
         android:text="Unable to detect your location"
-        android:layout_below="@+id/img"
-        android:layout_centerHorizontal="true" />
+        android:paddingTop="0dp"
+        android:layout_above="@+id/enable_gps"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp" />
 
     <Button
         android:id="@+id/enable_gps"

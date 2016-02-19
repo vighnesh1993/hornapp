@@ -1,8 +1,10 @@
 package com.horn.workshop;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -67,8 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+       // toolbar.setSubtitle("sub-title");
         smLocalStore = new SMLocalStore(MainActivity.this);
-
+        userLocalStore = new UserLocalStore(this);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });
+
+        android.support.v7.app.ActionBar ab =  getSupportActionBar();
+        String mLocation = userLocalStore.getManualLocation();
+        ab.setSubtitle(mLocation);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -179,8 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 })
         );
-
-        userLocalStore = new UserLocalStore(this);
         sqLiteHandler = new SQLiteHandler(this);
 
         if (userLocalStore.getGoogleUserLoggedIn()) {
@@ -294,6 +299,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // Toast.makeText(getApplicationContext(), "getGpsStatus : " + getGpsStatus(), Toast.LENGTH_LONG).show();
+        if(getGpsStatus()) {
+            startActivity(new Intent(MainActivity.this, ChooseLocation.class));
+           // finish();
+        }
+    }
+
+
+    private boolean getGpsStatus(){
+
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        //Toast.makeText(getApplicationContext(), "provider : " + provider, Toast.LENGTH_LONG).show();
+        if (provider.equals(""))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     private void userLogout() {
         startActivity(new Intent(this, ChoiceLogin.class));
         finish();
