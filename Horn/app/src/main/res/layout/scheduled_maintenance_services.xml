@@ -27,21 +27,50 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/rounded_cor_white_bg"
                 android:orientation="vertical"
                 android:padding="10dp">
-
-                <TableLayout
-                    android:id="@+id/sm_service_list_table"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                     android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="5dp"
+                        android:id="@+id/inspect"/>
+                    <TableLayout
+                        android:id="@+id/sm_service_list_table"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_cor_white_bg"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                 android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:textStyle="bold"
+                    android:id="@+id/replacement"/>
+                <TableLayout
+                    android:id="@+id/sm_service_list_table1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_cor_white_bg"
                     android:layout_gravity="center_horizontal" />
-                <View
-                    android:layout_width="fill_parent"
-                    android:id="@+id/hori_2"
-                    android:layout_height="1dp"
-                    android:visibility="gone"
-                    android:background="#c0c0c0"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,6 +166,7 @@
 
 
 
+                </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
