@@ -216,7 +216,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_content_edit"
+                    android:src="@drawable/ic_edit_black_24dp"
                     android:onClick="registration_edit"
                     android:layout_gravity="right|top"/>
             <LinearLayout

@@ -599,75 +599,75 @@ int k=0;
                         Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 
 
-//                final Dialog dialog = new Dialog(ScheduledMaintenanceScreen.this);
-//                dialog.setContentView(R.layout.custom);
-//                dialog.setTitle("Choose location from ?");
-//
-//                // set the custom dialog components - text, image and button
-//                Button btn = (Button) dialog.findViewById(R.id.ok);
-//                Button btn1 = (Button) dialog.findViewById(R.id.cancel);
-//;
-//
-//                // if button is clicked, close the custom dialog
-//                btn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
-//
-//                        int selectedId = radioGroup.getCheckedRadioButtonId();
-//
-//                        // find the radiobutton by returned id
-//                        RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-//
-//                        if(radioButton.getText().equals("Current Location"))
-//                        {
-//                            Toast.makeText(ScheduledMaintenanceScreen.this,
-//                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
-//                            if(!provider.equals("")){
-//                                //GPS Enabled
+                final Dialog dialog = new Dialog(ScheduledMaintenanceScreen.this);
+                dialog.setContentView(R.layout.custom);
+                dialog.setTitle("Choose location from ?");
+
+                // set the custom dialog components - text, image and button
+                Button btn = (Button) dialog.findViewById(R.id.ok);
+                Button btn1 = (Button) dialog.findViewById(R.id.cancel);
+;
+
+                // if button is clicked, close the custom dialog
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
+
+                        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                        // find the radiobutton by returned id
+                        RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
+
+                        if(radioButton.getText().equals("Current Location"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceScreen.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+                            if(!provider.equals("")){
+                                //GPS Enabled
                               startActivity(new Intent(ScheduledMaintenanceScreen.this, ScheduledMaintenanceWorkshoplist.class));
-//                            }else{
-//
-//                                AlertDialog.Builder builder = new AlertDialog.Builder(ScheduledMaintenanceScreen.this);
-//                                builder.setTitle("Horn");
-//                                builder.setMessage("Gps is not enabled.Click Ok to enable");
-//                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-////                                   Toast.makeText(MainActivity.this, "hgsadfasdf", Toast.LENGTH_LONG).show();
-//                                    }
-//                                })
-//                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dialog, int id) {
-//                                                dialog.cancel();
-//                                            }
-//                                        });
-//                                builder.show();
-//
-//                            }
-//                        }
-//                        else if(radioButton.getText().equals("Choose manually"))
-//                        {
-//                            Toast.makeText(ScheduledMaintenanceScreen.this,
-//                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
-//
-//                            startActivity(new Intent(ScheduledMaintenanceScreen.this,PlacesAutoCompleteActivity.class));
-//
-//                        }
-//
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//                btn1.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        dialog.dismiss();
-//
-//                    }
-//                });
-//
-//                dialog.show();
+                            }else{
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(ScheduledMaintenanceScreen.this);
+                                builder.setTitle("Horn");
+                                builder.setMessage("Gps is not enabled.Click Ok to enable");
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//                                   Toast.makeText(MainActivity.this, "hgsadfasdf", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                builder.show();
+
+                            }
+                        }
+                        else if(radioButton.getText().equals("Choose manually"))
+                        {
+                            Toast.makeText(ScheduledMaintenanceScreen.this,
+                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(ScheduledMaintenanceScreen.this,PlacesAutoCompleteActivity.class));
+
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                });
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.show();
 
 
                         }

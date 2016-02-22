@@ -116,14 +116,14 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
     }
 
-    //    public void new_activity_launch(String workshopid)
-//    {
-//        Intent intent1 = new Intent(this, ScheduledMaintenanceDetail.class);
-//                startActivity(intent1);
-//        //smLocalStore = new SMLocalStore(this);
-//        //         smLocalStore.setSMworkshoplist(workshopid);
-//       // startActivity(new Intent(ScheduledMaintenanceWorkshoplist.this, ScheduledMaintenanceService.class));
-//    }
+        public void new_activity_launch(String workshopid)
+    {
+        Intent intent1 = new Intent(this, ScheduledMaintenanceDetail.class);
+                startActivity(intent1);
+        //smLocalStore = new SMLocalStore(this);
+        //         smLocalStore.setSMworkshoplist(workshopid);
+       // startActivity(new Intent(ScheduledMaintenanceWorkshoplist.this, ScheduledMaintenanceService.class));
+    }
     public void search_workshop_display() {
         recyclerView = (RecyclerView) findViewById(R.id.workshop_rv);
         recyclerView.setHasFixedSize(true);
@@ -133,24 +133,24 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         workshop = new ArrayList<WorkshopDatas>();
         for (int i = 0; i < nameArray.length; i++) {
-           // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
 
 
-//            String[] parts = coordinateArray[i].split(",");
-//            String part1 = parts[0]; // 004
-//            String part2 = parts[1];
+            String[] parts = coordinateArray[i].split(",");
+            String part1 = parts[0]; // 004
+            String part2 = parts[1];
 
-            //Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
 
-            // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
+             Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
 
-//            coordLatitude=Double.parseDouble(part1);
-//            coordLongitude=Double.parseDouble(part2);
-//            latLng1 = new LatLng(coordLatitude, coordLongitude);
-//            distance[i]=getDistance(latLng, latLng1);
-            // Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
+            coordLatitude=Double.parseDouble(part1);
+            coordLongitude=Double.parseDouble(part2);
+            latLng1 = new LatLng(coordLatitude, coordLongitude);
+            distance[i]=getDistance(latLng, latLng1);
+             Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
 
-          //  Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
 
             workshop.add(new WorkshopDatas(
                     nameArray[i],
@@ -169,31 +169,31 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         recyclerView.setAdapter(adapter);
     }
 
-   // public String getDistance(LatLng origin, LatLng dest) {
-//        Location l1=new Location("One");
-//        l1.setLatitude(origin.latitude);
-//        l1.setLongitude(origin.longitude);
-//
-//        Location l2=new Location("Two");
-//        l2.setLatitude(dest.latitude);
-//        l2.setLongitude(dest.longitude);
-//
-//        float distance=l1.distanceTo(l2);
-//        String dist=distance+" M";
-//
-//        if(distance>1000.0f)
-//        {
-//            distance=distance/1000.0f;
-//
-//
-//            DecimalFormat df = new DecimalFormat("#.##");
-//            double di = Double.valueOf(df.format(distance));
-//
-//            dist=di+" KM";
-//        }
-//        return dist;
+    public String getDistance(LatLng origin, LatLng dest) {
+        Location l1=new Location("One");
+        l1.setLatitude(origin.latitude);
+        l1.setLongitude(origin.longitude);
 
-  //  }
+        Location l2=new Location("Two");
+        l2.setLatitude(dest.latitude);
+        l2.setLongitude(dest.longitude);
+
+        float distance=l1.distanceTo(l2);
+        String dist=distance+" M";
+
+        if(distance>1000.0f)
+        {
+            distance=distance/1000.0f;
+
+
+            DecimalFormat df = new DecimalFormat("#.##");
+            double di = Double.valueOf(df.format(distance));
+
+            dist=di+" KM";
+        }
+        return dist;
+
+    }
     public void onStart() {
         super.onStart();
 
