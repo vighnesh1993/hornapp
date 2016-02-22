@@ -83,6 +83,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public String[] sm_service_listprice = new String[30];
     public String[] sm_service_list = new String[30];
     public String[] sm_service_listqty = new String[30];
+    public String[] sm_service_listfield = new String[30];
     public String labour_Charge,washing;
     public String service_list;
 
@@ -353,7 +354,7 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
         hLine1 = findViewById(R.id.hori_1);
-        hLine2 = findViewById(R.id.hori_2);
+        //hLine2 = findViewById(R.id.hori_2);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
         washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
         /*
@@ -369,9 +370,11 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         washing_cost_lyt.setVisibility(View.VISIBLE);
         search_wrkshp_btn.setVisibility(View.VISIBLE);
         hLine1.setVisibility(View.VISIBLE);
-        hLine2.setVisibility(View.VISIBLE);
+       // hLine2.setVisibility(View.VISIBLE);
         TableLayout ll = (TableLayout) findViewById(R.id.sm_service_list_table);
+        TableLayout ll2 = (TableLayout) findViewById(R.id.sm_service_list_table1);
         ll.removeAllViews();
+        ll2.removeAllViews();
         TableRow rowh = new TableRow(this);
         TableRow.LayoutParams lph = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
         rowh.setLayoutParams(lph);
@@ -392,6 +395,9 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         qtyh.setText("Quantity");
         priceh.setText("Price");
         rowh.addView(sericeh);
+        TextView I = (TextView) findViewById(R.id.inspect);
+
+
         rowh.addView(qtyh);
         rowh.addView(priceh);
         rowh.setMinimumHeight(100);
@@ -401,57 +407,168 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         CheckBox[] check = new CheckBox[sm_service_list.length]; //maxCount is the number of rows in the database.
         price_total += Float.parseFloat(labour_Charge);
         price_total += Float.parseFloat(washing);
+
+        int j=0;
+        int inspect = 0;
+        int replace = 0;
         for (int i = 0; i < sm_service_list.length; i++) {
             try{
-                TableRow row = new TableRow(this);
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                row.setMinimumHeight(110);
-                row.setLayoutParams(lp);
-                Log.d(TAG1, "qty:" + sm_service_listprice[i]);
-
-                price_total += Float.valueOf(sm_service_listprice[i]);
-                final float price_tot = Float.valueOf(sm_service_listprice[i]);
-
-
-
-                check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
-                check[i].setText(Integer.toString(i));
-                check[i].setId(100 + i);
-                check[i].setText(sm_service_list[i]);
-                check[i].setTextColor(Color.parseColor("#000000"));
-                check[i].setChecked(true);
-                check[i].setMaxWidth(430);
-                row.addView(check[i]);
-                check[i].setId(100 + i);
-                selectedStrings.add(check[i].getText().toString());
-                final String check_selected = check[i].getText().toString();
-                check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (!buttonView.isChecked()) {
-                            price_total -= price_tot;
-                            selectedStrings.remove(check_selected);
-                        } else {
-                            selectedStrings.add(check_selected);
-                            price_total += price_tot;
-
-                        }
-                        //price_total = price_total;
-                        toatl_cost.setText("INR " + price_total);
+                if((sm_service_listfield[i]).equals("I")) {
+                    inspect++;
+                    if(inspect==1)
+                    {
+                        I.setText("INSPECTION");
+                        I.setTextSize(15);
+                        I.setTextColor(Color.BLACK);
                     }
-                });
+                    TableRow row = new TableRow(this);
+                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                    row.setMinimumHeight(110);
+                    row.setLayoutParams(lp);
+                    Log.d(TAG1, "qty:" + sm_service_listprice[i]);
 
-                TextView price = new TextView(this);
-                TextView qty = new TextView(this);
-                qty.setText(sm_service_listqty[i]);
-                price.setText(sm_service_listprice[i]);
-                price.setPadding(15, 10, 15, 10);
-                qty.setPadding(15, 10, 15, 10);
-                row.addView(qty);
-                row.addView(price);
-                row.setGravity(View.TEXT_ALIGNMENT_CENTER);
-                ll.addView(row, i + 1);
+                    price_total += Float.valueOf(sm_service_listprice[i]);
+                    final float price_tot = Float.valueOf(sm_service_listprice[i]);
+
+
+                    check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
+                    check[i].setText(Integer.toString(i));
+                    check[i].setId(100 + i);
+                    check[i].setText(sm_service_list[i]);
+                    check[i].setTextColor(Color.parseColor("#000000"));
+                    check[i].setChecked(true);
+                    check[i].setMaxWidth(430);
+                    check[i].setMinWidth(430);
+                    row.addView(check[i]);
+                    check[i].setId(100 + i);
+                    selectedStrings.add(check[i].getText().toString());
+                    final String check_selected = check[i].getText().toString();
+                    check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (!buttonView.isChecked()) {
+                                price_total -= price_tot;
+                                selectedStrings.remove(check_selected);
+                            } else {
+                                selectedStrings.add(check_selected);
+                                price_total += price_tot;
+
+                            }
+                            //price_total = price_total;
+                            toatl_cost.setText("INR " + price_total);
+                        }
+                    });
+
+                    TextView price = new TextView(this);
+                    TextView qty = new TextView(this);
+                    qty.setText(sm_service_listqty[i]);
+                    price.setText(sm_service_listprice[i]);
+                    price.setPadding(15, 10, 15, 10);
+                    qty.setPadding(15, 10, 15, 10);
+                    row.addView(qty);
+                    row.addView(price);
+                    row.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    ll.addView(row, j + 1);
+                    j++;
+                }
+            }catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+            }
+        }
+int k=0;
+        for (int i = 0; i < sm_service_list.length; i++) {
+            try{
+
+
+                if((sm_service_listfield[i]).equals("R")) {
+                    replace++;
+                    if(replace==1)
+                    {
+                        TextView R1 = (TextView)findViewById(R.id.replacement);
+                        R1.setText("Replacement");
+                        R1.setTextSize(15);
+                        R1.setTextColor(Color.BLACK);
+                        TableRow rowh1 = new TableRow(this);
+                        TableRow.LayoutParams lph1 = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                        rowh.setLayoutParams(lph1);
+                        TextView priceh1 = new TextView(this);
+                        TextView qtyh1 = new TextView(this);
+                        TextView sericeh1 = new TextView(this);
+                        sericeh1.setText("Services");
+                        qtyh1.setPadding(15, 10, 15, 10);
+                        priceh1.setPadding(15, 10, 15, 10);
+                        sericeh1.setPadding(15, 10, 15, 10);
+                        qtyh1.setTextSize(15);
+                        priceh1.setTextSize(15);
+                        sericeh1.setTextSize(15);
+                        qtyh1.setTextColor(Color.BLACK);
+                        priceh1.setTextColor(Color.BLACK);
+                        sericeh1.setTextColor(Color.BLACK);
+                        sericeh1.setGravity(Gravity.CENTER_VERTICAL);
+                        qtyh1.setText("Quantity");
+                        priceh1.setText("Price");
+                        rowh1.addView(sericeh1);
+
+                        rowh1.addView(qtyh1);
+                        rowh1.addView(priceh1);
+                        rowh1.setMinimumHeight(100);
+                       ll2.addView(rowh1, 0);
+                     k++;
+
+                    }
+                    TableRow row = new TableRow(this);
+                    TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                    row.setMinimumHeight(110);
+                    row.setLayoutParams(lp);
+                    Log.d(TAG1, "qty:" + sm_service_listprice[i]);
+
+                    price_total += Float.valueOf(sm_service_listprice[i]);
+                    final float price_tot = Float.valueOf(sm_service_listprice[i]);
+
+
+                    check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
+                    check[i].setText(Integer.toString(i));
+                    check[i].setId(100 + i);
+                    check[i].setText(sm_service_list[i]);
+                    check[i].setTextColor(Color.parseColor("#000000"));
+                    check[i].setChecked(true);
+                    check[i].setMaxWidth(430);
+                    check[i].setMinWidth(430);
+                    row.addView(check[i]);
+                    check[i].setId(100 + i);
+                    selectedStrings.add(check[i].getText().toString());
+                    final String check_selected = check[i].getText().toString();
+                    check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (!buttonView.isChecked()) {
+                                price_total -= price_tot;
+                                selectedStrings.remove(check_selected);
+                            } else {
+                                selectedStrings.add(check_selected);
+                                price_total += price_tot;
+
+                            }
+                            //price_total = price_total;
+                            toatl_cost.setText("INR " + price_total);
+                        }
+                    });
+
+                    TextView price = new TextView(this);
+                    TextView qty = new TextView(this);
+                    qty.setText(sm_service_listqty[i]);
+                    price.setText(sm_service_listprice[i]);
+                    price.setPadding(15, 10, 15, 10);
+                    qty.setPadding(15, 10, 15, 10);
+                    row.addView(qty);
+                    row.addView(price);
+                    row.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                    ll2.addView(row, k);
+                    k++;
+                }
             }catch (NumberFormatException e)
             {
                 e.printStackTrace();
@@ -574,14 +691,17 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
                         JSONArray service_list_qty = jsonObject.getJSONArray("service_list_qty");
                         JSONArray service_list_price = jsonObject.getJSONArray("service_list_price");
                         JSONArray service_list_js = jsonObject.getJSONArray("services");
+                        JSONArray service_listfield_js = jsonObject.getJSONArray("field");
                          String varient = smLocalStore.getSMhome_varient();
                         sm_service_listprice = new String[service_list_qty.length()];
                         sm_service_list = new String[service_list_qty.length()];
                         sm_service_listqty = new String[service_list_qty.length()];
+                        sm_service_listfield = new String[service_listfield_js.length()];
                         for (int i = 0; i < service_list_qty.length(); i++) {
                             sm_service_listqty[i] = service_list_qty.getString(i);
                             sm_service_listprice[i] = service_list_price.getString(i).toString();
                             sm_service_list[i] = service_list_js.getString(i);
+                            sm_service_listfield[i] = service_listfield_js.getString(i);
 
                         }
                         SM_Services_display();

@@ -136,9 +136,9 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
            // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
 
 
-            String[] parts = coordinateArray[i].split(",");
-            String part1 = parts[0]; // 004
-            String part2 = parts[1];
+//            String[] parts = coordinateArray[i].split(",");
+//            String part1 = parts[0]; // 004
+//            String part2 = parts[1];
 
             //Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
 
