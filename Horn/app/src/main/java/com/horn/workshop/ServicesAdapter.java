@@ -2,10 +2,14 @@ package com.horn.workshop;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +39,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        setAnimation(viewHolder.container, i);
         Services services = servicesp.get(i);
         viewHolder.servicesName.setText(services.name);
         String serviceName = servicesp.get(i).getservicesCount();
@@ -46,6 +51,10 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             viewHolder.servicesImage.setImageResource(servicesp.get(i).getImageResourceId(mContext));
         }
     }
+    private void setAnimation(android.support.v7.widget.CardView container, int position) {
+        Animation animation = AnimationUtils.loadAnimation(mContext,R.anim.sweer);
+        container.startAnimation(animation);
+    }
 
     @Override
     public int getItemCount() {
@@ -56,12 +65,14 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         public TextView servicesName;
         public TextView servicesCount;
         public ImageView servicesImage;
+        public android.support.v7.widget.CardView container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             servicesName = (TextView) itemView.findViewById(R.id.servicesName);
             servicesCount = (TextView) itemView.findViewById(R.id.servicesCount);
             servicesImage = (ImageView) itemView.findViewById(R.id.countryImage);
+            container = (CardView) itemView.findViewById(R.id.item_container);
         }
 
     }

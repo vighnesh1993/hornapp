@@ -1,5 +1,6 @@
 package com.horn.workshop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,15 +40,27 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
+    private UserLocalStore userLocalStore;
     ImageView delete;
+    Button next;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        buildGoogleApiClient();
         setContentView(R.layout.activity_search);
+        buildGoogleApiClient();
         mAutocompleteView = (EditText)findViewById(R.id.autocomplete_places);
 
         delete=(ImageView)findViewById(R.id.cross);
+        userLocalStore = new UserLocalStore(this);
+        next= (Button) findViewById(R.id.nextbtn);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(getApplicationContext(), "hii", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(PlacesAutoCompleteActivity.this,ScheduledMaintenanceWorkshoplist.class));
+
+            }
+        });
 
         mAutoCompleteAdapter =  new PlacesAutoCompleteAdapter(this, R.layout.searchview_adapter,
                 mGoogleApiClient, BOUNDS_INDIA, null);
@@ -96,8 +110,13 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
                             public void onResult(PlaceBuffer places) {
                                 if(places.getCount()==1){
                                     //Do the things here on Click.....
-                                  //  Toast.makeText(getApplicationContext(),String.valueOf(places.get(0).getAddress()),Toast.LENGTH_SHORT).show();
+
                                     mAutocompleteView.setText(String.valueOf(places.get(0).getName()));
+
+
+                                    String latnlog=String.valueOf(places.get(0).getLatLng().latitude)+","+String.valueOf(places.get(0).getLatLng().longitude);
+                                    Toast.makeText(getApplicationContext(),latnlog,Toast.LENGTH_SHORT).show();
+                                    userLocalStore.setManualLocationLatlong(latnlog);
                                 }else {
                                     Toast.makeText(getApplicationContext(),Constants.SOMETHING_WENT_WRONG,Toast.LENGTH_SHORT).show();
                                 }
