@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import activity.MyCars;
 import app.AppConfig;
 import app.AppController;
 import data.CarData;
@@ -137,10 +138,11 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
                     if (jsonObject != null) {
                         int len = jsonObject.length();
                         String status_remove = jsonObject.getString("status");
-                        Log.d("remove status",status_remove);
+                        Log.d("remove status", status_remove);
                         pDialog.dismiss();
                         Toast.makeText(context, "Removed Successfully !!!", Toast.LENGTH_LONG).show();
-
+MyCars myCar = new MyCars();
+                        myCar.carcount();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

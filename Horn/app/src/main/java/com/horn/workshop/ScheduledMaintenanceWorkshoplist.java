@@ -299,6 +299,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                             phoneArray[i] = phoneArrayj.getString(i);
                             nameArray[i] = nameArrayj.getString(i);
                             categoryArray[i] = categoryArrayj.getString(i);
+                            if((categoryArray[i]).equals("Authorised")) {categoryArray[i] = "Exclusive"; }
                             addressArray[i] = addressArrayj.getString(i);
                             picArray[i] = R.drawable.workshop_sample;
                             workshopidArray[i] = workshopidArrayj.getInt(i);

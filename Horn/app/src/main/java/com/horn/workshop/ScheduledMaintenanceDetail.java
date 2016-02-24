@@ -204,7 +204,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 }
             }
         });
-
+if((category).equals("Authorised")) {category = "Exclusive"; }
         workshopname.setText(name);
         workshopaddress.setText(address);
         workshopcategory.setText(category);
