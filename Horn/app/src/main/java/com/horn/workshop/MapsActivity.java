@@ -16,6 +16,7 @@ import android.location.LocationListener;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.support.v7.widget.ActionBarOverlayLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
@@ -43,6 +46,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,12 +70,15 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     ArrayList<LatLng> markerPoints;
     SMLocalStore smLocalStore;
-
+    String n="";
     private UserLocalStore userLocalStore;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final String TAG = MapsActivity.class.getSimpleName();
     public String workshop;
-
+    public TextView tv3;
+    Double lat1;
+    Double log1;
+    Double ltt,lgg;
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +96,36 @@ public class MapsActivity extends FragmentActivity implements
         mMap.getUiSettings().setTiltGesturesEnabled(true);
         mMap.getUiSettings().setZoomGesturesEnabled(true);
 
+        Button getdir= (Button) findViewById(R.id.getdir);
+        getdir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // startActivity(new Intent(MapsActivity.this,GoogleMap.class));
 
+
+                /*Intent callGPSSettingIntent = new Intent(
+                        Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(callGPSSettingIntent);*/
+
+            /*double slattDFRE = 8.595958021900074;
+            double slongDFRE = 77.00660705566406;
+            double dlattDFRE = 12.929614580987227;
+            double dlongDFRE = 77.6239013671875;*/
+
+
+            double slattDFRE =ltt;
+            double slongDFRE = lgg;
+            double dlattDFRE = 12.929614580987227;
+            double dlongDFRE = 77.6239013671875;
+
+
+
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr="+slattDFRE+","+slongDFRE+"&daddr="+dlattDFRE+","+dlongDFRE));
+                intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                startActivity(intent);
+            }
+        });
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        toolbar.setTitle("Routing");
 //        toolbar.setTitleTextColor(Color.WHITE);
@@ -97,6 +133,18 @@ public class MapsActivity extends FragmentActivity implements
         Intent ob = getIntent();
         workshop = ob.getStringExtra("workshop");
 
+        String[] details = workshop.split("##!###");
+         n= details[0]; // 004
+        String address = details[1];
+        String rating = details[2];
+        TextView tv1= (TextView) findViewById(R.id.wname);
+        tv1.setText(n);
+        TextView tv2= (TextView) findViewById(R.id.waddres);
+        tv2.setText(address);
+        tv3= (TextView) findViewById(R.id.ratg);
+        tv3.setText(rating);
+
+        setRatingBackround(rating);
         markerPoints = new ArrayList<LatLng>();
 
        // String ltlg=userLocalStore.getManualLocationLatlong();
@@ -114,6 +162,16 @@ public class MapsActivity extends FragmentActivity implements
                     .setFastestInterval(1 * 1000);
 
         smLocalStore = new SMLocalStore(this);
+
+        HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
+        String clat = latlog.get("smdlat");
+        String clog = latlog.get("smdlog");
+
+        lat1=Double.parseDouble(clat);
+        log1=Double.parseDouble(clog);
+
+        LatLng latLng1 = new LatLng(lat1, log1);
+        drawMarker(latLng1);
 
 
     }
@@ -169,22 +227,22 @@ public class MapsActivity extends FragmentActivity implements
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
         UserLocalStore userLocalStore=new UserLocalStore(this);
-       // String mylatlog=userLocalStore.getMylocationLatlog();
 
         String latlng1=userLocalStore.getMylocationLatlog();
 
-        LatLng latLng;
-       /* if(!latlng1.equals(""))
-        {*/
+
+
 
             String[] ltlg = latlng1.split(",");
             String ltlg1 = ltlg[0]; // 004
             String ltlg2 = ltlg[1];
 
-            Double ltt=Double.parseDouble(ltlg1);
-            Double lgg=Double.parseDouble(ltlg2);
+             ltt=Double.parseDouble(ltlg1);
+             lgg=Double.parseDouble(ltlg2);
 
-             latLng = new LatLng(ltt, lgg);
+
+        LatLng latLng= new LatLng(ltt, lgg);
+
             //smLocalStore.setSmwCurrentLatlng(ltlg1,ltlg2);
        // }
        /* else
@@ -195,16 +253,16 @@ public class MapsActivity extends FragmentActivity implements
             latLng = new LatLng(currentLatitude, currentLongitude);
         //}*/
 
-        drawMarker(latLng);
 
+        //drawMarker(latLng);
         HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
         String clat = latlog.get("smdlat");
         String clog = latlog.get("smdlog");
 
-        Double lat=Double.parseDouble(clat);
-        Double log=Double.parseDouble(clog);
+         lat1=Double.parseDouble(clat);
+         log1=Double.parseDouble(clog);
 
-        LatLng latLng1 = new LatLng(lat, log);
+        LatLng latLng1 = new LatLng(lat1, log1);
         drawMarker(latLng1);
 
     }
@@ -329,15 +387,20 @@ public class MapsActivity extends FragmentActivity implements
         {
             //markerOptions.icon(BitmapDescriptorFactory.(Color.parseColor("#f1d600"));
 
-             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+             /*markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
            //markerOptions.icon(BitmapDescriptorFactory.fromFile(String.valueOf(Color.parseColor("#ffffff"))));
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);*/
+           // mMap.addMarker(markerOptions).showInfoWindow();
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
+            markerOptions.title(n);
             mMap.getUiSettings().setMapToolbarEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.addMarker(markerOptions).showInfoWindow();
 
         } else if(markerPoints.size()==2) {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
-            markerOptions.title(workshop);
+            markerOptions.title(n);
             mMap.getUiSettings().setMapToolbarEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.addMarker(markerOptions).showInfoWindow();
@@ -348,7 +411,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
         // Adding marker on the Google Map
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 8.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,16.0f));
 
         if(markerPoints.size()==2)
         {
@@ -357,16 +420,55 @@ public class MapsActivity extends FragmentActivity implements
 
 
 
-            String url = getDirectionsUrl(origin, dest);
+           /* String url = getDirectionsUrl(origin, dest);
 
             DownloadTask downloadTask = new DownloadTask();
 
             // Start downloading json data from Google Directions API
-            downloadTask.execute(url);
+            downloadTask.execute(url);*/
 
 
         }
 
+    }
+
+
+    private void setRatingBackround(String ratingValue) {
+        switch (ratingValue) {
+            case "0":
+                tv3.setBackgroundResource(R.drawable.rating_bg_0);
+                break;
+            case "0.5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_0_5);
+                break;
+            case "1":
+                tv3.setBackgroundResource(R.drawable.rating_bg_1);
+                break;
+            case "1.5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_1_5);
+                break;
+            case "2":
+                tv3.setBackgroundResource(R.drawable.rating_bg_2);
+                break;
+            case "2.5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_2_5);
+                break;
+            case "3":
+                tv3.setBackgroundResource(R.drawable.rating_bg_3);
+                break;
+            case "3.5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_3_5);
+                break;
+            case "4":
+                tv3.setBackgroundResource(R.drawable.rating_bg_4);
+                break;
+            case "4.5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_4_5);
+                break;
+            case "5":
+                tv3.setBackgroundResource(R.drawable.rating_bg_5);
+                break;
+        }
     }
     private String getDirectionsUrl(LatLng origin,LatLng dest){
 
