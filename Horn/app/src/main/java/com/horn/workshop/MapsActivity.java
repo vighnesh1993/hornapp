@@ -99,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements
 
         markerPoints = new ArrayList<LatLng>();
 
-        String ltlg=userLocalStore.getManualLocationLatlong();
+       // String ltlg=userLocalStore.getManualLocationLatlong();
 
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -168,13 +168,14 @@ public class MapsActivity extends FragmentActivity implements
        // Log.d(TAG, location.toString());
         mMap.getUiSettings().setMapToolbarEnabled(true);
 
+        UserLocalStore userLocalStore=new UserLocalStore(this);
+       // String mylatlog=userLocalStore.getMylocationLatlog();
 
-
-        String latlng1=userLocalStore.getManualLocationLatlong();
+        String latlng1=userLocalStore.getMylocationLatlog();
 
         LatLng latLng;
-        if(!latlng1.equals(""))
-        {
+       /* if(!latlng1.equals(""))
+        {*/
 
             String[] ltlg = latlng1.split(",");
             String ltlg1 = ltlg[0]; // 004
@@ -185,14 +186,14 @@ public class MapsActivity extends FragmentActivity implements
 
              latLng = new LatLng(ltt, lgg);
             //smLocalStore.setSmwCurrentLatlng(ltlg1,ltlg2);
-        }
-        else
-        {
+       // }
+       /* else
+        {*//*
 
             double currentLatitude = location.getLatitude();
             double currentLongitude = location.getLongitude();
             latLng = new LatLng(currentLatitude, currentLongitude);
-        }
+        //}*/
 
         drawMarker(latLng);
 
@@ -222,7 +223,7 @@ public class MapsActivity extends FragmentActivity implements
             return;
         }
 
-        String ltlg=userLocalStore.getManualLocationLatlong();
+        //String ltlg=userLocalStore.getManualLocationLatlong();
 
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location == null) {
@@ -304,7 +305,7 @@ public class MapsActivity extends FragmentActivity implements
                 Uri.parse("android-app://com.horn.workshop/http/host/path")
         );
 
-        String ltlg=userLocalStore.getManualLocationLatlong();
+       // String ltlg=userLocalStore.getManualLocationLatlong();
 
             AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
             mGoogleApiClient.disconnect();

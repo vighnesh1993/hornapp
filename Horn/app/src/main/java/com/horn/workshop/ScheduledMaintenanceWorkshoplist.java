@@ -100,7 +100,12 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userLocalStore=new UserLocalStore(this);
 
-        String latlng=userLocalStore.getManualLocationLatlong();
+        //String latlng=userLocalStore.getManualLocationLatlong();
+
+       // UserLocalStore userLocalStore=new UserLocalStore(this);
+        String latlng=userLocalStore.getMylocationLatlog();
+
+
         if(!latlng.equals(""))
         {
 

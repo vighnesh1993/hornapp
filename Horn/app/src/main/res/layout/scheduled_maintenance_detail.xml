@@ -31,6 +31,7 @@
                         android:layout_height="300dp"
                         android:contentDescription="Loading..."
                         android:scaleType="centerCrop"
+                        android:src="@drawable/horn_toload"
                         android:tint="@color/photo_tint" />
 
 

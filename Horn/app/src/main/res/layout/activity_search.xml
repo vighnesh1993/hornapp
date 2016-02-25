@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:paddingLeft="8dp"
@@ -24,6 +25,38 @@
         android:drawablePadding="9dp"
         android:textColor="@android:color/primary_text_light" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Or"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/autocomplete_places"
+        android:layout_centerHorizontal="true" />
+
+
+    <Button
+        android:id="@+id/enable_gps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_style"
+        android:drawablePadding="9dp"
+        android:paddingTop="5dp"
+        android:text="Auto Detect Location"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+        android:drawableStart="@drawable/ic_explore_black_24dp"
+        android:textColor="@color/hint_color"
+        android:textSize="15sp"
+        android:textAlignment="textStart"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true" />
+
+
+
     <ImageView
         android:id="@+id/cross"
         android:layout_width="16dp"
@@ -33,19 +66,23 @@
         android:layout_marginRight="20dp"
         android:src="@drawable/places_ic_clear"/>
 
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/autocomplete_places"
+        android:layout_below="@+id/enable_gps"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="OK"
-        android:background="@color/accent"
-        android:layout_alignBottom="@+id/recyclerView"
-        android:id="@+id/nextbtn"/>
+
+
+    <!-- <Button
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="OK"
+         android:background="@color/accent"
+         android:layout_alignBottom="@+id/recyclerView"
+         android:id="@+id/nextbtn"/>-->
 
 </RelativeLayout>

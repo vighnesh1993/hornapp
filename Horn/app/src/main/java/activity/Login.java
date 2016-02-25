@@ -217,15 +217,22 @@ public class Login extends AppCompatActivity {
 
                         db.addUser(name, email, phone, uid, created_at);
 
-                        /*if(getGpsStatus()){
+                        if(getGpsStatus()){
+                            userLocalStore.setManualLocation("");
+                            Toast.makeText(getApplicationContext(),"getMyManuallocationLatlog: "+userLocalStore.getMyManuallocationLatlog(),Toast.LENGTH_SHORT).show();
 
                             startActivity(new Intent(Login.this, ChooseLocation.class));
                             finish();
 
-                        }else{*/
+                        }else {
+                            userLocalStore.setMyManuallocationLatlog("");
+                            Toast.makeText(getApplicationContext(),"getMyManuallocationLatlog: "+userLocalStore.getMyManuallocationLatlog(),Toast.LENGTH_SHORT).show();
+
+                            userLocalStore.setManualLocation("");
                             startActivity(new Intent(Login.this, MainActivity.class));
 
-                        //startActivity(new Intent(Login.this, ChooseLocation.class));
+                            //startActivity(new Intent(Login.this, ChooseLocation.class));
+                        }
 
                     } else {
                         // Error in login. Get the error message

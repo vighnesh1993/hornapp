@@ -108,7 +108,9 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
       /*
       SM home starts
        */
-
+        UserLocalStore userLocalStore=new UserLocalStore(this);
+        String mylatlog=userLocalStore.getMylocationLatlog();
+        Toast.makeText(getApplicationContext(),"mylatlog: "+mylatlog,Toast.LENGTH_LONG).show();
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
@@ -119,6 +121,13 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
        */
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
