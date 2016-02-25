@@ -17,15 +17,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.MyCarDetail;
@@ -64,8 +60,8 @@ public class MyCars extends AppCompatActivity  {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
-    TextView noCarsFound;
-    ImageView noCarsImg;
+    public int car_count;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +77,16 @@ public class MyCars extends AppCompatActivity  {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        noCarsFound = (TextView) findViewById(R.id.nocars_founf_txt);
-        noCarsImg = (ImageView) findViewById(R.id.no_cars_img);
+
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
-        pDialog.show();
         show_mycars();
     }
     public void show_mycars()
     {
+        pDialog.show();
     /*
     *Datas from DB starts
     */
@@ -110,8 +105,6 @@ public class MyCars extends AppCompatActivity  {
                         String status_car = jsonObject.getString("status");
                         Log.d("stat",status_car);
                         if(status_car.equals("Have_cars")) {
-                            noCarsFound.setVisibility(View.GONE);
-                            noCarsImg.setVisibility(View.GONE);
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
@@ -128,10 +121,8 @@ public class MyCars extends AppCompatActivity  {
                         }
                         else
                         {
-                            noCarsFound.setVisibility(View.VISIBLE);
-                            noCarsImg.setVisibility(View.VISIBLE);
+
                             Toast.makeText(MyCars.this, "You have not yet added any cars", Toast.LENGTH_LONG).show();
-                            pDialog.dismiss();
                         }
                     }
                 } catch (JSONException e) {
@@ -163,9 +154,7 @@ public class MyCars extends AppCompatActivity  {
 
         };
 
-        int socketTimeout = 30000;//30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(policy);
+
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
     public void mycarsDisplay()
@@ -174,7 +163,7 @@ public class MyCars extends AppCompatActivity  {
         rCarView.setHasFixedSize(true);
         rCarView.setLayoutManager(new LinearLayoutManager(this));
         rCarView.setItemAnimator(new DefaultItemAnimator());
-
+        car_count = nameArray.length;
         carDatas = new ArrayList<CarData>();
         for (int i = 0; i < nameArray.length; i++) {
             carDatas.add(new CarData(
@@ -204,7 +193,6 @@ public class MyCars extends AppCompatActivity  {
         ItemTouchHelper.Callback callback = new SwipeToRemoveMycar(adapter,rCarView);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rCarView);
-        pDialog.dismiss();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,14 +210,20 @@ public class MyCars extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            if(car_count<2)
             startActivity(new Intent(MyCars.this, AddCar.class));
+            else
+                Toast.makeText(MyCars.this, "We are sorry. You can add only maximum of 2 cars", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
+public void carcount()
+{
+    car_count = car_count-1;
+}
 
 
 
