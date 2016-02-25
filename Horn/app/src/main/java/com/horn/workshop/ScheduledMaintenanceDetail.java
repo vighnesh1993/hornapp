@@ -3,6 +3,9 @@ package com.horn.workshop;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +36,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import adapters.Scrollview;
 import app.AppConfig;
 import app.AppController;
 
@@ -41,6 +46,9 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
     TextView ratings;
+    final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
+    Scrollview mOnScrollChangedListener;
+    private Drawable mActionBarBackgroundDrawable;
 
     LatLng latLng1,latLng2;
     private  double coordLatitude =0.0;
@@ -56,6 +64,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // ((Scrollview) findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
 
 //        ed.putString("currentLatitude",""+currentLatitude);
 //        ed.putString("currentLongitude",""+currentLongitude);
@@ -82,9 +91,17 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
-                startActivity(new Intent(ScheduledMaintenanceDetail.this,ScheduledMaintenanceAppointment.class));
+                startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
             }
         });
+//        Scrollview.OnScrollChangedListener mOnScrollChangedListener = new Scrollview.OnScrollChangedListener() {
+//            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+//                final int headerHeight = findViewById(R.id.scroll_view).getHeight() - getActionBar().getHeight();
+//                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+//                final int newAlpha = (int) (ratio * 255);
+//                mActionBarBackgroundDrawable.setAlpha(newAlpha);
+//            }
+//        };
         getdetailFromDb(workshopid);
 
     }

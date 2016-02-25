@@ -92,7 +92,7 @@ public class MyCarDetail extends AppCompatActivity {
                         car_registration.setText(car_registrations);
                         car_regyear.setText(car_regyears);
 
-                        String url = "http://blueripples.org/horn/app_server/cars/"+car_images+"";
+                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
                         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
                         imageLoader.get(url, new ImageLoader.ImageListener() {
 

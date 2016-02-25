@@ -98,7 +98,7 @@ public class AddCarAdapter extends RecyclerView.Adapter<AddCarAdapter.MyViewHold
         TextView textView = holder.nameTextView;
         final ImageView carImage = holder.carImageView;
         textView.setText(mCarDatas.get(position).getName());
-        String url = "http://blueripples.org/horn/app_server/cars/" + mCarDatas.get(position).getImageName();
+        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + mCarDatas.get(position).getImageName();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
 

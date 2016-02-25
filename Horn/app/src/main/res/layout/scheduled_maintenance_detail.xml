@@ -1,7 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
      android:layout_height="wrap_content">
+    <adapters.Scrollview
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/header"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_edit_black_24dp" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="?android:colorBackground"
+                android:padding="16dp"
+                android:text="loren_ipsum" />
+
+        </LinearLayout>
+    </adapters.Scrollview>
     <include
         android:id="@+id/my_tool_bar"
         layout="@layout/my_tool_bar" />
