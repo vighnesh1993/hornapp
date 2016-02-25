@@ -670,7 +670,7 @@ int k=0;
             }
 
         };
-
+        AppController.getInstance();
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG1);
     }
 

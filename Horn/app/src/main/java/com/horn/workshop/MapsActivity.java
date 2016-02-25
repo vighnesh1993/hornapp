@@ -163,6 +163,16 @@ public class MapsActivity extends FragmentActivity implements
 
         smLocalStore = new SMLocalStore(this);
 
+        HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
+        String clat = latlog.get("smdlat");
+        String clog = latlog.get("smdlog");
+
+        lat1=Double.parseDouble(clat);
+        log1=Double.parseDouble(clog);
+
+        LatLng latLng1 = new LatLng(lat1, log1);
+        drawMarker(latLng1);
+
 
     }
 
@@ -229,6 +239,7 @@ public class MapsActivity extends FragmentActivity implements
 
              ltt=Double.parseDouble(ltlg1);
              lgg=Double.parseDouble(ltlg2);
+
 
         LatLng latLng= new LatLng(ltt, lgg);
 
@@ -376,8 +387,13 @@ public class MapsActivity extends FragmentActivity implements
         {
             //markerOptions.icon(BitmapDescriptorFactory.(Color.parseColor("#f1d600"));
 
-             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+             /*markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
            //markerOptions.icon(BitmapDescriptorFactory.fromFile(String.valueOf(Color.parseColor("#ffffff"))));
+            mMap.getUiSettings().setMapToolbarEnabled(true);
+            mMap.getUiSettings().setZoomControlsEnabled(true);*/
+           // mMap.addMarker(markerOptions).showInfoWindow();
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
+            markerOptions.title(n);
             mMap.getUiSettings().setMapToolbarEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.addMarker(markerOptions).showInfoWindow();
@@ -395,7 +411,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
         // Adding marker on the Google Map
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 8.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,16.0f));
 
         if(markerPoints.size()==2)
         {
