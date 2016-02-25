@@ -15,12 +15,8 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
-=======
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
->>>>>>> master
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -29,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.horn.workshop.MainActivity;
 import com.horn.workshop.MyCarDetail;
 import com.horn.workshop.R;
 import com.horn.workshop.RecyclerItemClickListener;
@@ -43,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import adapters.Connectivity;
 import adapters.MyCarAdapter;
 import app.AppConfig;
 import app.AppController;
@@ -96,11 +90,7 @@ public class MyCars extends AppCompatActivity {
         nocars_found = (ImageView) findViewById(R.id.no_cars_img);
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
     }
-<<<<<<< HEAD
-    public void show_mycars()
-    {
 
-=======
 
     //        else
 //        {
@@ -108,9 +98,8 @@ public class MyCars extends AppCompatActivity {
 //            startActivity(intent2);
 //        }
     // }
-    public void show_mycars() {
+    public void show_mycars(){
         pDialog.show();
->>>>>>> master
     /*
     *Datas from DB starts
     */
