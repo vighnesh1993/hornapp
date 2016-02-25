@@ -9,19 +9,18 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeTransform;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
-import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.MyCarDetail;
@@ -80,13 +79,13 @@ public class MyCars extends AppCompatActivity  {
 
 
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
+        pDialog.show();
         show_mycars();
     }
     public void show_mycars()
     {
-        pDialog.show();
+
     /*
     *Datas from DB starts
     */
@@ -154,7 +153,11 @@ public class MyCars extends AppCompatActivity  {
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
     public void mycarsDisplay()
@@ -193,6 +196,7 @@ public class MyCars extends AppCompatActivity  {
         ItemTouchHelper.Callback callback = new SwipeToRemoveMycar(adapter,rCarView);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rCarView);
+        pDialog.dismiss();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
