@@ -111,7 +111,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
        */
         UserLocalStore userLocalStore=new UserLocalStore(this);
         String mylatlog=userLocalStore.getMylocationLatlog();
-        Toast.makeText(getApplicationContext(),"mylatlog: "+mylatlog,Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getApplicationContext(),"mylatlog: "+mylatlog,Toast.LENGTH_LONG).show();
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
@@ -598,7 +598,7 @@ int k=0;
                         Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
 
                 startActivity(new Intent(ScheduledMaintenanceScreen.this, ScheduledMaintenanceWorkshoplist.class));
-                
+
                         }
         });
 
