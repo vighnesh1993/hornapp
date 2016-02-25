@@ -2,12 +2,10 @@ package com.horn.workshop;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -24,19 +22,18 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -48,7 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import activity.AddCar;
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
@@ -62,10 +58,10 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
      */
     private SMLocalStore smLocalStore;
     public String varient;
-    public String make ;
+    public String make;
     public String model;
     public String[] sm_service;
-    String [] nameArray,carImageArray,carIdArray,carMakeArray,carModelArray;
+    String[] nameArray, carImageArray, carIdArray, carMakeArray, carModelArray;
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
     SQLiteHandler sqLiteHandler;
@@ -75,16 +71,16 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     /*
     for SM services
      */
-    private TextView labour_cost, toatl_cost,washing_cost;
+    private TextView labour_cost, toatl_cost, washing_cost;
     private Button search_wrkshp_btn;
-    private LinearLayout labr_cost_lyt, total_cost_tyt,washing_cost_lyt;
+    private LinearLayout labr_cost_lyt, total_cost_tyt, washing_cost_lyt;
     private View hLine1, hLine2;
     float price_total = 0, total = 0;
     public String[] sm_service_listprice = new String[30];
     public String[] sm_service_list = new String[30];
     public String[] sm_service_listqty = new String[30];
     public String[] sm_service_listfield = new String[30];
-    public String labour_Charge,washing;
+    public String labour_Charge, washing;
     public String service_list;
 
 
@@ -97,9 +93,9 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scheduled_maintenance_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
@@ -109,13 +105,13 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
       /*
       SM home starts
        */
-        UserLocalStore userLocalStore=new UserLocalStore(this);
-        String mylatlog=userLocalStore.getMylocationLatlog();
-      //  Toast.makeText(getApplicationContext(),"mylatlog: "+mylatlog,Toast.LENGTH_LONG).show();
+        UserLocalStore userLocalStore = new UserLocalStore(this);
+        String mylatlog = userLocalStore.getMylocationLatlog();
+        //  Toast.makeText(getApplicationContext(),"mylatlog: "+mylatlog,Toast.LENGTH_LONG).show();
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
-       dropdown_data();
+        dropdown_data();
 
         /*
       SM home ends
@@ -153,8 +149,8 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void dropdown_data()
-    {
+
+    public void dropdown_data() {
         pDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
             @Override
@@ -186,9 +182,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                             }
                             pDialog.dismiss();
                             dropdown_display();
-                        }
-                        else if(status_car.equals("No_cars"))
-                        {
+                        } else if (status_car.equals("No_cars")) {
                             pDialog.dismiss();
 
                         }
@@ -211,7 +205,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                 String get_mycars = "get_mycars";
                 sqLiteHandler = new SQLiteHandler(ScheduledMaintenanceScreen.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  apmnt_user_email = user.get("email");
+                String apmnt_user_email = user.get("email");
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("get_mycars", get_mycars);
@@ -221,13 +215,16 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }
 
-    public void dropdown_display()
-    {
+    public void dropdown_display() {
         /** SM vehicle dropdown **/
 
         Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
@@ -291,7 +288,11 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                     }
 
                 };
-
+                AppController.getInstance().cancelPendingRequests("REQTAG");
+                stringRequest.setTag("REQTAG");
+                int socketTimeout = 30000;//30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                stringRequest.setRetryPolicy(policy);
                 AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
             }
 
@@ -302,8 +303,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         });
     }
 
-    public void km_display()
-    {
+    public void km_display() {
         // final String[] sm_service = new String[]{"1000", "5000", "10000", "15000", "20000", "25000", "30000", "35000", "40000", "45000",
 //                "50000", "55000", "60000", "65000", "70000", "75000", "80000", "85000", "90000", "95000", "100000", "105000", "110000",
 //                "115000", "120000", "125000", "130000", "135000", "140000", "145000", "150000", "155000", "160000", "165000", "170000", "175000",
@@ -336,7 +336,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                     //String vehicle = spinner.getSelectedItem().toString();
                     String vehicle = "VXI";
                     smLocalStore.setSMhome(vehicle, service, varient, make, model);
-LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
+                    LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
 
                     smservice.setVisibility(View.VISIBLE);
 
@@ -346,8 +346,8 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         }
 
     }
-    public void sm_services()
-    {
+
+    public void sm_services() {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading ...");
@@ -368,6 +368,7 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         pDialog.show();
         SM_Services();
     }
+
     public void SM_Services_display() {
         pDialog.dismiss();
         labr_cost_lyt.setVisibility(View.VISIBLE);
@@ -375,7 +376,7 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         washing_cost_lyt.setVisibility(View.VISIBLE);
         search_wrkshp_btn.setVisibility(View.VISIBLE);
         hLine1.setVisibility(View.VISIBLE);
-       // hLine2.setVisibility(View.VISIBLE);
+        // hLine2.setVisibility(View.VISIBLE);
         TableLayout ll = (TableLayout) findViewById(R.id.sm_service_list_table);
         TableLayout ll2 = (TableLayout) findViewById(R.id.sm_service_list_table1);
         ll.removeAllViews();
@@ -413,15 +414,14 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
         price_total += Float.parseFloat(labour_Charge);
         price_total += Float.parseFloat(washing);
 
-        int j=0;
+        int j = 0;
         int inspect = 0;
         int replace = 0;
         for (int i = 0; i < sm_service_list.length; i++) {
-            try{
-                if((sm_service_listfield[i]).equals("I")) {
+            try {
+                if ((sm_service_listfield[i]).equals("I")) {
                     inspect++;
-                    if(inspect==1)
-                    {
+                    if (inspect == 1) {
                         I.setText("INSPECTION");
                         I.setTextSize(15);
                         I.setTextColor(Color.BLACK);
@@ -477,21 +477,19 @@ LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
                     ll.addView(row, j + 1);
                     j++;
                 }
-            }catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
-int k=0;
+        int k = 0;
         for (int i = 0; i < sm_service_list.length; i++) {
-            try{
+            try {
 
 
-                if((sm_service_listfield[i]).equals("R")) {
+                if ((sm_service_listfield[i]).equals("R")) {
                     replace++;
-                    if(replace==1)
-                    {
-                        TextView R1 = (TextView)findViewById(R.id.replacement);
+                    if (replace == 1) {
+                        TextView R1 = (TextView) findViewById(R.id.replacement);
                         R1.setText("Replacement");
                         R1.setTextSize(15);
                         R1.setTextColor(Color.BLACK);
@@ -519,8 +517,8 @@ int k=0;
                         rowh1.addView(qtyh1);
                         rowh1.addView(priceh1);
                         rowh1.setMinimumHeight(100);
-                       ll2.addView(rowh1, 0);
-                     k++;
+                        ll2.addView(rowh1, 0);
+                        k++;
 
                     }
                     TableRow row = new TableRow(this);
@@ -574,8 +572,7 @@ int k=0;
                     ll2.addView(row, k);
                     k++;
                 }
-            }catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -589,13 +586,13 @@ int k=0;
 
             @Override
             public void onClick(View view) {
-                 String labour = labour_cost.getText().toString();
+                String labour = labour_cost.getText().toString();
                 String total = toatl_cost.getText().toString();
                 String selectedstring = selectedStrings.toString();
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
 
                 smLocalStore.setSMservice(labour, total, selectedstring);
-                EditText descedit = (EditText)findViewById(R.id.sm_suggestion);
+                EditText descedit = (EditText) findViewById(R.id.sm_suggestion);
                 String desc = descedit.getText().toString();
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
                 smLocalStore.setSMdesc(desc);
@@ -605,7 +602,7 @@ int k=0;
 
                 startActivity(new Intent(ScheduledMaintenanceScreen.this, ScheduledMaintenanceWorkshoplist.class));
 
-                        }
+            }
         });
 
 
@@ -627,7 +624,7 @@ int k=0;
                         JSONArray service_list_price = jsonObject.getJSONArray("service_list_price");
                         JSONArray service_list_js = jsonObject.getJSONArray("services");
                         JSONArray service_listfield_js = jsonObject.getJSONArray("field");
-                         String varient = smLocalStore.getSMhome_varient();
+                        String varient = smLocalStore.getSMhome_varient();
                         sm_service_listprice = new String[service_list_qty.length()];
                         sm_service_list = new String[service_list_qty.length()];
                         sm_service_listqty = new String[service_list_qty.length()];
@@ -640,9 +637,7 @@ int k=0;
 
                         }
                         SM_Services_display();
-                    }
-                    else
-                    {
+                    } else {
                         no_service();
                     }
                 } catch (JSONException e) {
@@ -676,7 +671,11 @@ int k=0;
             }
 
         };
-        AppController.getInstance();
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG1);
     }
 
