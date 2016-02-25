@@ -57,8 +57,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-       // ed.putString("currentLatitude",""+currentLatitude);
-        //ed.putString("currentLongitude",""+currentLongitude);
+//        ed.putString("currentLatitude",""+currentLatitude);
+//        ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
 
         HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
@@ -146,6 +146,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         sw=new ScheduledMaintenanceWorkshoplist();
                        dist=sw.getDistance(latLng1,latLng2);
 
+
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
 
@@ -204,7 +205,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 }
             }
         });
-
+if((category).equals("Authorised")) {category = "Exclusive"; }
         workshopname.setText(name);
         workshopaddress.setText(address);
         workshopcategory.setText(category);

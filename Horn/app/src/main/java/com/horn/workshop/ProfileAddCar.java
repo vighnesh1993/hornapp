@@ -1,13 +1,18 @@
 package com.horn.workshop;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +46,7 @@ public class ProfileAddCar extends AppCompatActivity {
     Button add_car;
     SQLiteHandler sqLiteHandler;
     ProgressDialog pDialog;
+    String reg_nos , year_regs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +140,71 @@ String car_id = smLocalStore.getProfileAddCar();
     }
     public void profile_add_Car(View v)
     {
+        LayoutInflater li = LayoutInflater.from(ProfileAddCar.this);
+        final View commentDialog = li.inflate(R.layout.profile_mycar_popup, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                ProfileAddCar.this);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(commentDialog);
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton("ADD",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
+                EditText year_reg  = (EditText)commentDialog.findViewById(R.id.year);
+                reg_nos = reg_no.getText().toString();
+                year_regs = year_reg.getText().toString();
+               profile_add_Car_ok();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
+
+//        final EditText userInput = (EditText) commentDialog
+//                .findViewById(R.id.editTextDialogUserInput);
+
+//        final Dialog commentDialog = new Dialog(this);
+//        commentDialog.setContentView(R.layout.profile_mycar_popup);
+//        Button okBtn = (Button) commentDialog.findViewById(R.id.ok);
+//        okBtn.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                //do anything you want here before close the dialog
+//                EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
+//                EditText year_reg  = (EditText)commentDialog.findViewById(R.id.year);
+//                reg_nos = reg_no.getText().toString();
+//                year_regs = year_reg.getText().toString();
+//               profile_add_Car_ok();
+//            }
+//        });
+//        Button cancelBtn = (Button) commentDialog.findViewById(R.id.cancel);
+//        cancelBtn.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//
+//                commentDialog.cancelLongPress();
+//            }
+//        });
+//        commentDialog.show();
+    }
+    public void profile_add_Car_ok()
+    {
+
         pDialog = new ProgressDialog(ProfileAddCar.this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Loading....");
@@ -172,9 +244,12 @@ String car_id = smLocalStore.getProfileAddCar();
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
                 String  apmnt_user_email = user.get("email");
 
+Log.d("registration..",reg_nos+".."+year_regs);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("add_tomycar", car_id);
                 params.put("user_email", apmnt_user_email);
+                params.put("user_reg_no", reg_nos);
+                params.put("user_year_reg", year_regs);
 
 
                 return params;

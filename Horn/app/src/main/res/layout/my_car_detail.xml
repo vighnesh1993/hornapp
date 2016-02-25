@@ -205,7 +205,102 @@
                     android:textSize="14dp" />
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:orientation="vertical">
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit_black_24dp"
+                    android:onClick="registration_edit"
+                    android:layout_gravity="right|top"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/addcar_registration_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Registration"
+                    android:editable="false"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_11"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_registration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/addcar_regyear_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Year of Registration"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_12"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_regyear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/accent"
+                android:textStyle="bold"
+                android:text="UPDATE"
+                android:onClick="mycar_update"/>
+        </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

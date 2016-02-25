@@ -233,7 +233,8 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                                 .setMessage("Your Appointment has been placed. \n Appointment id:" + jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
+                                       // Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
+                                        Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, MainActivity.class);
                                         startActivity(launchActivity1);
                                     }
                                 })

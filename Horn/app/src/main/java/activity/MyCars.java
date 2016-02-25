@@ -60,6 +60,7 @@ public class MyCars extends AppCompatActivity  {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
+    public int car_count;
 
 
     @Override
@@ -162,7 +163,7 @@ public class MyCars extends AppCompatActivity  {
         rCarView.setHasFixedSize(true);
         rCarView.setLayoutManager(new LinearLayoutManager(this));
         rCarView.setItemAnimator(new DefaultItemAnimator());
-
+        car_count = nameArray.length;
         carDatas = new ArrayList<CarData>();
         for (int i = 0; i < nameArray.length; i++) {
             carDatas.add(new CarData(
@@ -209,14 +210,20 @@ public class MyCars extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            if(car_count<2)
             startActivity(new Intent(MyCars.this, AddCar.class));
+            else
+                Toast.makeText(MyCars.this, "We are sorry. You can add only maximum of 2 cars", Toast.LENGTH_SHORT).show();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-
+public void carcount()
+{
+    car_count = car_count-1;
+}
 
 
 

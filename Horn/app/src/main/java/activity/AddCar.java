@@ -16,8 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.MainActivity;
@@ -215,7 +217,9 @@ Log.d("sdsdsd", "car Response: " + response);
 
         };
 
-
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 }

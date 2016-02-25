@@ -5,9 +5,9 @@
     android:background="@color/off_white"
     android:orientation="vertical">
 
-    <include
+    <!--<include
         android:id="@+id/my_tool_bar"
-        layout="@layout/my_tool_bar" />
+        layout="@layout/my_tool_bar" />-->
 
         <LinearLayout
             android:id="@+id/sm_serv"
