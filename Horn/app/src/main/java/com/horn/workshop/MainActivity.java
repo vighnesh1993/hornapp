@@ -163,39 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             in.putExtra("value", "1");
                             startActivity(in);
                         } else if (position == 3) {
-
-                            final Dialog dialog = new Dialog(MainActivity.this);
-                            dialog.setContentView(R.layout.custom);
-                            dialog.setTitle("Choose location from ?");
-
-                            Button btn = (Button) dialog.findViewById(R.id.ok);
-                            Button btn1 = (Button) dialog.findViewById(R.id.cancel);
-
-                            btn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    RadioGroup radioGroup = (RadioGroup) dialog.findViewById(R.id.rg);
-
-                                    int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                                    RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-
-
-                                    dialog.dismiss();
-
-                                }
-                            });
-                            btn1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-
-                                }
-                            });
-
-                            dialog.show();
-
-
                             Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
                         } else if (position == 4) {
                             Toast.makeText(getApplicationContext(), "Others : " + position, Toast.LENGTH_LONG).show();
@@ -379,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-
+        mGoogleApiClient.connect();
         if (!getGpsStatus()) {
 
 
@@ -407,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-            mGoogleApiClient.connect();
+
     }
 
 

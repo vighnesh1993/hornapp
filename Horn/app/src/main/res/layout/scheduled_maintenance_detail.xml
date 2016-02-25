@@ -122,40 +122,35 @@
                 </RelativeLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:id="@+id/linearLayout7"
-                    android:layout_alignBottom="@+id/linearLayout6"
                     android:background="#55000000"
                     android:orientation="horizontal">
 
                         <ImageButton
                             android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:backgroundTintMode="src_in"
+                            android:layout_height="70dp"
                             android:background="#55000000"
                             android:src="@android:drawable/ic_menu_call"/>
 
 
                         <ImageButton
                             android:layout_width="100dp"
-                            android:layout_height="32dp"
-                            android:backgroundTintMode="src_in"
+                            android:layout_height="70dp"
                             android:background="#55000000"
                             android:src="@drawable/ic_location_on_white_24dp"/>
 
                         <ImageButton
                             android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:backgroundTintMode="src_in"
+                            android:layout_height="70dp"
                             android:background="#55000000"
                             android:src="@android:drawable/ic_menu_share"/>
 
                         <ImageButton
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp"
                             android:background="#55000000"
-                            android:backgroundTintMode="src_in"
-                            android:src="@android:drawable/ic_menu_share"/>
+                            android:src="@android:drawable/ic_dialog_map"/>
 
                 </LinearLayout>
                 <LinearLayout

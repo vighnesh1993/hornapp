@@ -61,12 +61,29 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
 //        ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
 
-        HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
+       /* HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
         String lat = latlog.get("lat");
         String log = latlog.get("log");
 
        double d1=Double.parseDouble(lat);
-       double d2=Double.parseDouble(log);
+       double d2=Double.parseDouble(log);*/
+
+
+
+        UserLocalStore userLocalStore=new UserLocalStore(this);
+
+        String latlng1=userLocalStore.getMylocationLatlog();
+
+
+
+
+        String[] ltlg = latlng1.split(",");
+        String ltlg1 = ltlg[0]; // 004
+        String ltlg2 = ltlg[1];
+
+        double d1=Double.parseDouble(ltlg1);
+        double d2=Double.parseDouble(ltlg2);
+
 
         latLng1=new LatLng(d1,d2);
 
@@ -82,7 +99,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
-                startActivity(new Intent(ScheduledMaintenanceDetail.this,ScheduledMaintenanceAppointment.class));
+                startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
             }
         });
         getdetailFromDb(workshopid);
@@ -217,7 +234,7 @@ if((category).equals("Authorised")) {category = "Exclusive"; }
             @Override
             public void onClick(View v) {
                 Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
-                ob.putExtra("workshop",name);
+                ob.putExtra("workshop",name+"##!###"+address+"##!###"+rating+"##!###");
                 startActivity(ob);
             }
         });

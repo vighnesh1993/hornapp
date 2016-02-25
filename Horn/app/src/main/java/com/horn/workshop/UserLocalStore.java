@@ -236,5 +236,17 @@ public class UserLocalStore {
     public String getGPSLatlong() {
         return pref.getString("mGpsLatLong","");
     }
+
+    public boolean getPlaceActivityGPS() {
+        if (pref.getBoolean("placegps", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void setPlaceActivityGPS(boolean placeGps) {
+        editor.putBoolean("placegps", placeGps);
+        editor.commit();
+    }
 }
 
