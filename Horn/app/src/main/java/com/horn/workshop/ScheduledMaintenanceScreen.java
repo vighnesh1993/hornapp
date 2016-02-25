@@ -313,7 +313,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         for (int i = 0; i < sm_service.length; i++) {
             final Button myButton = new Button(this);
             myButton.setText(sm_service[i] + km);
-            LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
+            final LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
             ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
             myButton.setHeight(100);
             myButton.setTextSize(15);
@@ -324,6 +324,12 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+                    int childcount = ll.getChildCount();
+                    for (int i=0; i < childcount; i++){
+                        View v = ll.getChildAt(i);
+                        v.setBackgroundColor(Color.WHITE);
+                    }
+                    myButton.setBackgroundColor(Color.parseColor("#FFBE05"));
 
                     smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
                     Spinner spinner = (Spinner) findViewById(R.id.vehicle);

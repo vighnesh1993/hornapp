@@ -17,6 +17,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
@@ -24,6 +26,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.horn.workshop.MainActivity;
 import com.horn.workshop.MyCarDetail;
 import com.horn.workshop.R;
 import com.horn.workshop.RecyclerItemClickListener;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import adapters.Connectivity;
 import adapters.MyCarAdapter;
 import app.AppConfig;
 import app.AppController;
@@ -48,11 +52,11 @@ import helper.SwipeToRemoveMycar;
 /**
  * Created by user on 05-02-2016.
  */
-public class MyCars extends AppCompatActivity  {
+public class MyCars extends AppCompatActivity {
 
     private Toolbar toolbar;
     ProgressDialog pDialog;
-    String [] nameArray,carImageArray,carIdArray;
+    String[] nameArray, carImageArray, carIdArray;
     RecyclerView rCarView;
     SMLocalStore smLocalStore;
     public static ArrayList<CarData> carDatas;
@@ -60,8 +64,10 @@ public class MyCars extends AppCompatActivity  {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
-    public int car_count;
+    public int car_count = 0;
 
+    private ImageView nocars_found;
+    private TextView nocars_found_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +76,9 @@ public class MyCars extends AppCompatActivity  {
 //        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 //        getWindow().setSharedElementExitTransition(new ChangeTransform());
         setContentView(R.layout.my_cars);
-
+//        Connectivity connection = new Connectivity();
+//        if (Connectivity.getInstance(this).isOnline())
+//        {
         toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
 
@@ -78,14 +86,21 @@ public class MyCars extends AppCompatActivity  {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
         show_mycars();
+        nocars_found = (ImageView) findViewById(R.id.no_cars_img);
+        nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
     }
-    public void show_mycars()
-    {
+
+    //        else
+//        {
+//            Intent intent2 = new Intent(this, MainActivity.class);
+//            startActivity(intent2);
+//        }
+    // }
+    public void show_mycars() {
         pDialog.show();
     /*
     *Datas from DB starts
@@ -103,8 +118,8 @@ public class MyCars extends AppCompatActivity  {
                     if (jsonObject != null) {
                         int len = jsonObject.length();
                         String status_car = jsonObject.getString("status");
-                        Log.d("stat",status_car);
-                        if(status_car.equals("Have_cars")) {
+                        Log.d("stat", status_car);
+                        if (status_car.equals("Have_cars")) {
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
@@ -116,11 +131,10 @@ public class MyCars extends AppCompatActivity  {
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
                             }
-
+                            nocars_found.setVisibility(View.GONE);
+                            nocars_found_txt.setVisibility(View.GONE);
                             mycarsDisplay();
-                        }
-                        else
-                        {
+                        } else {
 
                             Toast.makeText(MyCars.this, "You have not yet added any cars", Toast.LENGTH_LONG).show();
                         }
@@ -144,7 +158,7 @@ public class MyCars extends AppCompatActivity  {
                 String get_mycars = "get_mycars";
                 sqLiteHandler = new SQLiteHandler(MyCars.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  apmnt_user_email = user.get("email");
+                String apmnt_user_email = user.get("email");
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("get_mycars", get_mycars);
@@ -157,13 +171,14 @@ public class MyCars extends AppCompatActivity  {
 
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
-    public void mycarsDisplay()
-    {
+
+    public void mycarsDisplay() {
         rCarView = (RecyclerView) findViewById(R.id.my_car_rView);
         rCarView.setHasFixedSize(true);
         rCarView.setLayoutManager(new LinearLayoutManager(this));
         rCarView.setItemAnimator(new DefaultItemAnimator());
         car_count = nameArray.length;
+        //  Log.d("count1",String.valueOf(car_count));
         carDatas = new ArrayList<CarData>();
         for (int i = 0; i < nameArray.length; i++) {
             carDatas.add(new CarData(
@@ -190,10 +205,11 @@ public class MyCars extends AppCompatActivity  {
                     }
                 })
         );
-        ItemTouchHelper.Callback callback = new SwipeToRemoveMycar(adapter,rCarView);
+        ItemTouchHelper.Callback callback = new SwipeToRemoveMycar(adapter, rCarView);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rCarView);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -210,21 +226,26 @@ public class MyCars extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            if(car_count<2)
-            startActivity(new Intent(MyCars.this, AddCar.class));
-            else
+            if (car_count < 2) {
+                //  Log.d("count2",String.valueOf(car_count));
+                startActivity(new Intent(MyCars.this, AddCar.class));
+            } else {
+                // Log.d("count2", String.valueOf(car_count));
                 Toast.makeText(MyCars.this, "We are sorry. You can add only maximum of 2 cars", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-public void carcount()
-{
-    car_count = car_count-1;
-}
-
+//public void carcount(int car_count1)
+//{
+//
+//    car_count = car_count1;
+//    Log.d("countrem",String.valueOf(car_count));
+//    Log.d("countrss",String.valueOf(car_count1));
+//}
 
 
 }

@@ -2,6 +2,7 @@ package adapters;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,7 +73,7 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
         TextView textView = holder.nameTextView;
         final ImageView carImage = holder.carImageView;
         textView.setText(carData.getName());
-        String url = "http://blueripples.org/horn/app_server/cars/" + carData.getImageName();
+        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + carData.getImageName();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
 
@@ -141,8 +142,11 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
                         Log.d("remove status", status_remove);
                         pDialog.dismiss();
                         Toast.makeText(context, "Removed Successfully !!!", Toast.LENGTH_LONG).show();
-MyCars myCar = new MyCars();
-                        myCar.carcount();
+                       // int count = (mCarDatas.size());
+                       //// MyCars myCar = new MyCars();
+                       // myCar.carcount(count);
+                        Intent intent1 = new Intent(context, MyCars.class);
+                        context.startActivity(intent1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

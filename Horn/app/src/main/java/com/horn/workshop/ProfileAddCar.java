@@ -91,7 +91,7 @@ public class ProfileAddCar extends AppCompatActivity {
                         car_varient.setText(car_varients);
                         car_vehicle.setText(car_vehicles);
 
-                        String url = "http://blueripples.org/horn/app_server/cars/"+car_images+"";
+                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
                         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
                         imageLoader.get(url, new ImageLoader.ImageListener() {
 

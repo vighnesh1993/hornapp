@@ -71,4 +71,5 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <!-- Customize your theme here. -->
     </style>
+
 </resources>
