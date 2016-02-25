@@ -106,16 +106,6 @@ public class ScheduledMaintenanaceHome extends AppCompatActivity {
                         {
                             pDialog.dismiss();
 
-                            new AlertDialog.Builder(ScheduledMaintenanaceHome.this)
-                                    .setMessage("You were not yet added your car")
-                                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            startActivity(new Intent(ScheduledMaintenanaceHome.this, AddCar.class));
-                                        }
-                                    })
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .setCancelable(false)
-                                    .show();
                         }
                     }
                 } catch (JSONException e) {
