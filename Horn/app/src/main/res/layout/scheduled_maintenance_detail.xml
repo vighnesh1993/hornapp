@@ -152,33 +152,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:id="@+id/linearLayout7"
-                    android:background="#55000000"
                     android:orientation="horizontal">
 
                         <ImageButton
                             android:layout_width="100dp"
                             android:layout_height="70dp"
-                            android:background="#55000000"
+                            android:background="@drawable/nor_button_bg"
                             android:src="@android:drawable/ic_menu_call"/>
 
 
                         <ImageButton
                             android:layout_width="100dp"
                             android:layout_height="70dp"
-                            android:background="#55000000"
+                            android:background="@drawable/nor_button_bg"
                             android:src="@drawable/ic_location_on_white_24dp"/>
 
                         <ImageButton
                             android:layout_width="100dp"
                             android:layout_height="70dp"
-                            android:background="#55000000"
+                            android:background="@drawable/nor_button_bg"
                             android:src="@android:drawable/ic_menu_share"/>
 
                         <ImageButton
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
-                            android:background="#55000000"
-                            android:src="@android:drawable/ic_dialog_map"/>
+                            android:background="@drawable/nor_button_bg"
+                            android:src="@android:drawable/ic_menu_directions"/>
 
                 </LinearLayout>
                 <LinearLayout
