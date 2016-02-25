@@ -1,11 +1,19 @@
 package com.horn.workshop;
 
+import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,13 +37,20 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.pkmmte.view.CircularImageView;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import activity.ChoiceLogin;
 import activity.MyCars;
@@ -44,7 +59,9 @@ import app.AppController;
 import helper.ServicesManager;
 import helper.SQLiteHandler;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener {
 
     private TextView loggedUser, nav_name, nav_email;
     private Button logout;
@@ -56,7 +73,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private RecyclerView mRecyclerView;
     private ServicesAdapter mAdapter;
     private SMLocalStore smLocalStore;
-
+    private LocationRequest mLocationRequest;
+    private double currentLatitude = 0.0;
+    private double currentLongitude = 0.0;
+    private LatLng latLng;
+    private android.support.v7.app.ActionBar ab;
+    String subLocality = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +89,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // toolbar.setSubtitle("sub-title");
         smLocalStore = new SMLocalStore(MainActivity.this);
+        userLocalStore = new UserLocalStore(this);
+        userLocalStore.setMylocationLatlog(userLocalStore.getMyManuallocationLatlog());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +103,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .setAction("Action", null).show();
             }
         });
+
+        ab = getSupportActionBar();
+        String mLocation = userLocalStore.getManualLocation();
+        ab.setSubtitle(mLocation);
+
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(AppIndex.API).build();
+
+        // Create the LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1 * 1000);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -94,10 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         circularImageView = ((CircularImageView) nav_header.findViewById(R.id.circularImage));
         navigationView.addHeaderView(nav_header);
 
-        // nav_name = (TextView) findViewById(R.id.nav_name);
-        // nav_name.setText("test");
-        // nav_email = (TextView) findViewById(R.id.nav_email);
-        //  mProfileImage = (ImageView) findViewById(R.id.profile_picture);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -124,53 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             in.putExtra("value", "1");
                             startActivity(in);
                         } else if (position == 3) {
-
-                            //Intent ob=new Intent(MainActivity.this,Gcm.class);
-                            //startActivity(ob);
-
-
-
-                                    // custom dialog
-                                    final Dialog dialog = new Dialog(MainActivity.this);
-                                    dialog.setContentView(R.layout.custom);
-                                    dialog.setTitle("Choose location from ?");
-
-                                    // set the custom dialog components - text, image and button
-                                    Button btn = (Button) dialog.findViewById(R.id.ok);
-                                    Button btn1 = (Button) dialog.findViewById(R.id.cancel);
-                                   // text.setText("Android custom dialog example!");
-                                   // ImageView image = (ImageView) dialog.findViewById(R.id.image);
-                                    //image.setImageResource(R.drawable.ic_launcher);
-
-                                    // if button is clicked, close the custom dialog
-                            btn.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            RadioGroup radioGroup= (RadioGroup) dialog.findViewById(R.id.rg);
-
-                                            int selectedId = radioGroup.getCheckedRadioButtonId();
-
-                                            // find the radiobutton by returned id
-                                            RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-
-                                            Toast.makeText(MainActivity.this,
-                                                    radioButton.getText(), Toast.LENGTH_SHORT).show();
-
-                                            dialog.dismiss();
-
-                                        }
-                                    });
-                            btn1.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    dialog.dismiss();
-
-                                }
-                            });
-
-                                    dialog.show();
-
-
                             Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
                         } else if (position == 4) {
                             Toast.makeText(getApplicationContext(), "Others : " + position, Toast.LENGTH_LONG).show();
@@ -179,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 })
         );
-
-        userLocalStore = new UserLocalStore(this);
         sqLiteHandler = new SQLiteHandler(this);
 
         if (userLocalStore.getGoogleUserLoggedIn()) {
@@ -193,6 +183,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .build();
         }
 
+
+    }
+
+    private void handleNewLocation(Location location) {
+        //  Log.d(TAG, location.toString());
+
+
+        currentLatitude = location.getLatitude();
+        currentLongitude = location.getLongitude();
+       // Toast.makeText(getApplicationContext(), "userLocalStore.getMyManuallocationLatlog() : " + userLocalStore.getMyManuallocationLatlog(), Toast.LENGTH_LONG).show();
+
+        if(userLocalStore.getMyManuallocationLatlog().equals("")) {
+            userLocalStore.setMylocationLatlog(currentLatitude + "," + currentLongitude);
+        }
+        else
+        {
+            userLocalStore.setMylocationLatlog(userLocalStore.getMyManuallocationLatlog());
+        }
+        smLocalStore.setSmwCurrentLatlng("" + currentLatitude, "" + currentLongitude);
+
+        latLng = new LatLng(currentLatitude, currentLongitude);
+
+        //String mLocation = userLocalStore.getManualLocation();
+        // if (mLocation.equals("")) {
+        getCurrentLocation(currentLatitude, currentLongitude);
+        //}
+
+    }
+
+    public void onConnected(Bundle bundle) {
+        mUpdateLocation();
+    }
+
+
+    private void mUpdateLocation() {
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+
+            return;
+        }
+
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location == null) {
+            // LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+        } else {
+            handleNewLocation(location);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
 
     }
 
@@ -213,19 +255,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main2, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        int id = item.getItemId();
         if (id == R.id.action_settings) {
 
             Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
@@ -243,8 +280,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (userLocalStore.getGuestUserLoggedIn()) {
                 guestUserLogout();
             }
-        }  else if (id == R.id.action_choose_loc) {
+        } else if (id == R.id.action_choose_loc) {
             startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
+        } else if (id == R.id.action_compass) {
+            userLocalStore.setManualLocation("");
+            userLocalStore.setMyManuallocationLatlog("");
+            String sLatLong = userLocalStore.getGPSLatlong();
+            mUpdateLocation();
+            if (getGpsStatus()) {
+                userLocalStore.setMyManuallocationLatlog("");
+                userLocalStore.setManualLocation("");
+                Intent callGPSSettingIntent = new Intent(
+                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(callGPSSettingIntent);
+
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -277,8 +327,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_terms) {
 
-        }
-        else if (id == R.id.nav_appoinment) {
+        } else if (id == R.id.nav_appoinment) {
             startActivity(new Intent(this, ProfileMyAppoinmentList.class));
         }
 
@@ -294,12 +343,59 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+        if (!getGpsStatus()) {
+
+
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                return;
+            }
+
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            try {
+                if (!location.equals("")) {
+
+                    userLocalStore = new UserLocalStore(this);
+                    handleNewLocation(location);
+                }
+                else {
+
+
+                }
+
+            }
+            catch(Exception e)
+            {
+
+            }
+        }
+
+
+    }
+
+
+    private boolean getGpsStatus() {
+
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if (provider.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void userLogout() {
         startActivity(new Intent(this, ChoiceLogin.class));
         finish();
         Toast.makeText(getApplicationContext(), R.string.horn_logout, Toast.LENGTH_LONG).show();
         userLocalStore.setUserLoggedIn(false);
         sqLiteHandler.deleteUsers();
+        userLocalStore.setManualLocationChoosen(false);
     }
 
     private void guestUserLogout() {
@@ -308,6 +404,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), R.string.horn_logout, Toast.LENGTH_LONG).show();
         userLocalStore.setGuestUserLoggedIn(false);
         sqLiteHandler.deleteUsers();
+        userLocalStore.setManualLocationChoosen(false);
     }
 
     private void userFBLogout() {
@@ -316,6 +413,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), R.string.fb_logedout, Toast.LENGTH_LONG).show();
         LoginManager.getInstance().logOut();
         userLocalStore.setFBUserLoggedIn(false);
+        userLocalStore.setManualLocationChoosen(false);
     }
 
     private void signOut() {
@@ -326,6 +424,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(getApplicationContext(), R.string.goo_signedout, Toast.LENGTH_LONG).show();
         mGoogleApiClient.disconnect();
         mGoogleApiClient.connect();
+        userLocalStore.setManualLocationChoosen(false);
     }
 
     @Override
@@ -418,7 +517,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
             }
 
             @Override
@@ -447,13 +545,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
             }
 
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
                 if (response.getBitmap() != null) {
-                    // load image into imageview
                     circularImageView.addShadow();
                     circularImageView.setImageBitmap(response.getBitmap());
                 }
@@ -473,5 +569,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String lName = gstUserName.toLowerCase();
         char alphabet = lName.charAt(0);
         setProfilePictureWithAlphabet(alphabet);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    private void getCurrentLocation(double latitude, double longitude) {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            subLocality = addresses.get(0).getSubLocality();
+            String mLocation = userLocalStore.getManualLocation();
+            if(userLocalStore.getMyManuallocationLatlog().equals("")) {
+                userLocalStore.setMylocationLatlog(latitude+","+longitude);
+            }
+            else
+            {
+                userLocalStore.setMylocationLatlog(userLocalStore.getMyManuallocationLatlog());
+            }
+
+           // Toast.makeText(getApplicationContext(),"manualLocation  "+userLocalStore.getMyManuallocationLatlog(),Toast.LENGTH_SHORT).show();
+            if(mLocation.equals(""))
+            {
+                ab.setSubtitle(subLocality);
+            }
+            else
+            {
+                ab.setSubtitle(mLocation);
+            }
+            userLocalStore.setGPSLatlong(""+latitude+","+longitude);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

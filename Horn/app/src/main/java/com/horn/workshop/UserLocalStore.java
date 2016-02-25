@@ -193,6 +193,60 @@ public class UserLocalStore {
     public String getManualLocationLatlong() {
         return pref.getString("mLatLong","");
     }
+    public void setManualLocation(String mLocation) {
+        editor.putString("mLocation", mLocation);
+        editor.commit();
+    }
 
+    public String getManualLocation() {
+        return pref.getString("mLocation","");
+    }
+    public boolean getManualLocationChoosen() {
+        if (pref.getBoolean("gLchoosen", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void setManualLocationChoosen(boolean mLocation) {
+        editor.putBoolean("gLchoosen", mLocation);
+        editor.commit();
+
+    }
+    public void setMylocationLatlog(String myLocation) {
+        editor.putString("myLocation", myLocation);
+        editor.commit();
+
+    }public void setMyManuallocationLatlog(String mymLocation) {
+        editor.putString("mymLocation", mymLocation);
+        editor.commit();
+
+    }public String getMyManuallocationLatlog() {
+        return pref.getString("mymLocation", "");
+
+    }public String getMylocationLatlog() {
+        return pref.getString("myLocation","");
+
+    }
+
+    public void setGPSLatlong(String mLatlong) {
+        editor.putString("mGpsLatLong", mLatlong);
+        editor.commit();
+    }
+    public String getGPSLatlong() {
+        return pref.getString("mGpsLatLong","");
+    }
+
+    public boolean getPlaceActivityGPS() {
+        if (pref.getBoolean("placegps", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void setPlaceActivityGPS(boolean placeGps) {
+        editor.putBoolean("placegps", placeGps);
+        editor.commit();
+    }
 }
 

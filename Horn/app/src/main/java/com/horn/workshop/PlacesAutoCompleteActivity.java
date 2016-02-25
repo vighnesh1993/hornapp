@@ -2,6 +2,7 @@ package com.horn.workshop;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
     private LinearLayoutManager mLinearLayoutManager;
     private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
     private UserLocalStore userLocalStore;
+    private Button enable_gps;
     ImageView delete;
     Button next;
     @Override
@@ -52,15 +54,32 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
 
         delete=(ImageView)findViewById(R.id.cross);
         userLocalStore = new UserLocalStore(this);
-        next= (Button) findViewById(R.id.nextbtn);
-        next.setOnClickListener(new View.OnClickListener() {
+        enable_gps= (Button) findViewById(R.id.enable_gps);
+        enable_gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getApplicationContext(), "hii", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(PlacesAutoCompleteActivity.this,ScheduledMaintenanceWorkshoplist.class));
-
+                if(getGpsStatus())
+                {
+                    Intent callGPSSettingIntent = new Intent(
+                            android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(callGPSSettingIntent);
+                }
+                else
+                {
+                    startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
+                }
             }
         });
+        //next= (Button) findViewById(R.id.nextbtn);
+//        next.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //Toast.makeText(getApplicationContext(), "hii", Toast.LENGTH_SHORT).show();
+//                startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
+//                String mLocation = mAutocompleteView.getText().toString();
+//                userLocalStore.setManualLocation(mLocation);
+//            }
+//        });
 
         mAutoCompleteAdapter =  new PlacesAutoCompleteAdapter(this, R.layout.searchview_adapter,
                 mGoogleApiClient, BOUNDS_INDIA, null);
@@ -77,7 +96,7 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
                 if (!s.toString().equals("") && mGoogleApiClient.isConnected()) {
                     mAutoCompleteAdapter.getFilter().filter(s.toString());
                 }else if(!mGoogleApiClient.isConnected()){
-                    Toast.makeText(getApplicationContext(), Constants.API_NOT_CONNECTED,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), Constants.API_NOT_CONNECTED,Toast.LENGTH_SHORT).show();
                     Log.e(Constants.PlacesTag,Constants.API_NOT_CONNECTED);
                 }
 
@@ -115,10 +134,21 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
 
 
                                     String latnlog=String.valueOf(places.get(0).getLatLng().latitude)+","+String.valueOf(places.get(0).getLatLng().longitude);
-                                    Toast.makeText(getApplicationContext(),latnlog,Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(),latnlog,Toast.LENGTH_SHORT).show();
+
+                                    userLocalStore.setGPSLatlong(latnlog);
+                                    String mLocation = mAutocompleteView.getText().toString();
+                                    userLocalStore.setManualLocation(mLocation);
+                                   // Toast.makeText(getApplicationContext(),"Place auto current :"+latnlog,Toast.LENGTH_SHORT).show();
+
                                     userLocalStore.setManualLocationLatlong(latnlog);
+                                    userLocalStore.setManualLocationChoosen(true);
+                                    userLocalStore.setMylocationLatlog("");
+                                    userLocalStore.setMyManuallocationLatlog(latnlog);
+
+                                    startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
                                 }else {
-                                    Toast.makeText(getApplicationContext(),Constants.SOMETHING_WENT_WRONG,Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(getApplicationContext(),Constants.SOMETHING_WENT_WRONG,Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -176,7 +206,7 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.v("Google API Callback","Connection Failed");
         Log.v("Error Code", String.valueOf(connectionResult.getErrorCode()));
-        Toast.makeText(this, Constants.API_NOT_CONNECTED,Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, Constants.API_NOT_CONNECTED,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -193,6 +223,12 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
             Log.v("Google API","Connecting");
             mGoogleApiClient.connect();
         }
+       /* if(!getGpsStatus()){
+            userLocalStore.setPlaceActivityGPS(true);
+        }
+        if(userLocalStore.getPlaceActivityGPS()){
+           startActivity(new Intent(PlacesAutoCompleteActivity.this, MainActivity.class));
+        }*/
     }
 
     @Override
@@ -207,5 +243,15 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+    private boolean getGpsStatus() {
+
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        if (provider.equals("")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
