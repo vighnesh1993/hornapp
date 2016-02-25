@@ -81,6 +81,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Menu optionsMenu;
+    private UserLocalStore userLocalStore;
 
     //  static View.OnClickListener myOnClickListener;
 
@@ -95,25 +96,36 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        userLocalStore = new UserLocalStore(this);
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .addApi(AppIndex.API).build();
+        //String latlng=userLocalStore.getManualLocationLatlong();
 
-        // Create the LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(1 * 1000);
+        // UserLocalStore userLocalStore=new UserLocalStore(this);
+        String latlng = userLocalStore.getMylocationLatlog();
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-        pDialog.setMessage("Searching for workshops ...");
-        search_workshop();
-        // myOnClickListener = new MyOnClickListener(this);
 
+        if (!latlng.equals("")) {
+
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .addApi(AppIndex.API).build();
+
+            // Create the LocationRequest object
+            mLocationRequest = LocationRequest.create()
+                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                    .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                    .setFastestInterval(1 * 1000);
+
+            pDialog = new ProgressDialog(this);
+            pDialog.setCancelable(false);
+            pDialog.setMessage("Searching for workshops ...");
+            search_workshop();
+            // myOnClickListener = new MyOnClickListener(this);
+
+        }
     }
 
         public void new_activity_launch(String workshopid)
@@ -135,6 +147,21 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         for (int i = 0; i < nameArray.length; i++) {
             Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
 
+            try
+            {
+                String[] parts = coordinateArray[i].split(",");
+                String part1 = parts[0]; // 004
+                String part2 = parts[1];
+                Log.e("part1 :",parts[0]);
+                Log.e("part2 :",parts[1]);
+
+                coordLatitude=Double.parseDouble(part1);
+                coordLongitude=Double.parseDouble(part2);
+            }
+            catch (Exception e)
+            {
+                Log.e("Exception :",""+e);
+            }
 
             String[] parts = coordinateArray[i].split(",");
             String part1 = parts[0]; // 004
@@ -146,6 +173,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
             coordLatitude=Double.parseDouble(part1);
             coordLongitude=Double.parseDouble(part2);
+
             latLng1 = new LatLng(coordLatitude, coordLongitude);
             distance[i]=getDistance(latLng, latLng1);
              Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
@@ -159,7 +187,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                     categoryArray[i],
                     profilepicArray[i],
                     workshopidArray[i],
-                    ratingArray[i],distance[i]
+                    ratingArray[i], distance[i]
             ));
         }
 

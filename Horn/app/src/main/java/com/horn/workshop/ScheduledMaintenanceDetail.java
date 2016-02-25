@@ -65,8 +65,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         String lat = latlog.get("lat");
         String log = latlog.get("log");
 
-        double d1=Double.parseDouble(lat);
-        double d2=Double.parseDouble(log);
+       double d1=Double.parseDouble(lat);
+       double d2=Double.parseDouble(log);
 
         latLng1=new LatLng(d1,d2);
 
@@ -144,7 +144,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         coordLongitude=Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
                         sw=new ScheduledMaintenanceWorkshoplist();
-                        dist=sw.getDistance(latLng1,latLng2);
+                       dist=sw.getDistance(latLng1,latLng2);
+
 
                         pic = R.drawable.workshop_sample;
                         workshopdisplay_detail();
@@ -216,6 +217,7 @@ if((category).equals("Authorised")) {category = "Exclusive"; }
             @Override
             public void onClick(View v) {
                 Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
+                ob.putExtra("workshop",name);
                 startActivity(ob);
             }
         });

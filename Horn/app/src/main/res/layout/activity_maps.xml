@@ -13,6 +13,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_alignTop="@+id/lll"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.horn.workshop.MapsActivity">
 
@@ -21,12 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            layout="@layout/app_bar_main2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--<include-->
+            <!--layout="@layout/app_bar_main2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
 
-</RelativeLayout>
+    </RelativeLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -34,20 +35,82 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        tools:context="com.horn.workshop.MapsActivity" />
+
+        tools:context="com.horn.workshop.MapsActivity"
+        android:layout_above="@+id/lll" />
 
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="5dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/ic_logggo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:id="@+id/lll"
+       >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:id="@+id/lll"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:padding="5dp"
+            android:text="SRI SAI AUTO MOTIVES" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:text="5"
+
+            android:textAlignment="inherit"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="5dp"
+            android:text="Thiruvananthapuram, the capital of Kerala"
+            android:password="false" />
+    </LinearLayout>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:background="@color/accent"
+            android:paddingLeft="5dp"
+            android:drawableEnd="@drawable/ic_directions_black_24dp"
+           android:text="Get Direction"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:textAlignment="viewStart"/>
+        </LinearLayout>
+
 </RelativeLayout>
 
     <!--
 
     </android.support.design.widget.CoordinatorLayout>-->
+
