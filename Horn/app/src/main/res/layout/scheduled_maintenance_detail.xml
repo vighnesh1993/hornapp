@@ -1,35 +1,35 @@
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-     android:layout_height="wrap_content">
-    <adapters.Scrollview
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scroll_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content">
+
+    <adapters.Scrollview xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/header"
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_edit_black_24dp" />
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="?android:colorBackground"
                 android:padding="16dp"
                 android:text="loren_ipsum" />
 
         </LinearLayout>
     </adapters.Scrollview>
+
     <include
         android:id="@+id/my_tool_bar"
         layout="@layout/my_tool_bar" />
@@ -79,15 +79,15 @@
                         android:id="@+id/workshopdetail_category"
                         android:layout_width="100dp"
                         android:layout_height="30dp"
+                        android:layout_above="@+id/linearLayout6"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/bg_for_authorised"
                         android:gravity="center"
                         android:text="Autthorised"
-                        android:textColor="@color/com_facebook_share_button_text_color"
-                        android:layout_marginBottom="10dp"
-                        android:layout_above="@+id/linearLayout6"
-                        android:layout_alignParentStart="true" />
+                        android:textColor="@color/com_facebook_share_button_text_color" />
 
                     <!--<TextView
                         android:id="@+id/ws_distance"
@@ -102,33 +102,33 @@
                         android:textColor="@color/com_facebook_share_button_text_color" />-->
 
                     <ImageView
+                        android:id="@+id/imageKm"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:src="@drawable/ic_room_black_48dp"
-                        android:tint="@color/icons"
-                        android:id="@+id/imageKm"
                         android:layout_alignTop="@+id/ws_distance"
+                        android:layout_marginEnd="0dp"
                         android:layout_toStartOf="@+id/ws_distance"
-                        android:layout_marginEnd="0dp" />
+                        android:src="@drawable/ic_room_black_48dp"
+                        android:tint="@color/icons" />
 
                     <TextView
+                        android:id="@+id/ws_distance"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:text="Loading..."
-                        android:id="@+id/ws_distance"
-                        android:gravity="center"
-                        android:textColor="@color/com_facebook_share_button_text_color"
+                        android:layout_alignEnd="@+id/rating"
                         android:layout_alignTop="@+id/workshopdetail_category"
-                        android:layout_alignEnd="@+id/rating" />
+                        android:gravity="center"
+                        android:text="Loading..."
+                        android:textColor="@color/com_facebook_share_button_text_color" />
 
                     <LinearLayout
+                        android:id="@+id/linearLayout6"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_alignBottom="@+id/workshopdetail_photo"
+                        android:layout_alignParentEnd="false"
                         android:layout_alignParentStart="false"
-                        android:background="#55000000"
-                        android:id="@+id/linearLayout6"
-                        android:layout_alignParentEnd="false">
+                        android:background="#55000000">
 
                         <TextView
                             android:id="@+id/workshopdetail_name"
@@ -138,60 +138,87 @@
                             android:layout_alignStart="@+id/workshopdetail_category"
                             android:layout_gravity="left|center_vertical"
                             android:fontFamily="sans-serif-light"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
                             android:text="Loading..."
                             android:textColor="#ffffff"
                             android:textSize="17dp"
-                            android:textStyle="bold"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="15dp" />
+                            android:textStyle="bold" />
                     </LinearLayout>
 
 
                 </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/primary_text"/>
                 <LinearLayout
+                    android:id="@+id/linearLayout7"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    android:id="@+id/linearLayout7"
                     android:orientation="horizontal">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_text"/>
+                    <ImageButton
+                        android:id="@+id/call_dialer"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nor_button_bg"
+                        android:src="@drawable/ic_call_white_24dp"
+                        android:tint="@color/wallet_primary_text_holo_light" />
 
-                        <ImageButton
-                            android:id="@+id/call_dialer"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:layout_weight="1"
-                            android:tint="@color/wallet_primary_text_holo_light"
-                            android:background="@drawable/nor_button_bg"
-                            android:src="@drawable/ic_call_white_24dp"/>
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_text"/>
 
+                    <ImageButton
+                        android:id="@+id/location_redirect"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nor_button_bg"
+                        android:src="@drawable/ic_location_on_white_24dp"
+                        android:tint="@color/wallet_primary_text_holo_light" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_text"/>
 
-                        <ImageButton
-                            android:id="@+id/location_redirect"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:layout_weight="1"
-                            android:tint="@color/wallet_primary_text_holo_light"
-                            android:background="@drawable/nor_button_bg"
-                            android:src="@drawable/ic_location_on_white_24dp"/>
+                    <ImageButton
+                        android:id="@+id/share_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nor_button_bg"
+                        android:src="@drawable/ic_share_black_24dp"
+                        android:tint="@color/wallet_primary_text_holo_light" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_text"/>
 
-                        <ImageButton
-                            android:id="@+id/share_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp"
-                            android:layout_weight="1"
-                            android:tint="@color/wallet_primary_text_holo_light"
-                            android:background="@drawable/nor_button_bg"
-                            android:src="@drawable/ic_share_black_24dp"/>
-
-                        <ImageButton
-                            android:id="@+id/favorite"
-                            android:layout_width="match_parent"
-                            android:layout_weight="1"
-                            android:layout_height="70dp"
-                            android:background="@drawable/nor_button_bg"
-                            android:tint="@color/wallet_primary_text_holo_light"
-                            android:src="@drawable/ic_favorite_border_white_24dp"/>
+                    <ImageButton
+                        android:id="@+id/favorite"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/nor_button_bg"
+                        android:src="@drawable/ic_favorite_border_white_24dp"
+                        android:tint="@color/wallet_primary_text_holo_light" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primary_text"/>
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/primary_text"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,14 +333,15 @@
                         android:textSize="14dp" />
 
                 </LinearLayout>
+
                 <Button
+                    android:id="@+id/book_now"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/book_now"
                     android:layout_gravity="center"
                     android:width="100sp"
-                    android:text="Book Now"
                     android:background="@drawable/nor_button_bg"
+                    android:text="Book Now"
                     android:textColor="#000000" />
             </LinearLayout>
 
