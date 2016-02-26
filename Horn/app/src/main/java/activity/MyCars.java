@@ -15,6 +15,10 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
+import android.view.Window;
+=======
+>>>>>>> master
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,8 +65,12 @@ public class MyCars extends AppCompatActivity {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
+<<<<<<< HEAD
+    public int car_count;
+=======
     public int car_count = 0;
 
+>>>>>>> master
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -82,6 +90,11 @@ public class MyCars extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+<<<<<<< HEAD
+        nocars_found = (ImageView) findViewById(R.id.no_cars_img);
+        nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
+=======
+>>>>>>> master
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -171,6 +184,10 @@ public class MyCars extends AppCompatActivity {
         int socketTimeout = 30000;//30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         stringRequest.setRetryPolicy(policy);
+<<<<<<< HEAD
+        AppController.getInstance().addToRequestQueue(stringRequest, strreq);
+=======
+>>>>>>> master
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 
@@ -230,10 +247,17 @@ public class MyCars extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             if (car_count < 2) {
+<<<<<<< HEAD
+// Log.d("count2",String.valueOf(car_count));
+                startActivity(new Intent(MyCars.this, AddCar.class));
+            } else {
+// Log.d("count2", String.valueOf(car_count));
+=======
                 //  Log.d("count2",String.valueOf(car_count));
                 startActivity(new Intent(MyCars.this, AddCar.class));
             } else {
                 // Log.d("count2", String.valueOf(car_count));
+>>>>>>> master
                 Toast.makeText(MyCars.this, "We are sorry. You can add only maximum of 2 cars", Toast.LENGTH_SHORT).show();
             }
             return true;
