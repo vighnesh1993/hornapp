@@ -142,14 +142,14 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
                         Log.d("remove status", status_remove);
                         pDialog.dismiss();
                         Toast.makeText(context, "Removed Successfully !!!", Toast.LENGTH_LONG).show();
-<<<<<<< HEAD
+
 //MyCars myCar = new MyCars();
 //                        myCar.carcount();
-=======
+
                        // int count = (mCarDatas.size());
                        //// MyCars myCar = new MyCars();
                        // myCar.carcount(count);
->>>>>>> master
+
                         Intent intent1 = new Intent(context, MyCars.class);
                         context.startActivity(intent1);
                     }
