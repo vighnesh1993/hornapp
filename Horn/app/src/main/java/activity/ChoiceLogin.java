@@ -36,7 +36,7 @@ public class ChoiceLogin extends AppCompatActivity implements View.OnClickListen
         fbLobin.setOnClickListener(this);
         gpLogin.setOnClickListener(this);
         hornSignup.setOnClickListener(this);
-        guestLogin.setOnClickListener(this);
+//        guestLogin.setOnClickListener(this);
 
 
         userLocalStore = new UserLocalStore(this);

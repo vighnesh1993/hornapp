@@ -155,29 +155,41 @@
                     android:orientation="horizontal">
 
                         <ImageButton
-                            android:layout_width="100dp"
+                            android:id="@+id/call_dialer"
+                            android:layout_width="match_parent"
                             android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:tint="@color/wallet_primary_text_holo_light"
                             android:background="@drawable/nor_button_bg"
-                            android:src="@android:drawable/ic_menu_call"/>
+                            android:src="@drawable/ic_call_white_24dp"/>
 
 
                         <ImageButton
-                            android:layout_width="100dp"
+                            android:id="@+id/location_redirect"
+                            android:layout_width="match_parent"
                             android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:tint="@color/wallet_primary_text_holo_light"
                             android:background="@drawable/nor_button_bg"
                             android:src="@drawable/ic_location_on_white_24dp"/>
 
                         <ImageButton
-                            android:layout_width="100dp"
-                            android:layout_height="70dp"
-                            android:background="@drawable/nor_button_bg"
-                            android:src="@android:drawable/ic_menu_share"/>
-
-                        <ImageButton
+                            android:id="@+id/share_detail"
                             android:layout_width="match_parent"
                             android:layout_height="70dp"
+                            android:layout_weight="1"
+                            android:tint="@color/wallet_primary_text_holo_light"
                             android:background="@drawable/nor_button_bg"
-                            android:src="@android:drawable/ic_menu_directions"/>
+                            android:src="@drawable/ic_share_black_24dp"/>
+
+                        <ImageButton
+                            android:id="@+id/favorite"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="70dp"
+                            android:background="@drawable/nor_button_bg"
+                            android:tint="@color/wallet_primary_text_holo_light"
+                            android:src="@drawable/ic_favorite_border_white_24dp"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -301,7 +313,7 @@
                     android:layout_gravity="center"
                     android:width="100sp"
                     android:text="Book Now"
-                    android:background="@color/accent"
+                    android:background="@drawable/nor_button_bg"
                     android:textColor="#000000" />
             </LinearLayout>
 
