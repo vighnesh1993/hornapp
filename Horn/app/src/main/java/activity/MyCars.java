@@ -61,8 +61,8 @@ public class MyCars extends AppCompatActivity {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
-    public int car_count = 0;
 
+    public int car_count = 0;
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -81,7 +81,6 @@ public class MyCars extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);

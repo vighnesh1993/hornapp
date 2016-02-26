@@ -281,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 guestUserLogout();
             }
         } else if (id == R.id.action_choose_loc) {
+
+            userLocalStore.setindicator(true);
             startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
         } else if (id == R.id.action_compass) {
             userLocalStore.setManualLocation("");
@@ -363,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     handleNewLocation(location);
                 }
                 else {
-
 
                 }
 
