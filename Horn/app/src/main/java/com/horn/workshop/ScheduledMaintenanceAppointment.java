@@ -27,8 +27,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -74,7 +76,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
         EditText km = (EditText) findViewById(R.id.apmnt_km);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
         km.setText(smLocalStore.getSMhome_kms() + " KM");
-        vehicle.setText(smLocalStore.getSMhome_make()+' '+smLocalStore.getSMhome_model()+' '+smLocalStore.getSMhome_vehicle());
+        vehicle.setText(smLocalStore.getSMhome_make() + ' ' + smLocalStore.getSMhome_model() + ' ' + smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
         timeview = (EditText) findViewById(R.id.apmnt_time);
 
@@ -233,7 +235,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                                 .setMessage("Your Appointment has been placed. \n Appointment id:" + jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                       // Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
+                                        // Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
                                         Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, MainActivity.class);
                                         startActivity(launchActivity1);
                                     }
@@ -262,7 +264,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 workshopid_apnmt = smLocalStore.getSMworkshopdetail_id();
                 description_apnmt = smLocalStore.getSMdesc();
                 make_apnmt = smLocalStore.getSMhome_make();
-                 model_apnmt = smLocalStore.getSMhome_model();
+                model_apnmt = smLocalStore.getSMhome_model();
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
@@ -322,7 +324,11 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }
