@@ -17,11 +17,15 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.MyCarDetail;
@@ -61,7 +65,8 @@ public class MyCars extends AppCompatActivity  {
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
     public int car_count;
-
+    private ImageView nocars_found;
+    private TextView nocars_found_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +82,8 @@ public class MyCars extends AppCompatActivity  {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        nocars_found = (ImageView) findViewById(R.id.no_cars_img);
+        nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
 
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loding...");
@@ -116,7 +122,8 @@ public class MyCars extends AppCompatActivity  {
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
                             }
-
+                            nocars_found.setVisibility(View.GONE);
+                            nocars_found_txt.setVisibility(View.GONE);
                             mycarsDisplay();
                         }
                         else
@@ -154,7 +161,12 @@ public class MyCars extends AppCompatActivity  {
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
+        AppController.getInstance().addToRequestQueue(stringRequest, strreq);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
     public void mycarsDisplay()
@@ -210,10 +222,13 @@ public class MyCars extends AppCompatActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            if(car_count<2)
-            startActivity(new Intent(MyCars.this, AddCar.class));
-            else
+            if (car_count < 2) {
+// Log.d("count2",String.valueOf(car_count));
+                startActivity(new Intent(MyCars.this, AddCar.class));
+            } else {
+// Log.d("count2", String.valueOf(car_count));
                 Toast.makeText(MyCars.this, "We are sorry. You can add only maximum of 2 cars", Toast.LENGTH_SHORT).show();
+            }
             return true;
         }
 
