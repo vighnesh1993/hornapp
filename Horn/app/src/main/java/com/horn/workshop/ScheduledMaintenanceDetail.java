@@ -2,10 +2,11 @@ package com.horn.workshop;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,24 +15,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import adapters.Scrollview;
 import app.AppConfig;
 import app.AppController;
 
@@ -40,13 +44,17 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     private ProgressDialog pDialog;
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
     Integer pic;
-    TextView ratings;
-
-    LatLng latLng1,latLng2;
-    private  double coordLatitude =0.0;
+    TextView ratings, workshopdetail_phone,workshopdetail_name,workshopdetail_address;
+    final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
+    Scrollview mOnScrollChangedListener;
+    private Drawable mActionBarBackgroundDrawable;
+    private ImageButton call_dialer, location_redirect, share_detail, favorite;
+    LatLng latLng1, latLng2;
+    private double coordLatitude = 0.0;
     private double coordLongitude = 0.0;
     ScheduledMaintenanceWorkshoplist sw;
     String dist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +64,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // ((Scrollview) findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
 
 //        ed.putString("currentLatitude",""+currentLatitude);
 //        ed.putString("currentLongitude",""+currentLongitude);
@@ -67,25 +76,26 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
 
        double d1=Double.parseDouble(lat);
        double d2=Double.parseDouble(log);*/
+        call_dialer = (ImageButton) findViewById(R.id.call_dialer);
+        location_redirect = (ImageButton) findViewById(R.id.location_redirect);
+        share_detail = (ImageButton) findViewById(R.id.share_detail);
+        favorite = (ImageButton) findViewById(R.id.favorite);
+        workshopdetail_phone = (TextView) findViewById(R.id.workshopdetail_phone);
+        workshopdetail_name = (TextView) findViewById(R.id.workshopdetail_name);
+        workshopdetail_address = (TextView) findViewById(R.id.workshopdetail_address);
 
+        UserLocalStore userLocalStore = new UserLocalStore(this);
 
-
-        UserLocalStore userLocalStore=new UserLocalStore(this);
-
-        String latlng1=userLocalStore.getMylocationLatlog();
-
-
-
-
+        String latlng1 = userLocalStore.getMylocationLatlog();
         String[] ltlg = latlng1.split(",");
         String ltlg1 = ltlg[0]; // 004
         String ltlg2 = ltlg[1];
 
-        double d1=Double.parseDouble(ltlg1);
-        double d2=Double.parseDouble(ltlg2);
+        double d1 = Double.parseDouble(ltlg1);
+        double d2 = Double.parseDouble(ltlg2);
 
 
-        latLng1=new LatLng(d1,d2);
+        latLng1 = new LatLng(d1, d2);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -102,8 +112,53 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
             }
         });
+//        Scrollview.OnScrollChangedListener mOnScrollChangedListener = new Scrollview.OnScrollChangedListener() {
+//            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+//                final int headerHeight = findViewById(R.id.scroll_view).getHeight() - getActionBar().getHeight();
+//                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+//                final int newAlpha = (int) (ratio * 255);
+//                mActionBarBackgroundDrawable.setAlpha(newAlpha);
+//            }
+//        };
         getdetailFromDb(workshopid);
+        call_dialer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence dialer_no = workshopdetail_phone.getText();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + String.valueOf(dialer_no)));
+                startActivity(intent);
+            }
+        });
+        share_detail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence wName = workshopdetail_name.getText();
+                CharSequence wAddress = workshopdetail_address.getText();
+                CharSequence dialer_no = workshopdetail_phone.getText();
 
+                //create the send intent
+                Intent shareIntent =
+                        new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        "Checkout Horn App..!");
+                String shareMessage = String.valueOf(wName+"\n"+ wAddress +"\n" + dialer_no);
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                        shareMessage);
+                startActivity(Intent.createChooser(shareIntent,
+                        "Choose an App to share with"));
+
+            }
+        });
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "" +
+                        "Workshop added to favorite", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
@@ -155,13 +210,13 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         String part1 = parts[0]; // 004
                         String part2 = parts[1];
 
-                        smLocalStore.setSmdcoordinates(part1,part2);
+                        smLocalStore.setSmdcoordinates(part1, part2);
 
-                        coordLatitude=Double.parseDouble(part1);
-                        coordLongitude=Double.parseDouble(part2);
+                        coordLatitude = Double.parseDouble(part1);
+                        coordLongitude = Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
-                        sw=new ScheduledMaintenanceWorkshoplist();
-                       dist=sw.getDistance(latLng1,latLng2);
+                        sw = new ScheduledMaintenanceWorkshoplist();
+                        dist = sw.getDistance(latLng1, latLng2);
 
 
                         pic = R.drawable.workshop_sample;
@@ -190,8 +245,11 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             }
 
         };
-
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 
@@ -202,7 +260,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
-        TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
+        final TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
         final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
         ratings = (TextView) findViewById(R.id.rating);
         String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
@@ -222,7 +280,9 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 }
             }
         });
-if((category).equals("Authorised")) {category = "Exclusive"; }
+        if ((category).equals("Authorised")) {
+            category = "Exclusive";
+        }
         workshopname.setText(name);
         workshopaddress.setText(address);
         workshopcategory.setText(category);
@@ -233,13 +293,19 @@ if((category).equals("Authorised")) {category = "Exclusive"; }
         ws_distance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ob=new Intent(ScheduledMaintenanceDetail.this,MapsActivity.class);
-                ob.putExtra("workshop",name+"##!###"+address+"##!###"+rating+"##!###");
+                Intent ob = new Intent(ScheduledMaintenanceDetail.this, MapsActivity.class);
+                ob.putExtra("workshop", name + "##!###" + address + "##!###" + rating + "##!###");
                 startActivity(ob);
             }
         });
-
+        location_redirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ws_distance.performClick();
+            }
+        });
     }
+
     private void setRatingBackround(String ratingValue) {
         switch (ratingValue) {
             case "0":

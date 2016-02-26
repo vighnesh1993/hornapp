@@ -2,12 +2,10 @@ package com.horn.workshop;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +22,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -38,7 +34,6 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -50,7 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import activity.AddCar;
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
@@ -319,7 +313,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         for (int i = 0; i < sm_service.length; i++) {
             final Button myButton = new Button(this);
             myButton.setText(sm_service[i] + km);
-            LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
+            final LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
             ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
             myButton.setHeight(100);
             myButton.setTextSize(15);
@@ -330,6 +324,12 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+                    int childcount = ll.getChildCount();
+                    for (int i=0; i < childcount; i++){
+                        View v = ll.getChildAt(i);
+                        v.setBackgroundColor(Color.WHITE);
+                    }
+                    myButton.setBackgroundColor(Color.parseColor("#FFBE05"));
 
                     smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
                     Spinner spinner = (Spinner) findViewById(R.id.vehicle);

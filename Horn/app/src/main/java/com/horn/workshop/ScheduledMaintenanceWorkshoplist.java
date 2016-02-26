@@ -1,15 +1,11 @@
 package com.horn.workshop;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -25,8 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -44,8 +38,6 @@ import java.util.Map;
 
 import app.AppConfig;
 import app.AppController;
-
-import static com.horn.workshop.R.drawable.a;
 
 /**
  * Created by Sariga on 1/8/2016.
@@ -156,7 +148,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                 Log.e("Exception :",""+e);
             }
 
-            String[] parts = coordinateArray[i].split(",");
+            /*String[] parts = coordinateArray[i].split(",");
             String part1 = parts[0]; // 004
             String part2 = parts[1];
 
@@ -165,7 +157,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
             // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
 
             coordLatitude=Double.parseDouble(part1);
-            coordLongitude=Double.parseDouble(part2);
+            coordLongitude=Double.parseDouble(part2);*/
 
             latLng1 = new LatLng(coordLatitude, coordLongitude);
 
@@ -173,16 +165,25 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
 
             String latlng1=userLocalStore.getMylocationLatlog();
 
+            try{
+                String[] ltlg = latlng1.split(",");
+                Log.e("array", String.valueOf(ltlg));
+                String ltlg1 = ltlg[0]; // 004
+                String ltlg2 = ltlg[1];
+
+                double ltt=Double.parseDouble(ltlg1);
+                double lgg=Double.parseDouble(ltlg2);
+                latLng=new LatLng(ltt,lgg);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
 
 
-            String[] ltlg = latlng1.split(",");
-            String ltlg1 = ltlg[0]; // 004
-            String ltlg2 = ltlg[1];
 
-            double ltt=Double.parseDouble(ltlg1);
-            double lgg=Double.parseDouble(ltlg2);
-            latLng=new LatLng(ltt,lgg);
+
+
+
 
             distance[i]=getDistance(latLng, latLng1);
              //Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();

@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.WRITE_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <permission android:name="android.permission.ACTION_CALL" />
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -225,6 +226,7 @@
         <activity
             android:name=".UploadChoice"
             android:label="Choice" />
+
         <!--
              ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
