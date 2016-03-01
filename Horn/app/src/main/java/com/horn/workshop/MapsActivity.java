@@ -113,10 +113,16 @@ public class MapsActivity extends FragmentActivity implements
             double dlongDFRE = 77.6239013671875;*/
 
 
+
+
+                HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
+                String clat = latlog.get("smdlat");
+                String clog = latlog.get("smdlog");
+
             double slattDFRE =ltt;
             double slongDFRE = lgg;
-            double dlattDFRE = 12.929614580987227;
-            double dlongDFRE = 77.6239013671875;
+            double dlattDFRE = Double.parseDouble(clat);
+            double dlongDFRE =Double.parseDouble(clog);
 
 
 
