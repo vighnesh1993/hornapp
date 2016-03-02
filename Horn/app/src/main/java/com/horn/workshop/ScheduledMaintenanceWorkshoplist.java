@@ -376,7 +376,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceWorkshoplist.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceWorkshoplist.this,"No Network Connection", Toast.LENGTH_LONG).show();
                         pDialog.dismiss();
                     }
                 }) {

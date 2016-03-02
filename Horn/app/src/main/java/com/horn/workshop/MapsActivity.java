@@ -100,23 +100,17 @@ public class MapsActivity extends FragmentActivity implements
         getdir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // startActivity(new Intent(MapsActivity.this,GoogleMap.class));
 
+                HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
+                String clat = latlog.get("smdlat");
+                String clog = latlog.get("smdlog");
 
-                /*Intent callGPSSettingIntent = new Intent(
-                        Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(callGPSSettingIntent);*/
-
-            /*double slattDFRE = 8.595958021900074;
-            double slongDFRE = 77.00660705566406;
-            double dlattDFRE = 12.929614580987227;
-            double dlongDFRE = 77.6239013671875;*/
 
 
             double slattDFRE =ltt;
             double slongDFRE = lgg;
-            double dlattDFRE = 12.929614580987227;
-            double dlongDFRE = 77.6239013671875;
+            double dlattDFRE = Double.parseDouble(clat);
+            double dlongDFRE = Double.parseDouble(clog);
 
 
 

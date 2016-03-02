@@ -28,7 +28,6 @@ import java.util.Map;
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
-import helper.ServicesManager;
 
 /**
  * Created by Sariga on 2/5/2016.
@@ -126,7 +125,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileMyAppoinmentList.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileMyAppoinmentList.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
