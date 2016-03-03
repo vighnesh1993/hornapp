@@ -1,13 +1,17 @@
 package com.horn.workshop;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
@@ -94,13 +98,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userLocalStore = new UserLocalStore(this);
         userLocalStore.setMylocationLatlog(userLocalStore.getMyManuallocationLatlog());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setBackgroundColor(Color.BLACK);
         fab.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
+                fab.getDrawable().mutate().setTint(Color.WHITE);
                 Snackbar.make(view, "" +
                         "Hey! I am Emergency Coming Soon.. :)", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
 

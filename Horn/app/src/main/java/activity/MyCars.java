@@ -9,24 +9,22 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeTransform;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v7.widget.helper.ItemTouchHelper;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.horn.workshop.MainActivity;
 import com.horn.workshop.MyCarDetail;
 import com.horn.workshop.R;
 import com.horn.workshop.RecyclerItemClickListener;
@@ -40,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import adapters.Connectivity;
 import adapters.MyCarAdapter;
 import app.AppConfig;
 import app.AppController;
@@ -65,6 +62,7 @@ public class MyCars extends AppCompatActivity {
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
     public int car_count = 0;
+    public static String[] carVarientArray;
 
     private ImageView nocars_found;
     private TextView nocars_found_txt;
@@ -87,12 +85,13 @@ public class MyCars extends AppCompatActivity {
 
 
         pDialog = new ProgressDialog(this);
-        pDialog.setMessage("Loding...");
         pDialog.setCancelable(false);
+        pDialog.show();
         show_mycars();
         nocars_found = (ImageView) findViewById(R.id.no_cars_img);
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
     }
+
 
     //        else
 //        {
@@ -100,7 +99,7 @@ public class MyCars extends AppCompatActivity {
 //            startActivity(intent2);
 //        }
     // }
-    public void show_mycars() {
+    public void show_mycars(){
         pDialog.show();
     /*
     *Datas from DB starts
@@ -123,13 +122,16 @@ public class MyCars extends AppCompatActivity {
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                            JSONArray carVarientArrayj = jsonObject.getJSONArray("car_varient");
                             nameArray = new String[nameArrayj.length()];
                             carImageArray = new String[carImageArrayj.length()];
                             carIdArray = new String[carIdArrayj.length()];
+                            carVarientArray = new String[carVarientArrayj.length()];
                             for (int i = 0; i < nameArrayj.length(); i++) {
                                 nameArray[i] = nameArrayj.getString(i);
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
+                                carVarientArray[i] = carVarientArrayj.getString(i);
                             }
                             nocars_found.setVisibility(View.GONE);
                             nocars_found_txt.setVisibility(View.GONE);
@@ -168,7 +170,11 @@ public class MyCars extends AppCompatActivity {
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 
@@ -184,7 +190,8 @@ public class MyCars extends AppCompatActivity {
             carDatas.add(new CarData(
                     nameArray[i],
                     carImageArray[i],
-                    carIdArray[i]
+                    carIdArray[i],
+                    carVarientArray[i]
             ));
         }
         adapter = new MyCarAdapter(carDatas);
@@ -208,6 +215,7 @@ public class MyCars extends AppCompatActivity {
         ItemTouchHelper.Callback callback = new SwipeToRemoveMycar(adapter, rCarView);
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(rCarView);
+        pDialog.dismiss();
     }
 
     @Override

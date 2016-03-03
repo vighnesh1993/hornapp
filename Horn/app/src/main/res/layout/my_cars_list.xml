@@ -34,6 +34,15 @@
                 android:textColor="@color/primary_text"
                 android:layout_gravity="left"
                 android:textSize="18sp" />
+            <TextView
+                android:id="@+id/mycar_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="loading..."
+                android:textColor="@color/primary_text"
+                android:layout_gravity="left"
+                android:textSize="18sp" />
 
 
         </LinearLayout>
