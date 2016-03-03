@@ -3,16 +3,10 @@ package com.horn.workshop;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -219,7 +212,7 @@ public class BodyPaintingGalleryUpload extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Login Error: " + error.getMessage());
                     Toast.makeText(getApplicationContext(),
-                            error.getMessage(), Toast.LENGTH_LONG).show();
+                            "No Network Connection", Toast.LENGTH_LONG).show();
                     hideDialog();
                 }
             }) {

@@ -231,7 +231,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceDetail.this,"No Network Connection", Toast.LENGTH_LONG).show();
+                        pDialog.show();
                     }
                 }) {
 
