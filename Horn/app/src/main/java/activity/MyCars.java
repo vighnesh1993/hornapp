@@ -90,13 +90,6 @@ public class MyCars extends AppCompatActivity {
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
     }
 
-
-    //        else
-//        {
-//            Intent intent2 = new Intent(this, MainActivity.class);
-//            startActivity(intent2);
-//        }
-    // }
     public void show_mycars(){
         pDialog.show();
     /*

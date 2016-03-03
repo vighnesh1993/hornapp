@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements
     private LocationRequest mLocationRequest;
     ArrayList<LatLng> markerPoints;
     SMLocalStore smLocalStore;
-    String n="";
+    String n = "";
     private UserLocalStore userLocalStore;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public static final String TAG = MapsActivity.class.getSimpleName();
@@ -78,7 +78,8 @@ public class MapsActivity extends FragmentActivity implements
     public TextView tv3;
     Double lat1;
     Double log1;
-    Double ltt,lgg;
+    Double ltt, lgg;
+
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +87,17 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        //mMap.getUiSettings().setMapToolbarEnabled(false);
+      /*  mMap.getUiSettings().setZoomControlsEnabled(true);
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
 
 
         mMap.getUiSettings().setTiltGesturesEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);*/
 
-        Button getdir= (Button) findViewById(R.id.getdir);
+        Button getdir = (Button) findViewById(R.id.getdir);
         getdir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,16 +107,14 @@ public class MapsActivity extends FragmentActivity implements
                 String clog = latlog.get("smdlog");
 
 
-
-            double slattDFRE =ltt;
-            double slongDFRE = lgg;
-            double dlattDFRE = Double.parseDouble(clat);
-            double dlongDFRE = Double.parseDouble(clog);
-
+                double slattDFRE = ltt;
+                double slongDFRE = lgg;
+                double dlattDFRE = Double.parseDouble(clat);
+                double dlongDFRE = Double.parseDouble(clog);
 
 
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                        Uri.parse("http://maps.google.com/maps?saddr="+slattDFRE+","+slongDFRE+"&daddr="+dlattDFRE+","+dlongDFRE));
+                        Uri.parse("http://maps.google.com/maps?saddr=" + slattDFRE + "," + slongDFRE + "&daddr=" + dlattDFRE + "," + dlongDFRE));
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
                 startActivity(intent);
             }
@@ -128,32 +127,32 @@ public class MapsActivity extends FragmentActivity implements
         workshop = ob.getStringExtra("workshop");
 
         String[] details = workshop.split("##!###");
-         n= details[0]; // 004
+        n = details[0]; // 004
         String address = details[1];
         String rating = details[2];
-        TextView tv1= (TextView) findViewById(R.id.wname);
+        TextView tv1 = (TextView) findViewById(R.id.wname);
         tv1.setText(n);
-        TextView tv2= (TextView) findViewById(R.id.waddres);
+        TextView tv2 = (TextView) findViewById(R.id.waddres);
         tv2.setText(address);
-        tv3= (TextView) findViewById(R.id.ratg);
+        tv3 = (TextView) findViewById(R.id.ratg);
         tv3.setText(rating);
 
         setRatingBackround(rating);
         markerPoints = new ArrayList<LatLng>();
 
-       // String ltlg=userLocalStore.getManualLocationLatlong();
+        // String ltlg=userLocalStore.getManualLocationLatlong();
 
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .addApi(AppIndex.API).build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .addApi(AppIndex.API).build();
 
-            // Create the LocationRequest object
-            mLocationRequest = LocationRequest.create()
-                    .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(10 * 1000)        // 10 seconds, in milliseconds
-                    .setFastestInterval(1 * 1000);
+        // Create the LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1 * 1000);
 
         smLocalStore = new SMLocalStore(this);
 
@@ -161,8 +160,8 @@ public class MapsActivity extends FragmentActivity implements
         String clat = latlog.get("smdlat");
         String clog = latlog.get("smdlog");
 
-        lat1=Double.parseDouble(clat);
-        log1=Double.parseDouble(clog);
+        lat1 = Double.parseDouble(clat);
+        log1 = Double.parseDouble(clog);
 
         LatLng latLng1 = new LatLng(lat1, log1);
         drawMarker(latLng1);
@@ -177,9 +176,9 @@ public class MapsActivity extends FragmentActivity implements
 
      /*   String ltlg=userLocalStore.getManualLocationLatlong();
         if(ltlg=="") {*/
-            mGoogleApiClient.connect();
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleApiClient.connect();
+        // mMap.getUiSettings().setMapToolbarEnabled(false);
+        //mMap.getUiSettings().setZoomControlsEnabled(true);
         //}
     }
 
@@ -189,13 +188,13 @@ public class MapsActivity extends FragmentActivity implements
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+            // mMap.getUiSettings().setZoomControlsEnabled(true);
 
 
             if (mMap != null) {
-                mMap.getUiSettings().setMapToolbarEnabled(true);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setMapToolbarEnabled(false);
+                // mMap.getUiSettings().setZoomControlsEnabled(true);
                 setUpMap();
             }
 
@@ -203,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void setUpMap() {
-        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
 
@@ -217,28 +216,26 @@ public class MapsActivity extends FragmentActivity implements
      * installed Google Play services and returned to the app.
      */
     private void handleNewLocation(Location location) {
-       // Log.d(TAG, location.toString());
-        mMap.getUiSettings().setMapToolbarEnabled(true);
+        // Log.d(TAG, location.toString());
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
-        UserLocalStore userLocalStore=new UserLocalStore(this);
+        UserLocalStore userLocalStore = new UserLocalStore(this);
 
-        String latlng1=userLocalStore.getMylocationLatlog();
-
-
+        String latlng1 = userLocalStore.getMylocationLatlog();
 
 
-            String[] ltlg = latlng1.split(",");
-            String ltlg1 = ltlg[0]; // 004
-            String ltlg2 = ltlg[1];
+        String[] ltlg = latlng1.split(",");
+        String ltlg1 = ltlg[0]; // 004
+        String ltlg2 = ltlg[1];
 
-             ltt=Double.parseDouble(ltlg1);
-             lgg=Double.parseDouble(ltlg2);
+        ltt = Double.parseDouble(ltlg1);
+        lgg = Double.parseDouble(ltlg2);
 
 
-        LatLng latLng= new LatLng(ltt, lgg);
+        LatLng latLng = new LatLng(ltt, lgg);
 
-            //smLocalStore.setSmwCurrentLatlng(ltlg1,ltlg2);
-       // }
+        //smLocalStore.setSmwCurrentLatlng(ltlg1,ltlg2);
+        // }
        /* else
         {*//*
 
@@ -253,17 +250,18 @@ public class MapsActivity extends FragmentActivity implements
         String clat = latlog.get("smdlat");
         String clog = latlog.get("smdlog");
 
-         lat1=Double.parseDouble(clat);
-         log1=Double.parseDouble(clog);
+        lat1 = Double.parseDouble(clat);
+        log1 = Double.parseDouble(clog);
 
         LatLng latLng1 = new LatLng(lat1, log1);
         drawMarker(latLng1);
 
     }
+
     @Override
     public void onConnected(Bundle bundle) {
 
-       // Toast.makeText(getApplicationContext(),"onconnected",Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(),"onconnected",Toast.LENGTH_SHORT).show();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -278,16 +276,17 @@ public class MapsActivity extends FragmentActivity implements
         //String ltlg=userLocalStore.getManualLocationLatlong();
 
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            if (location == null) {
+        if (location == null) {
 
-                handleNewLocation(location);
+            handleNewLocation(location);
 
-                //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
-            } else {
-                handleNewLocation(location);
-            }
+            //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+        } else {
+            handleNewLocation(location);
+        }
 
     }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         /*
@@ -316,27 +315,28 @@ public class MapsActivity extends FragmentActivity implements
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        // mMap.getUiSettings().setZoomControlsEnabled(true);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
        /* String ltlg=userLocalStore.getManualLocationLatlong();
         if(ltlg=="") {*/
-            mGoogleApiClient.connect();
-            Action viewAction = Action.newAction(
-                    Action.TYPE_VIEW, // TODO: choose an action type.
-                    "Maps Page", // TODO: Define a title for the content shown.
-                    // TODO: If you have web page content that matches this app activity's content,
-                    // make sure this auto-generated web page URL is correct.
-                    // Otherwise, set the URL to null.
-                    Uri.parse("http://host/path"),
-                    // TODO: Make sure this auto-generated app deep link URI is correct.
-                    Uri.parse("android-app://com.horn.workshop/http/host/path")
-            );
-            AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
+        mGoogleApiClient.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Maps Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
 
     }
 
@@ -357,14 +357,14 @@ public class MapsActivity extends FragmentActivity implements
                 Uri.parse("android-app://com.horn.workshop/http/host/path")
         );
 
-       // String ltlg=userLocalStore.getManualLocationLatlong();
+        // String ltlg=userLocalStore.getManualLocationLatlong();
 
-            AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
-            mGoogleApiClient.disconnect();
+        AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
+        mGoogleApiClient.disconnect();
 
     }
 
-    private void drawMarker(LatLng point){
+    private void drawMarker(LatLng point) {
         // Creating an instance of MarkerOptions
 
         MarkerOptions markerOptions = new MarkerOptions();
@@ -377,27 +377,26 @@ public class MapsActivity extends FragmentActivity implements
         markerPoints.add(point);
 
 
-        if(markerPoints.size()==1)
-        {
+        if (markerPoints.size() == 1) {
             //markerOptions.icon(BitmapDescriptorFactory.(Color.parseColor("#f1d600"));
 
              /*markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
            //markerOptions.icon(BitmapDescriptorFactory.fromFile(String.valueOf(Color.parseColor("#ffffff"))));
             mMap.getUiSettings().setMapToolbarEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);*/
-           // mMap.addMarker(markerOptions).showInfoWindow();
+            // mMap.addMarker(markerOptions).showInfoWindow();
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
             markerOptions.title(n);
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+           /* mMap.getUiSettings().setZoomControlsEnabled(true);*/
             mMap.addMarker(markerOptions).showInfoWindow();
 
-        } else if(markerPoints.size()==2) {
+        } else if (markerPoints.size() == 2) {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
             markerOptions.title(n);
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.addMarker(markerOptions).showInfoWindow();
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+            /*mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.addMarker(markerOptions).showInfoWindow();*/
 
         }
 
@@ -405,10 +404,9 @@ public class MapsActivity extends FragmentActivity implements
 
 
         // Adding marker on the Google Map
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,16.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 18.0f));
 
-        if(markerPoints.size()==2)
-        {
+        if (markerPoints.size() == 2) {
             LatLng origin = markerPoints.get(0);
             LatLng dest = markerPoints.get(1);
 
@@ -464,25 +462,26 @@ public class MapsActivity extends FragmentActivity implements
                 break;
         }
     }
-    private String getDirectionsUrl(LatLng origin,LatLng dest){
+
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
 
         return url;
     }
@@ -491,7 +490,7 @@ public class MapsActivity extends FragmentActivity implements
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
-        try{
+        try {
             URL url = new URL(strUrl);
 
             // Creating an http connection to communicate with url
@@ -505,10 +504,10 @@ public class MapsActivity extends FragmentActivity implements
 
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
 
-            StringBuffer sb  = new StringBuffer();
+            StringBuffer sb = new StringBuffer();
 
             String line = "";
-            while( ( line = br.readLine())  != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
 
@@ -517,8 +516,9 @@ public class MapsActivity extends FragmentActivity implements
             br.close();
 
         }catch(Exception e){
-            Log.d("Exception while downloading url", e.toString());
-        }finally{
+          //  Log.d("Exception while downloading url", e.toString());
+        }
+        finally {
             iStream.close();
             urlConnection.disconnect();
         }
@@ -527,7 +527,6 @@ public class MapsActivity extends FragmentActivity implements
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
 
 
         return false;
@@ -543,11 +542,11 @@ public class MapsActivity extends FragmentActivity implements
             // For storing data from web service
             String data = "";
 
-            try{
+            try {
                 // Fetching the data from web service
                 data = downloadUrl(url[0]);
-            }catch(Exception e){
-                Log.d("Background Task",e.toString());
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
             }
             return data;
         }
@@ -565,8 +564,10 @@ public class MapsActivity extends FragmentActivity implements
         }
     }
 
-    /** A class to parse the Google Places in JSON format */
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
 
         // Parsing the data in non-ui thread
         @Override
@@ -575,13 +576,13 @@ public class MapsActivity extends FragmentActivity implements
             JSONObject jObject;
             List<List<HashMap<String, String>>> routes = null;
 
-            try{
+            try {
                 jObject = new JSONObject(jsonData[0]);
                 DirectionsJSONParser parser = new DirectionsJSONParser();
 
                 // Starts parsing data
                 routes = parser.parse(jObject);
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return routes;
@@ -596,13 +597,13 @@ public class MapsActivity extends FragmentActivity implements
             String distance = "";
             String duration = "";
 
-            if(result.size()<1){
+            if (result.size() < 1) {
                 //Toast.makeText(getBaseContext(), "No Points", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Traversing through all the routes
-            for(int i=0;i<result.size();i++){
+            for (int i = 0; i < result.size(); i++) {
                 points = new ArrayList<LatLng>();
                 lineOptions = new PolylineOptions();
 
@@ -610,14 +611,14 @@ public class MapsActivity extends FragmentActivity implements
                 List<HashMap<String, String>> path = result.get(i);
 
                 // Fetching all the points in i-th route
-                for(int j=0;j<path.size();j++){
-                    HashMap<String,String> point = path.get(j);
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
 
-                    if(j==0){    // Get distance from the list
-                        distance = (String)point.get("distance");
+                    if (j == 0) {    // Get distance from the list
+                        distance = (String) point.get("distance");
                         continue;
-                    }else if(j==1){ // Get duration from the list
-                        duration = (String)point.get("duration");
+                    } else if (j == 1) { // Get duration from the list
+                        duration = (String) point.get("duration");
                         continue;
                     }
 
@@ -637,7 +638,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
             }
-           // Toast.makeText(getApplicationContext(), "Distance:" + distance + ", Duration:" + duration, Toast.LENGTH_LONG);
+            // Toast.makeText(getApplicationContext(), "Distance:" + distance + ", Duration:" + duration, Toast.LENGTH_LONG);
 
             // Drawing polyline in the Google Map for the i-th route
             mMap.addPolyline(lineOptions);
@@ -669,7 +670,6 @@ public class MapsActivity extends FragmentActivity implements
     public void onProviderDisabled(String provider) {
 
     }
-
 
 
 }
