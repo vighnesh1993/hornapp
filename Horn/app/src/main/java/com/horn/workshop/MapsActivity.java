@@ -515,9 +515,10 @@ public class MapsActivity extends FragmentActivity implements
 
             br.close();
 
-        } catch (Exception e) {
-            //Log.d("Exception while downloading url", e.toString());
-        } finally {
+        }catch(Exception e){
+          //  Log.d("Exception while downloading url", e.toString());
+        }
+        finally {
             iStream.close();
             urlConnection.disconnect();
         }
