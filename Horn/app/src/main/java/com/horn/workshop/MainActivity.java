@@ -281,8 +281,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 guestUserLogout();
             }
         } else if (id == R.id.action_choose_loc) {
+
+            userLocalStore.setindicator(true);
             startActivity(new Intent(MainActivity.this, PlacesAutoCompleteActivity.class));
-        } else if (id == R.id.action_compass) {
+        } /*else if (id == R.id.action_compass) {
             userLocalStore.setManualLocation("");
             userLocalStore.setMyManuallocationLatlog("");
             String sLatLong = userLocalStore.getGPSLatlong();
@@ -295,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(callGPSSettingIntent);
 
             }
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -363,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     handleNewLocation(location);
                 }
                 else {
-
 
                 }
 

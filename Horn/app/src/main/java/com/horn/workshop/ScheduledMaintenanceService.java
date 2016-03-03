@@ -1,8 +1,6 @@
 package com.horn.workshop;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,17 +18,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.appindexing.Action;
@@ -53,15 +50,15 @@ import app.AppController;
  */
 public class ScheduledMaintenanceService extends AppCompatActivity {
 
-    private TextView labour_cost, toatl_cost,washing_cost;
+    private TextView labour_cost, toatl_cost, washing_cost;
     private Button search_wrkshp_btn;
-    private LinearLayout labr_cost_lyt, total_cost_tyt,washing_cost_lyt;
+    private LinearLayout labr_cost_lyt, total_cost_tyt, washing_cost_lyt;
     private View hLine1, hLine2;
     float price_total = 0, total = 0;
     public String[] sm_service_listprice = new String[30];
     public String[] sm_service_list = new String[30];
     public String[] sm_service_listqty = new String[30];
-    public String labour_Charge,washing;
+    public String labour_Charge, washing;
     public String service_list;
 
 
@@ -164,8 +161,8 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 //        priceh.setWidth(100);
 //        sericeh.setWidth(400);
         qtyh.setPadding(15, 0, 15, 0);
-        priceh.setPadding(15,0,15,0);
-       sericeh.setPadding(15,0,15,0);
+        priceh.setPadding(15, 0, 15, 0);
+        sericeh.setPadding(15, 0, 15, 0);
         sericeh.setGravity(Gravity.CENTER_VERTICAL);
         qtyh.setText("Quantity");
         priceh.setText("Price");
@@ -178,7 +175,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         price_total += Float.parseFloat(labour_Charge);
         price_total += Float.parseFloat(washing);
         for (int i = 0; i < sm_service_list.length; i++) {
-            try{
+            try {
                 TableRow row = new TableRow(this);
                 TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
                 row.setMinimumHeight(110);
@@ -187,7 +184,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
                 price_total += Float.valueOf(sm_service_listprice[i]);
                 final float price_tot = Float.valueOf(sm_service_listprice[i]);
-
 
 
                 check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
@@ -227,8 +223,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 row.addView(price);
                 row.setGravity(View.TEXT_ALIGNMENT_CENTER);
                 ll.addView(row, i + 1);
-            }catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -251,7 +246,6 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
                 smLocalStore.setSMservice(labour, total, selectedstring);
                 // Toast.makeText(ScheduledMaintenanceService.this,"here gps",Toast.LENGTH_LONG).show();
-
 
 
                 provider = Settings.Secure.getString(getContentResolver(),
@@ -343,10 +337,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                         //      }
 
 
-
-                    }
-                    else
-                    {
+                    } else {
                         no_service();
                     }
                 } catch (JSONException e) {
@@ -357,7 +348,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceService.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceService.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -380,7 +371,11 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
             }
 
         };
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
     }
 
@@ -445,6 +440,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
 
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

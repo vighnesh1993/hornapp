@@ -1,7 +1,6 @@
 package service;
 
 import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
@@ -115,7 +114,7 @@ public class HttpService extends IntentService {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_SHORT).show();
+                        "No Network Connection", Toast.LENGTH_SHORT).show();
             }
         }) {
 

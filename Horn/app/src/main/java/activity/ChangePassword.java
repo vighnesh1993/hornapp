@@ -211,7 +211,7 @@ public class ChangePassword extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Reset Password Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "No Network Connection", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {

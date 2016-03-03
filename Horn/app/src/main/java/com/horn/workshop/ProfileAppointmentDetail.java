@@ -6,8 +6,10 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -23,7 +25,6 @@ import java.util.Map;
 
 import app.AppConfig;
 import app.AppController;
-import helper.SQLiteHandler;
 
 /**
  * Created by Sariga on 2/6/2016.
@@ -115,7 +116,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileAppointmentDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileAppointmentDetail.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -131,7 +132,11 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
             }
 
         };
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
 
 
