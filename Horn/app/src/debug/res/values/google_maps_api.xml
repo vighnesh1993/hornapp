@@ -18,11 +18,6 @@
     //AIzaSyAHENAk16p_-hQ19XapBkjGyVL_gXw4Y28
     -->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-<<<<<<< HEAD
         AIzaSyAHENAk16p_-hQ19XapBkjGyVL_gXw4Y28
-=======
-
-        AIzaSyB2mRN6gMuJ5OxqQB2AMgUl9XapyUAXfY4
->>>>>>> origin/master
     </string>
 </resources>
