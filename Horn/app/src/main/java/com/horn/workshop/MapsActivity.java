@@ -417,7 +417,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
         // Adding marker on the Google Map
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,16.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,18.0f));
 
         if(markerPoints.size()==2)
         {
