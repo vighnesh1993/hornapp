@@ -128,7 +128,7 @@ public class ProfileAddCar extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileAddCar.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileAddCar.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -243,7 +243,7 @@ public class ProfileAddCar extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileAddCar.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileAddCar.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 

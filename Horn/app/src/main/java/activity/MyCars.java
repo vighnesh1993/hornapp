@@ -145,7 +145,7 @@ public class MyCars extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCars.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 

@@ -196,7 +196,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(ScheduledMaintenanceScreen.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceScreen.this, "No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -235,7 +235,6 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
-
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -269,7 +268,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(ScheduledMaintenanceScreen.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ScheduledMaintenanceScreen.this, "No Network Connection", Toast.LENGTH_LONG).show();
                             }
                         }) {
 
@@ -648,7 +647,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceScreen.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceScreen.this, "No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 

@@ -1,7 +1,6 @@
 package activity;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -22,12 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.horn.workshop.MainActivity;
-import com.horn.workshop.ProfileAddCar;
 import com.horn.workshop.R;
-import com.horn.workshop.RecyclerItemClickListener;
 import com.horn.workshop.SMLocalStore;
-import com.horn.workshop.ScheduledMaintenanceDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -202,7 +196,7 @@ Log.d("sdsdsd", "car Response: " + response);
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(AddCar.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddCar.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
