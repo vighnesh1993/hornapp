@@ -86,15 +86,15 @@ public class MapsActivity extends FragmentActivity implements
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        //mMap.getUiSettings().setMapToolbarEnabled(false);
+      /*  mMap.getUiSettings().setZoomControlsEnabled(true);
 
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
 
 
         mMap.getUiSettings().setTiltGesturesEnabled(true);
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);*/
 
         Button getdir= (Button) findViewById(R.id.getdir);
         getdir.setOnClickListener(new View.OnClickListener() {
@@ -107,10 +107,20 @@ public class MapsActivity extends FragmentActivity implements
 
 
 
+
+
+                HashMap<String, String> latlog = smLocalStore.getSmdcoordinates();
+                String clat = latlog.get("smdlat");
+                String clog = latlog.get("smdlog");
+
             double slattDFRE =ltt;
             double slongDFRE = lgg;
             double dlattDFRE = Double.parseDouble(clat);
+<<<<<<< HEAD
             double dlongDFRE = Double.parseDouble(clog);
+=======
+            double dlongDFRE =Double.parseDouble(clog);
+>>>>>>> master
 
 
 
@@ -178,8 +188,8 @@ public class MapsActivity extends FragmentActivity implements
      /*   String ltlg=userLocalStore.getManualLocationLatlong();
         if(ltlg=="") {*/
             mGoogleApiClient.connect();
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+           // mMap.getUiSettings().setMapToolbarEnabled(false);
+            //mMap.getUiSettings().setZoomControlsEnabled(true);
         //}
     }
 
@@ -189,13 +199,13 @@ public class MapsActivity extends FragmentActivity implements
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+           // mMap.getUiSettings().setZoomControlsEnabled(true);
 
 
             if (mMap != null) {
-                mMap.getUiSettings().setMapToolbarEnabled(true);
-                mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setMapToolbarEnabled(false);
+               // mMap.getUiSettings().setZoomControlsEnabled(true);
                 setUpMap();
             }
 
@@ -203,7 +213,7 @@ public class MapsActivity extends FragmentActivity implements
     }
 
     private void setUpMap() {
-        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
     }
 
 
@@ -218,7 +228,7 @@ public class MapsActivity extends FragmentActivity implements
      */
     private void handleNewLocation(Location location) {
        // Log.d(TAG, location.toString());
-        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
 
         UserLocalStore userLocalStore=new UserLocalStore(this);
 
@@ -319,8 +329,8 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onStart() {
         super.onStart();
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+       // mMap.getUiSettings().setZoomControlsEnabled(true);
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
        /* String ltlg=userLocalStore.getManualLocationLatlong();
@@ -388,16 +398,16 @@ public class MapsActivity extends FragmentActivity implements
            // mMap.addMarker(markerOptions).showInfoWindow();
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
             markerOptions.title(n);
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+           /* mMap.getUiSettings().setZoomControlsEnabled(true);*/
             mMap.addMarker(markerOptions).showInfoWindow();
 
         } else if(markerPoints.size()==2) {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(hgghg));
             markerOptions.title(n);
-            mMap.getUiSettings().setMapToolbarEnabled(true);
-            mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.addMarker(markerOptions).showInfoWindow();
+            mMap.getUiSettings().setMapToolbarEnabled(false);
+            /*mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.addMarker(markerOptions).showInfoWindow();*/
 
         }
 
@@ -405,7 +415,7 @@ public class MapsActivity extends FragmentActivity implements
 
 
         // Adding marker on the Google Map
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,16.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point,18.0f));
 
         if(markerPoints.size()==2)
         {
