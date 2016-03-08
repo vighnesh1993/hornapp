@@ -63,6 +63,11 @@ public class MyCars extends AppCompatActivity {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
+<<<<<<< HEAD
+    public int car_count = 0;
+    public static String[] carVarientArray;
+=======
+>>>>>>> master
 
     public int car_count = 0;
     private ImageView nocars_found;
@@ -101,6 +106,16 @@ public class MyCars extends AppCompatActivity {
 
     }
 
+<<<<<<< HEAD
+
+    //        else
+//        {
+//            Intent intent2 = new Intent(this, MainActivity.class);
+//            startActivity(intent2);
+//        }
+    // }
+=======
+>>>>>>> master
     public void show_mycars(){
         pDialog.show();
     /*
@@ -124,13 +139,16 @@ public class MyCars extends AppCompatActivity {
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                            JSONArray carVarientArrayj = jsonObject.getJSONArray("car_varient");
                             nameArray = new String[nameArrayj.length()];
                             carImageArray = new String[carImageArrayj.length()];
                             carIdArray = new String[carIdArrayj.length()];
+                            carVarientArray = new String[carVarientArrayj.length()];
                             for (int i = 0; i < nameArrayj.length(); i++) {
                                 nameArray[i] = nameArrayj.getString(i);
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
+                                carVarientArray[i] = carVarientArrayj.getString(i);
                             }
                             nocars_found.setVisibility(View.GONE);
                             nocars_found_txt.setVisibility(View.GONE);
@@ -190,7 +208,8 @@ public class MyCars extends AppCompatActivity {
             carDatas.add(new CarData(
                     nameArray[i],
                     carImageArray[i],
-                    carIdArray[i]
+                    carIdArray[i],
+                    carVarientArray[i]
             ));
         }
         adapter = new MyCarAdapter(carDatas);

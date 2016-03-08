@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|left"
         android:layout_marginLeft="16dp"
-        android:text="Lorem Ipsum is dummy texts"
+        android:text="Loading"
         android:textColor="@color/secondary_text"
         android:textAlignment="textStart" />
 
