@@ -1,14 +1,7 @@
 package com.horn.workshop;
-
-<<<<<<< HEAD
-=======
 import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.Dialog;
->>>>>>> hornapp_sariga
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
