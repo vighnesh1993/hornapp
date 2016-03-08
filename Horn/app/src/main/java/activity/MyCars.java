@@ -63,13 +63,8 @@ public class MyCars extends AppCompatActivity {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
-<<<<<<< HEAD
     public int car_count = 0;
     public static String[] carVarientArray;
-=======
->>>>>>> master
-
-    public int car_count = 0;
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -106,16 +101,13 @@ public class MyCars extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
-
     //        else
 //        {
 //            Intent intent2 = new Intent(this, MainActivity.class);
 //            startActivity(intent2);
 //        }
     // }
-=======
->>>>>>> master
+
     public void show_mycars(){
         pDialog.show();
     /*
