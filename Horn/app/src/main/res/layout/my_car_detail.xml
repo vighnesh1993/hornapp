@@ -22,17 +22,20 @@
                 android:layout_height="250dp"
                 android:layout_marginTop="?attr/actionBarSize"
                 android:background="@drawable/car_bg">
-
+                <View
+                    android:layout_width="20dp"
+                    android:id="@+id/top_space"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
                 <ImageView
                     android:id="@+id/mycar_photo"
                     android:layout_width="250dp"
-                    android:layout_height="200dp"
+                    android:layout_below="@+id/top_space"
+                    android:layout_height="145dp"
                     android:layout_centerInParent="true"
-                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="Loading..."
-                    android:scaleType="centerCrop" />
-
+                    android:contentDescription="Loading..." />
 
                 <LinearLayout
                     android:id="@+id/linearLayout1"

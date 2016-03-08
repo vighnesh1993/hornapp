@@ -272,6 +272,11 @@
             android:label="@string/title_activity_choose_location"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".RunningMaintenanceHome"
+            android:label="Running Maintenance"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
