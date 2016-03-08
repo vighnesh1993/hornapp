@@ -61,9 +61,13 @@ public class MyCars extends AppCompatActivity {
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
+<<<<<<< HEAD
     public int car_count = 0;
     public static String[] carVarientArray;
+=======
+>>>>>>> master
 
+    public int car_count = 0;
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -83,7 +87,6 @@ public class MyCars extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.show();
@@ -92,6 +95,7 @@ public class MyCars extends AppCompatActivity {
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
     }
 
+<<<<<<< HEAD
 
     //        else
 //        {
@@ -99,6 +103,8 @@ public class MyCars extends AppCompatActivity {
 //            startActivity(intent2);
 //        }
     // }
+=======
+>>>>>>> master
     public void show_mycars(){
         pDialog.show();
     /*
@@ -150,7 +156,7 @@ public class MyCars extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCars.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 

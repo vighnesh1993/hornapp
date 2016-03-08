@@ -1,10 +1,8 @@
 package com.horn.workshop;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,16 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,43 +39,53 @@ import helper.SQLiteHandler;
  */
 public class ProfileAddCar extends AppCompatActivity {
     public SMLocalStore smLocalStore;
-    TextView car_id,car_names,car_make,car_model,car_varient,car_vehicle;
+    TextView car_id, car_names, car_make, car_model, car_varient, car_vehicle;
     ImageView car_image;
     Button add_car;
     SQLiteHandler sqLiteHandler;
     ProgressDialog pDialog;
-    String reg_nos , year_regs;
+    String reg_nos, year_regs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_add_car);
+
+        pDialog = new ProgressDialog(ProfileAddCar.this);
+        pDialog.setCancelable(false);
+        pDialog.show();
         displaydetails();
     }
-    public void displaydetails()
-    {
+
+    public void displaydetails() {
         String strreq = "addcar_detail";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("hi",response);
+                Log.d("hi", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
                         int len = jsonObject.length();
 
 
-                       String car_ids = jsonObject.getString("car_id");
-                       String car_namess = jsonObject.getString("car_names");
-                       String car_makes = jsonObject.getString("car_make");
-                       String car_models = jsonObject.getString("car_model");
-                       String car_images = jsonObject.getString("car_image");
-                       String car_varients = jsonObject.getString("car_varient");
+                        String car_ids = jsonObject.getString("car_id");
+                        String car_namess = jsonObject.getString("car_names");
+                        String car_makes = jsonObject.getString("car_make");
+                        String car_models = jsonObject.getString("car_model");
+                        String car_images = jsonObject.getString("car_image");
+                        String car_varients = jsonObject.getString("car_varient");
                         String car_vehicles = jsonObject.getString("car_vehicle");
-                        switch(car_varients)
-                        {
-                            case "0" : car_varients = "Petrol"; break;
-                            case "1" : car_varients = "Diesel"; break;
-                            case "2" : car_varients = "Duo"; break;
+                        switch (car_varients) {
+                            case "0":
+                                car_varients = "Petrol";
+                                break;
+                            case "1":
+                                car_varients = "Diesel";
+                                break;
+                            case "2":
+                                car_varients = "Duo";
+                                break;
                         }
                         car_names = (TextView) findViewById(R.id.addcar_name);
                         car_make = (TextView) findViewById(R.id.addcar_make);
@@ -91,7 +99,7 @@ public class ProfileAddCar extends AppCompatActivity {
                         car_varient.setText(car_varients);
                         car_vehicle.setText(car_vehicles);
 
-                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
+                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + car_images + "";
                         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
                         imageLoader.get(url, new ImageLoader.ImageListener() {
 
@@ -108,6 +116,7 @@ public class ProfileAddCar extends AppCompatActivity {
                                 }
                             }
                         });
+                        pDialog.dismiss();
 
 
                     }
@@ -119,14 +128,14 @@ public class ProfileAddCar extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileAddCar.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileAddCar.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
             @Override
             protected Map<String, String> getParams() {
                 smLocalStore = new SMLocalStore(ProfileAddCar.this);
-String car_id = smLocalStore.getProfileAddCar();
+                String car_id = smLocalStore.getProfileAddCar();
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("add_car_id", car_id);
                 return params;
@@ -134,12 +143,16 @@ String car_id = smLocalStore.getProfileAddCar();
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }
-    public void profile_add_Car(View v)
-    {
+
+    public void profile_add_Car(View v) {
         LayoutInflater li = LayoutInflater.from(ProfileAddCar.this);
         final View commentDialog = li.inflate(R.layout.profile_mycar_popup, null);
 
@@ -152,17 +165,17 @@ String car_id = smLocalStore.getProfileAddCar();
                 .setCancelable(false)
                 .setPositiveButton("ADD",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
-                EditText year_reg  = (EditText)commentDialog.findViewById(R.id.year);
-                reg_nos = reg_no.getText().toString();
-                year_regs = year_reg.getText().toString();
-               profile_add_Car_ok();
+                                EditText year_reg = (EditText) commentDialog.findViewById(R.id.year);
+                                reg_nos = reg_no.getText().toString();
+                                year_regs = year_reg.getText().toString();
+                                profile_add_Car_ok();
                             }
                         })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
@@ -202,18 +215,16 @@ String car_id = smLocalStore.getProfileAddCar();
 //        });
 //        commentDialog.show();
     }
-    public void profile_add_Car_ok()
-    {
 
-        pDialog = new ProgressDialog(ProfileAddCar.this);
-        pDialog.setCancelable(false);
+    public void profile_add_Car_ok() {
+
         pDialog.setMessage("Loading....");
         pDialog.show();
         String strreq = "addcar_detail";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("hi",response);
+                Log.d("hi", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
@@ -232,7 +243,7 @@ String car_id = smLocalStore.getProfileAddCar();
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileAddCar.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileAddCar.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -242,9 +253,9 @@ String car_id = smLocalStore.getProfileAddCar();
                 String car_id = smLocalStore.getProfileAddCar();
                 sqLiteHandler = new SQLiteHandler(ProfileAddCar.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  apmnt_user_email = user.get("email");
+                String apmnt_user_email = user.get("email");
 
-Log.d("registration..",reg_nos+".."+year_regs);
+                Log.d("registration..", reg_nos + ".." + year_regs);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("add_tomycar", car_id);
                 params.put("user_email", apmnt_user_email);
@@ -257,7 +268,11 @@ Log.d("registration..",reg_nos+".."+year_regs);
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 }

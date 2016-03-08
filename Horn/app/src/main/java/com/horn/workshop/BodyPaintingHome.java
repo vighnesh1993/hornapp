@@ -1,10 +1,8 @@
 package com.horn.workshop;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,11 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -291,7 +285,7 @@ public class BodyPaintingHome extends AppCompatActivity {
                 public void onErrorResponse(VolleyError error) {
                     Log.e(TAG, "Login Error: " + error.getMessage());
                     Toast.makeText(getApplicationContext(),
-                            error.getMessage(), Toast.LENGTH_LONG).show();
+                            "No Network Connection", Toast.LENGTH_LONG).show();
                     hideDialog();
                 }
             }) {

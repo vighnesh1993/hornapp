@@ -83,6 +83,7 @@ public class ChooseLocation extends AppCompatActivity implements  GoogleApiClien
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userLocalStore.setindicator(true);
                 startActivity(new Intent(ChooseLocation.this, PlacesAutoCompleteActivity.class));
             }
         });
@@ -90,6 +91,9 @@ public class ChooseLocation extends AppCompatActivity implements  GoogleApiClien
             @Override
             public void onClick(View v) {
                //turnGPSOn();
+                //userLocalStore.setindicator(true);
+                userLocalStore = new UserLocalStore(ChooseLocation.this);
+
                 Intent callGPSSettingIntent = new Intent(
                         android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(callGPSSettingIntent);
@@ -125,7 +129,6 @@ public class ChooseLocation extends AppCompatActivity implements  GoogleApiClien
         latLng = new LatLng(currentLatitude, currentLongitude);
 
             getCurrentLocation(currentLatitude, currentLongitude);
-
 
     }
     private void getCurrentLocation(double latitude, double longitude) {
