@@ -2,6 +2,10 @@ package com.horn.workshop;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+<<<<<<< HEAD
+import android.app.LocalActivityManager;
+=======
+>>>>>>> master
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,10 +27,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TabHost.TabSpec;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -61,7 +67,11 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public String make;
     public String model;
     public String[] sm_service;
+<<<<<<< HEAD
+    String[] nameArray, carImageArray, carIdArray, carMakeArray, carModelArray,carnameArray;
+=======
     String[] nameArray, carImageArray, carIdArray, carMakeArray, carModelArray;
+>>>>>>> master
     private static final String TAG = "SM_homekm";
     String strreqTAG = "KmReqTAG";
     SQLiteHandler sqLiteHandler;
@@ -80,9 +90,13 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public String[] sm_service_list = new String[30];
     public String[] sm_service_listqty = new String[30];
     public String[] sm_service_listfield = new String[30];
+<<<<<<< HEAD
+    public String[] sm_service_listarea;
+=======
+>>>>>>> master
     public String labour_Charge, washing;
     public String service_list;
-
+public int count = 0;
 
     String provider;
     private static final String TAG1 = "SM_service";
@@ -116,9 +130,22 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         /*
       SM home ends
        */
+
+        /* tab sample */
+
+//        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
+//        TabSpec spec1= tabHost.newTabSpec("Tab 1");
+//        spec1.setContent(R.id.tab1);
+//        spec1.setIndicator("Tab 1");
+//
+//        TabSpec spec2= tabHost.newTabSpec("Tab 2");
+//        spec2.setContent(R.id.tab2);
+//        spec2.setIndicator("Tab 2");
+
+        /* tab sample ends */
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -168,17 +195,20 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
                             JSONArray carMakeArrayj = jsonObject.getJSONArray("car_make");
                             JSONArray carModelArrayj = jsonObject.getJSONArray("car_model");
+                            JSONArray carnameArrayj = jsonObject.getJSONArray("car_name_varient");
                             nameArray = new String[nameArrayj.length()];
                             carImageArray = new String[carImageArrayj.length()];
                             carIdArray = new String[carIdArrayj.length()];
                             carMakeArray = new String[carMakeArrayj.length()];
                             carModelArray = new String[carModelArrayj.length()];
+                            carnameArray = new String[carnameArrayj.length()];
                             for (int i = 0; i < nameArrayj.length(); i++) {
                                 nameArray[i] = nameArrayj.getString(i);
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
                                 carMakeArray[i] = carMakeArrayj.getString(i);
                                 carModelArray[i] = carModelArrayj.getString(i);
+                                carnameArray[i] = carnameArrayj.getString(i);
                             }
                             pDialog.dismiss();
                             dropdown_display();
@@ -227,14 +257,46 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public void dropdown_display() {
         /** SM vehicle dropdown **/
 
-        Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
+       // Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
         String[] items = nameArray;//new String[]{"Etios", "Innova", "Fortuner"};
         varient = "1";
-        make = "Maruthi";
-        model = "A-star";
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
+         make = "Maruthi";
+         model = "A-star";
 
+        for (int j = 0; j < items.length; j++) {
+            final Button myvehicle = new Button(this);
+            myvehicle.setText(items[j]);
+            final LinearLayout ll = (LinearLayout) findViewById(R.id.vehicle);
+            final LinearLayout choosecar = (LinearLayout) findViewById(R.id.choosecar);
+            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+            myvehicle.setHeight(100);
+            myvehicle.setTextSize(15);
+            myvehicle.setWidth(choosecar.getWidth()-4);
+            myvehicle.setPadding(25, 0, 25, 0);
+            //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
+            myvehicle.setId(j);
+            myvehicle.setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
+                      
+            myvehicle.setLayoutParams(lp);
+            ll.addView(myvehicle, lp);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myvehicle.getLayoutParams();
+            layoutParams.setMargins(3, 5, 3, 5);
+
+            myvehicle.setLayoutParams(layoutParams);
+            final String itemss = items[j];
+            final int vehicle_count = j;
+            myvehicle.setOnClickListener(new View.OnClickListener() {
+
+<<<<<<< HEAD
+                @Override
+                public void onClick(View view) {
+//                    make=carMakeArray[vehicle_count];
+//                    model=carModelArray[vehicle_count];
+//                    final String vehicle_km = carnameArray[vehicle_count];
+
+                    int childcount = ll.getChildCount();
+                    for (int i = 0; i < childcount; i++) {
+=======
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -257,13 +319,13 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                                 for (int i = 0; i < km_list.length(); i++) {
                                     sm_service[i] = km_list.getString(i);
                                 }
+>>>>>>> master
 
-                                km_display();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        findViewById(i).setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
                     }
+<<<<<<< HEAD
+                    myvehicle.setBackgroundResource(R.drawable.vehicle_btn_after_pressed);
+=======
                 },
                         new Response.ErrorListener() {
                             @Override
@@ -271,21 +333,57 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                                 Toast.makeText(ScheduledMaintenanceScreen.this, "No Network Connection", Toast.LENGTH_LONG).show();
                             }
                         }) {
+>>>>>>> master
 
-                    @Override
-                    protected Map<String, String> getParams() {
-                        smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
-                        String vehiclekm = vehicle_km;
-                        String makekm = make;
-                        String modelkm = model;
-                        // Posting parameters to login url
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put("vehicle_km", vehiclekm);
-                        params.put("make_km", makekm);
-                        params.put("model_km", modelkm);
-                        return params;
-                    }
+                    LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
+                    ll.removeAllViews();
+                    final String vehicle_km = "VXI";
 
+<<<<<<< HEAD
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d(TAG, "SM_home Response: " + response);
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                if (jsonObject != null) {
+                                    int len = jsonObject.length();
+                                    JSONArray km_list = jsonObject.getJSONArray("kilometers");
+                                    sm_service = new String[km_list.length()];
+                                    for (int i = 0; i < km_list.length(); i++) {
+                                        sm_service[i] = km_list.getString(i);
+                                    }
+LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
+                                    sm_service1.setVisibility(View.VISIBLE);
+                                    km_display();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(ScheduledMaintenanceScreen.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            }) {
+
+                        @Override
+                        protected Map<String, String> getParams() {
+                            smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
+                            String vehiclekm = vehicle_km;
+                            String makekm = make;
+                            String modelkm = model;
+
+                            // Posting parameters to login url
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("vehicle_km", vehiclekm);
+                            params.put("make_km", makekm);
+                            params.put("model_km", modelkm);
+                            return params;
+                        }
+=======
                 };
                 AppController.getInstance().cancelPendingRequests("REQTAG");
                 stringRequest.setTag("REQTAG");
@@ -294,14 +392,26 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                 stringRequest.setRetryPolicy(policy);
                 AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
             }
+>>>>>>> master
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    };
+                    AppController.getInstance().cancelPendingRequests("REQTAG");
+                    stringRequest.setTag("REQTAG");
+                    int socketTimeout = 30000;//30 seconds - change to what you want
+                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                    stringRequest.setRetryPolicy(policy);
+                    AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
+                }
 
-            }
-        });
+            });
+        }
     }
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> master
     public void km_display() {
         // final String[] sm_service = new String[]{"1000", "5000", "10000", "15000", "20000", "25000", "30000", "35000", "40000", "45000",
 //                "50000", "55000", "60000", "65000", "70000", "75000", "80000", "85000", "90000", "95000", "100000", "105000", "110000",
@@ -317,21 +427,29 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
             myButton.setHeight(100);
             myButton.setTextSize(15);
             //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
+			myButton.setId(i);
+            myButton.setBackgroundResource(R.drawable.button_normal_sm);
+
+            myButton.setLayoutParams(lp);
             ll.addView(myButton, lp);
+			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myButton.getLayoutParams();
+            layoutParams.setMargins(5,5,5,5);
+            myButton.setLayoutParams(layoutParams);
             final String service = sm_service[i];
             myButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
                     int childcount = ll.getChildCount();
-                    for (int i=0; i < childcount; i++){
-                        View v = ll.getChildAt(i);
-                        v.setBackgroundColor(Color.WHITE);
-                    }
-                    myButton.setBackgroundColor(Color.parseColor("#FFBE05"));
+                    for (int i = 0; i < childcount; i++) {
+
+                        ll.findViewById(i).setBackgroundResource(R.drawable.button_normal_sm);
+                   }
+                    myButton.setBackgroundResource(R.drawable.button_highlighted);
+
 
                     smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
-                    Spinner spinner = (Spinner) findViewById(R.id.vehicle);
+                   // Spinner spinner = (Spinner) findViewById(R.id.vehicle);
                     //String vehicle = spinner.getSelectedItem().toString();
                     String vehicle = "VXI";
                     smLocalStore.setSMhome(vehicle, service, varient, make, model);
@@ -352,7 +470,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         pDialog.setMessage("Loading ...");
 
         labour_cost = (TextView) findViewById(R.id.labour_cost_value);
-        washing_cost = (TextView) findViewById(R.id.washing_cost_value);
+       /// washing_cost = (TextView) findViewById(R.id.washing_cost_value);
         toatl_cost = (TextView) findViewById(R.id.total_cost_value);
         search_wrkshp_btn = (Button) findViewById(R.id.search_wrkshop_btn);
         labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
@@ -360,7 +478,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         hLine1 = findViewById(R.id.hori_1);
         //hLine2 = findViewById(R.id.hori_2);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
-        washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
+       // washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
         /*
         * fetch the service list from db
         */
@@ -372,7 +490,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         pDialog.dismiss();
         labr_cost_lyt.setVisibility(View.VISIBLE);
         total_cost_tyt.setVisibility(View.VISIBLE);
-        washing_cost_lyt.setVisibility(View.VISIBLE);
+//        washing_cost_lyt.setVisibility(View.VISIBLE);
         search_wrkshp_btn.setVisibility(View.VISIBLE);
         hLine1.setVisibility(View.VISIBLE);
         // hLine2.setVisibility(View.VISIBLE);
@@ -416,9 +534,14 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         int j = 0;
         int inspect = 0;
         int replace = 0;
+
         for (int i = 0; i < sm_service_list.length; i++) {
             try {
+<<<<<<< HEAD
+                   if (((sm_service_listfield[i]).equals("I"))||(i==(sm_service_list.length)-1)) {
+=======
                 if ((sm_service_listfield[i]).equals("I")) {
+>>>>>>> master
                     inspect++;
                     if (inspect == 1) {
                         I.setText("INSPECTION");
@@ -427,9 +550,9 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                     }
                     TableRow row = new TableRow(this);
                     TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                    row.setMinimumHeight(110);
-                    row.setLayoutParams(lp);
-                    Log.d(TAG1, "qty:" + sm_service_listprice[i]);
+                       row.setMinimumHeight(110);
+                       row.setLayoutParams(lp);
+
 
                     price_total += Float.valueOf(sm_service_listprice[i]);
                     final float price_tot = Float.valueOf(sm_service_listprice[i]);
@@ -578,7 +701,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
         total = total + price_total;
         //total = total + Float.parseFloat(labour_Charge)+Float.parseFloat(washing);
         labour_cost.setText("INR " + labour_Charge);
-        washing_cost.setText("INR " + washing);
+//        washing_cost.setText("INR " + washing);
         toatl_cost.setText("INR " + (int) total);
 
         search_wrkshp_btn.setOnClickListener(new View.OnClickListener() {
@@ -616,6 +739,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
+
                         int len = jsonObject.length();
                         labour_Charge = jsonObject.getString("labour");
                         washing = jsonObject.getString("washing");
@@ -623,18 +747,35 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                         JSONArray service_list_price = jsonObject.getJSONArray("service_list_price");
                         JSONArray service_list_js = jsonObject.getJSONArray("services");
                         JSONArray service_listfield_js = jsonObject.getJSONArray("field");
+<<<<<<< HEAD
+                        JSONArray service_area_js = jsonObject.getJSONArray("area");
+                        String varient = smLocalStore.getSMhome_varient();
+                        sm_service_listprice = new String[service_list_qty.length()+1];
+                        sm_service_list = new String[service_list_qty.length()+1];
+                        sm_service_listqty = new String[service_list_qty.length()+1];
+                        sm_service_listfield = new String[service_listfield_js.length()+1];
+                        sm_service_listarea = new String[service_area_js.length()+1];
+                        for (int i = 0; i < (service_list_qty.length()); i++) {
+=======
                         String varient = smLocalStore.getSMhome_varient();
                         sm_service_listprice = new String[service_list_qty.length()];
                         sm_service_list = new String[service_list_qty.length()];
                         sm_service_listqty = new String[service_list_qty.length()];
                         sm_service_listfield = new String[service_listfield_js.length()];
                         for (int i = 0; i < service_list_qty.length(); i++) {
+>>>>>>> master
                             sm_service_listqty[i] = service_list_qty.getString(i);
                             sm_service_listprice[i] = service_list_price.getString(i).toString();
                             sm_service_list[i] = service_list_js.getString(i);
                             sm_service_listfield[i] = service_listfield_js.getString(i);
-
+                            sm_service_listarea[i] = service_area_js.getString(i);
+                            count = i;
                         }
+                        sm_service_list[service_list_qty.length()] = "Washing Cost";
+                        sm_service_listqty[service_list_qty.length()] = "";
+                        sm_service_listprice[service_list_qty.length()] = washing;
+                        sm_service_listfield[service_list_qty.length()] = "";
+                        sm_service_listarea[service_list_qty.length()] = "";
                         SM_Services_display();
                     } else {
                         no_service();
