@@ -1,11 +1,7 @@
 package com.horn.workshop;
-
 import android.annotation.TargetApi;
-import android.app.ActionBar;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -27,13 +23,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +54,8 @@ import activity.ChoiceLogin;
 import activity.MyCars;
 import activity.MyProfile;
 import app.AppController;
-import helper.ServicesManager;
 import helper.SQLiteHandler;
+import helper.ServicesManager;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -163,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //Toast.makeText(getApplicationContext(),"Scheduled Maintenance : " +position,Toast.LENGTH_LONG).show();
                         } else if (position == 1) {
                             Toast.makeText(getApplicationContext(), "Running Maintenance : " + position, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(MainActivity.this,RunningMaintenanceHome.class));
                         } else if (position == 2) {
                             //Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
                             smLocalStore.clearBpimages();

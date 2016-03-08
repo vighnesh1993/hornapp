@@ -126,11 +126,7 @@
         <activity
             android:name=".ScheduledMaintenanceDetail"
             android:label="Workshop Details"
-            android:parentActivityName=".ScheduledMaintenanceWorkshoplist"
-            android:theme="@style/AppTheme.CustomBarTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ScheduledMaintenanceWorkshoplist" />
+            android:theme="@style/AppTheme.Light.TranslucentActionBar">
         </activity>
         <activity
             android:name=".ScheduledMaintenanceAppointment"
@@ -168,10 +164,11 @@
         <activity
             android:name=".MyCarDetail"
             android:label="My Car"
-            android:parentActivityName=".MyCarDetail">
+            android:parentActivityName=".MyCarDetail"
+            android:theme="@style/AppTheme.CustomBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyCarDetail" />
+                android:value=".MainActivity" />
         </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
@@ -275,6 +272,11 @@
             android:label="@string/title_activity_choose_location"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".RunningMaintenanceHome"
+            android:label="Running Maintenance"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>
