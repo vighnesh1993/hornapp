@@ -41,5 +41,11 @@
     <color name="rating_4.5">#5ca702</color>
     <color name="rating_5">#0bac3c</color>
     <color name="button_selected">#FFC69201</color>
+    <color name="black_trans80">#14000000</color>
+
+    <color name="cyan">#00BCD4</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
+    <color name="indicator_unselected">#4D000000</color>
 
 </resources>

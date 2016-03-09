@@ -66,6 +66,10 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name="activity.PagerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name="activity.ChoiceLogin"
             android:label="@string/app_name"
             android:theme="@style/AppFullScreenTheme" />
