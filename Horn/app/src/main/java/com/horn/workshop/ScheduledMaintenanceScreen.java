@@ -3,6 +3,7 @@ package com.horn.workshop;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,13 +19,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-=======
->>>>>>> origin/hornapp_sariga
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -32,16 +30,14 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-<<<<<<< HEAD
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
-=======
->>>>>>> origin/hornapp_sariga
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TabHost.TabSpec;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -100,7 +96,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public String[] sm_service_listarea;
     public String labour_Charge, washing;
     public String service_list;
-    public int count = 0;
+public int count = 0;
 
     String provider;
     private static final String TAG1 = "SM_service";
@@ -250,16 +246,11 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
     public void dropdown_display() {
         /** SM vehicle dropdown **/
 
-        // Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
+       // Spinner dropdown = (Spinner) findViewById(R.id.vehicle);
         String[] items = nameArray;//new String[]{"Etios", "Innova", "Fortuner"};
         varient = "1";
-<<<<<<< HEAD
          make = "Maruthi";
          model = "Suzuki";
-=======
-        make = "Maruthi";
-        model = "A-star";
->>>>>>> origin/hornapp_sariga
 
         for (int j = 0; j < items.length; j++) {
             final LinearLayout choosecar = (LinearLayout) findViewById(R.id.choosecar);
@@ -327,7 +318,6 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 
             final Button myvehicle = new Button(this);
             myvehicle.setText(items[j]);
-<<<<<<< HEAD
 
 
 //            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
@@ -345,25 +335,6 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
 //            layoutParams.setMargins(3, 5, 3, 5);
 //
 //            myvehicle.setLayoutParams(layoutParams);
-=======
-            final LinearLayout ll = (LinearLayout) findViewById(R.id.vehicle);
-            final LinearLayout choosecar = (LinearLayout) findViewById(R.id.choosecar);
-            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-            myvehicle.setHeight(100);
-            myvehicle.setTextSize(15);
-            myvehicle.setWidth(choosecar.getWidth()-4);
-            myvehicle.setPadding(25, 0, 25, 0);
-            //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
-            myvehicle.setId(j);
-            myvehicle.setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
-
-            myvehicle.setLayoutParams(lp);
-            ll.addView(myvehicle, lp);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myvehicle.getLayoutParams();
-            layoutParams.setMargins(3, 5, 3, 5);
-
-            myvehicle.setLayoutParams(layoutParams);
->>>>>>> origin/hornapp_sariga
             final String itemss = items[j];
             final int vehicle_count = j;
             myvehicle_lyt.setOnClickListener(new View.OnClickListener() {
@@ -398,7 +369,7 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                                     for (int i = 0; i < km_list.length(); i++) {
                                         sm_service[i] = km_list.getString(i);
                                     }
-                                    LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
+LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
                                     sm_service1.setVisibility(View.VISIBLE);
                                     km_display();
                                 }
@@ -459,12 +430,12 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
             myButton.setHeight(100);
             myButton.setTextSize(15);
             //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
-            myButton.setId(i);
+			myButton.setId(i);
             myButton.setBackgroundResource(R.drawable.button_normal_sm);
 
             myButton.setLayoutParams(lp);
             ll.addView(myButton, lp);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myButton.getLayoutParams();
+			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myButton.getLayoutParams();
             layoutParams.setMargins(5,5,5,5);
             myButton.setLayoutParams(layoutParams);
             final String service = sm_service[i];
@@ -476,12 +447,12 @@ public class ScheduledMaintenanceScreen extends AppCompatActivity {
                     for (int i = 0; i < childcount; i++) {
 
                         ll.findViewById(i).setBackgroundResource(R.drawable.button_normal_sm);
-                    }
+                   }
                     myButton.setBackgroundResource(R.drawable.button_highlighted);
 myButton.setGravity(Gravity.CENTER_HORIZONTAL);
 
                     smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
-                    // Spinner spinner = (Spinner) findViewById(R.id.vehicle);
+                   // Spinner spinner = (Spinner) findViewById(R.id.vehicle);
                     //String vehicle = spinner.getSelectedItem().toString();
                     String vehicle = "VXI";
                     smLocalStore.setSMhome(vehicle, service, varient, make, model);
@@ -502,7 +473,7 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
         pDialog.setMessage("Loading ...");
 
         labour_cost = (TextView) findViewById(R.id.labour_cost_value);
-        /// washing_cost = (TextView) findViewById(R.id.washing_cost_value);
+       /// washing_cost = (TextView) findViewById(R.id.washing_cost_value);
         toatl_cost = (TextView) findViewById(R.id.total_cost_value);
         search_wrkshp_btn = (Button) findViewById(R.id.search_wrkshop_btn);
         labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
@@ -510,7 +481,7 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
         hLine1 = findViewById(R.id.hori_1);
         //hLine2 = findViewById(R.id.hori_2);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
-        // washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
+       // washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
         /*
         * fetch the service list from db
         */
@@ -569,7 +540,7 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
 
         for (int i = 0; i < sm_service_list.length; i++) {
             try {
-                if (((sm_service_listfield[i]).equals("I"))||(i==(sm_service_list.length)-1)) {
+                   if (((sm_service_listfield[i]).equals("I"))||(i==(sm_service_list.length)-1)) {
                     inspect++;
                     if (inspect == 1) {
                         I.setText("INSPECTION");
@@ -578,8 +549,8 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
                     }
                     TableRow row = new TableRow(this);
                     TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
-                    row.setMinimumHeight(110);
-                    row.setLayoutParams(lp);
+                       row.setMinimumHeight(110);
+                       row.setLayoutParams(lp);
 
 
                     price_total += Float.valueOf(sm_service_listprice[i]);
