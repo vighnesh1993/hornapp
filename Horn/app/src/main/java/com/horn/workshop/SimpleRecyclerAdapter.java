@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,26 +125,6 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
         }
     }
 
-    private void makeArrayClear(){
-                wservicesArrayList.clear();
-                wpriceArrayList.clear();
-                wqantityArrayList .clear();
-                eservicesArrayList.clear();
-                epriceArrayList.clear();
-                eqantityArrayList.clear();
-                bservicesArrayList.clear();
-                bpriceArrayList.clear();
-                bqantityArrayList.clear();
-                tservicesArrayList.clear();
-                tpriceArrayList.clear();
-                tqantityArrayList.clear();
-                gservicesArrayList.clear();
-                gpriceArrayList.clear();
-                gqantityArrayList .clear();
-                dservicesArrayList.clear();
-                dpriceArrayList.clear();
-                dqantityArrayList.clear();
-    }
 
     public SimpleRecyclerAdapter(String service, Context context) {
 
@@ -153,7 +132,7 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
         this.context = context;
         this.service = service;
         if(service.equals("wheel")){
-            Toast.makeText(context, "Herefffffffffffffffffffffff", Toast.LENGTH_LONG).show();
+           // Toast.makeText(context, "Herefffffffffffffffffffffff", Toast.LENGTH_LONG).show();
             isWheelList = true;
             wservicesArrayList.clear();
             wpriceArrayList.clear();
