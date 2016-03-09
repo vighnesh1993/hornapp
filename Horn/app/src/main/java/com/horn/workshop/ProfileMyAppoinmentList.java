@@ -39,7 +39,11 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private SMLocalStore smLocalStore;
     private static final String TAG = "SM_homekm";
+<<<<<<< HEAD
+    public String[]  partner_ids,apmntids,dates,statuss,appointment_ons,price_totals;
+=======
     public String[] partner_ids, apmntids, dates, statuss, appointment_ons;
+>>>>>>> origin/hornapp_sariga
     String strreqTAG = "apmntdetailTAG";
     ProfileAppoinmentAdapter adapter;
     public static ArrayList<ProfileappointmentData> apnmnt;
@@ -77,12 +81,14 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                             JSONArray date = jsonObject.getJSONArray("date");
                             JSONArray status = jsonObject.getJSONArray("status");
                             JSONArray appointment_on = jsonObject.getJSONArray("appointment_on");
+                            JSONArray price_total = jsonObject.getJSONArray("price_total");
 
                             partner_ids = new String[partner_id.length()];
                             apmntids = new String[apmntid.length()];
                             dates = new String[date.length()];
                             statuss = new String[status.length()];
                             appointment_ons = new String[appointment_on.length()];
+                            price_totals = new String[price_total.length()];
 
                             for (int i = 0; i < partner_id.length(); i++) {
 
@@ -91,13 +97,15 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                                 dates[i] = date.getString(i);
                                 statuss[i] = status.getString(i);
                                 appointment_ons[i] = appointment_on.getString(i);
+                                price_totals[i] = price_total.getString(i);
 
                                 apnmnt.add(new ProfileappointmentData(
                                         partner_ids[i],
                                         apmntids[i],
                                         dates[i],
                                         statuss[i],
-                                        appointment_ons[i]
+                                        appointment_ons[i],
+                                        price_totals[i]
                                 ));
                             }
 

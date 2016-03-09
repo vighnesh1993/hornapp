@@ -3,6 +3,7 @@ package com.horn.workshop;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -12,6 +13,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,6 +67,8 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
     public static String[] addressArray;
     public static Integer[] picArray;
     public static String[] distance;
+    public static String[] offer;
+    public static String[] offdayArray;
     public static String[] profilepicArray;
     public static Integer[] workshopidArray;
     public static String[] ratingArray, coordinateArray;
@@ -130,6 +137,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         workshop = new ArrayList<WorkshopDatas>();
         for (int i = 0; i < nameArray.length; i++) {
             // Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i],Toast.LENGTH_SHORT).show();
@@ -190,7 +198,8 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                     categoryArray[i],
                     profilepicArray[i],
                     workshopidArray[i],
-                    ratingArray[i], distance[i]
+                    ratingArray[i], distance[i],offer[i],
+                    offdayArray[i]
             ));
         }
 
@@ -338,6 +347,7 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                         JSONArray ratingArrayj = jsonObject.getJSONArray("rating");
                         JSONArray profilepicArrayj = jsonObject.getJSONArray("profilepic");
                         JSONArray coordinateArrayj = jsonObject.getJSONArray("coordinates");
+                        JSONArray offerArrayj = jsonObject.getJSONArray("offer");
 
                         nameArray = new String[nameArrayj.length()];
                         phoneArray = new String[nameArrayj.length()];
@@ -348,7 +358,13 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                         ratingArray = new String[ratingArrayj.length()];
                         profilepicArray = new String[profilepicArrayj.length()];
                         coordinateArray = new String[coordinateArrayj.length()];
+<<<<<<< HEAD
+                        distance=new String[coordinateArrayj.length()];
+                        offer=new String[offerArrayj.length()];
+                        offdayArray=new String[offerArrayj.length()];
+=======
                         distance = new String[coordinateArrayj.length()];
+>>>>>>> origin/hornapp_sariga
 
                         for (int i = 0; i < nameArrayj.length(); i++) {
                             phoneArray[i] = phoneArrayj.getString(i);
@@ -363,8 +379,10 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                             ratingArray[i] = ratingArrayj.getString(i);
                             profilepicArray[i] = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepicArrayj.getString(i);
                             coordinateArray[i] = coordinateArrayj.getString(i);
-
+                            offer[i] = offerArrayj.getString(i);
+                            offdayArray[i]= "0";
                         }
+
                         search_workshop_display();
                         pDialog.dismiss();
                     }

@@ -296,11 +296,145 @@
                         android:textColor="@color/primary_text"
                         android:textSize="18dp" />
 
+<<<<<<< HEAD
+                <TextView
+                    android:id="@+id/mycar_regyear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+                <TextView
+                    android:id="@+id/mycar_kmdone_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="KM Done"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_13"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_kmdone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+                <TextView
+                    android:id="@+id/mycar_insurer_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:visibility="gone"
+                    android:text="Insurer"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_insurer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:visibility="gone"
+                    android:background="#c0c0c0" />
+
+                <TextView
+                    android:id="@+id/mycar_insurer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/mycar_insdate_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Insurance Date"
+                    android:visibility="gone"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                android:id="@+id/hori_ins_date"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="#c0c0c0"
+                android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/mycar_insurance_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/mycar_polludate_lbl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:text="Pollution Date"
+                    android:visibility="gone"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18dp" />
+
+                <View
+                    android:id="@+id/hori_pollu_date"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="#c0c0c0"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/mycar_pollution_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:editable="false"
+                    android:padding="15dp"
+                    android:text="Loading..."
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp"
+                    android:visibility="gone"/>
+=======
                     <View
                         android:id="@+id/hori_12"
                         android:layout_width="fill_parent"
                         android:layout_height="1dp"
                         android:background="#c0c0c0" />
+>>>>>>> origin/hornapp_sariga
 
                     <TextView
                         android:id="@+id/mycar_regyear"

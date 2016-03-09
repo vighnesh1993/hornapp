@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:id="@+id/tabHost">
-    <TabWidget
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab1"
-            android:paddingTop="50dp">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tab1_txt"
-                android:text="This is tab1"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tab2"
-            android:paddingTop="50dp">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tab2_txt"
-                android:text="This is tab2"/>
-        </LinearLayout>
+    android:layout_height="wrap_content"
+    android:id="@+id/tab1"
+    android:orientation="vertical"
+    android:paddingTop="60px"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    </LinearLayout>
+<!--<TabHost android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:id="@+id/tabHost"-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android">-->
 
-    </FrameLayout>
-</TabHost>
+<!--<TabWidget-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@android:id/tabs"/>-->
+
+<!--<FrameLayout-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:id="@android:id/tabcontent">-->
+
+<!--<LinearLayout-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/tab1"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingTop="60px">-->
+
+<!--<TextView-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="100px"-->
+    <!--android:text="This is tab1"-->
+    <!--android:id="@+id/txt1"/>-->
+
+    <!--</LinearLayout>-->
+
+<!--<LinearLayout-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:id="@+id/tab2"-->
+    <!--android:orientation="vertical"-->
+    <!--android:paddingTop="60px">-->
+
+<!--<TextView-->
+<!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="100px"-->
+    <!--android:text="This is tab 2"-->
+    <!--android:id="@+id/txt2"/>-->
+
+    <!--</LinearLayout>-->
+
+
+    <!--</FrameLayout>-->
+
+    <!--</TabHost>-->

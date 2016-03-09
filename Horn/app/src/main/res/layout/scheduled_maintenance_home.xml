@@ -105,8 +105,8 @@
                         <ImageView
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:src="@drawable/ic_room_black_48dp"
-                            android:tint="@color/primary_text"
+                            android:src="@drawable/ic_menu_speed"
+
                             android:id="@+id/imageKm"
                             android:layout_marginRight="@dimen/abc_action_bar_overflow_padding_start_material" />
                         <!--<View-->

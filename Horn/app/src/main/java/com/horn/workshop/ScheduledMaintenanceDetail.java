@@ -1,16 +1,33 @@
 package com.horn.workshop;
 
+<<<<<<< HEAD
+import android.annotation.TargetApi;
+=======
 import android.app.ActionBar;
 import android.app.Activity;
+>>>>>>> origin/hornapp_sariga
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+<<<<<<< HEAD
+import android.os.Build;
+=======
 import android.net.Uri;
+>>>>>>> origin/hornapp_sariga
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+<<<<<<< HEAD
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+=======
 import android.support.v4.content.ContextCompat;
+>>>>>>> origin/hornapp_sariga
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +61,7 @@ import app.AppController;
 public class ScheduledMaintenanceDetail extends Activity {
     public SMLocalStore smLocalStore;
     private ProgressDialog pDialog;
-    public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
+    public String phone, name, category, address, workshopid, rating, profilepic, coordinates,offers,offdays;
     Integer pic;
     TextView ratings, workshopdetail_phone,workshopdetail_name,workshopdetail_address, abTitle;
     final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
@@ -56,7 +73,11 @@ public class ScheduledMaintenanceDetail extends Activity {
     private double coordLongitude = 0.0;
     ScheduledMaintenanceWorkshoplist sw;
     String dist;
+<<<<<<< HEAD
+    float price_detail;
+=======
     ActionBar tAction;
+>>>>>>> origin/hornapp_sariga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +140,11 @@ public class ScheduledMaintenanceDetail extends Activity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
+
+                String offer_sm=(String.valueOf(price_detail)).replaceAll("[^\\ds.]", "");
+                smLocalStore.setOffer_total(offer_sm);
                 startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
+
             }
         });
 
@@ -209,6 +234,8 @@ public class ScheduledMaintenanceDetail extends Activity {
                         rating = jsonObject.getString("rating");
                         profilepic = jsonObject.getString("profilepic");
                         coordinates = jsonObject.getString("coordinates");
+                        offers = jsonObject.getString("offer");
+                        offdays = "0";
                         String[] parts = coordinates.split(",");
                         String part1 = parts[0]; // 004
                         String part2 = parts[1];
@@ -258,14 +285,22 @@ public class ScheduledMaintenanceDetail extends Activity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void workshopdisplay_detail() {
         pDialog.dismiss();
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
+<<<<<<< HEAD
+
+        TextView offday = (TextView) findViewById(R.id.workshopdetail_Offday);
+        TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
+        final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
+=======
         final TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
         final ImageView workshopimage = (ImageView) findViewById(R.id.image_header);
+>>>>>>> origin/hornapp_sariga
         ratings = (TextView) findViewById(R.id.rating);
         String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
@@ -296,6 +331,32 @@ public class ScheduledMaintenanceDetail extends Activity {
         workshopaddress.setText(address);
         workshopcategory.setText(category);
         workshopphone.setText(phone);
+
+        int start = Integer.parseInt(offdays);
+        int end = Integer.parseInt(offdays)+1;
+        final SpannableStringBuilder sb = new SpannableStringBuilder("SMTWTFS");
+
+// Span to set text color to some RGB value
+        final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
+
+// Span to make text bold
+        final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+
+// Set the text color for first 4 characters
+        sb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+// make them also bold
+        sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        offday.setText(sb);
+        offday.setLetterSpacing(1);
+
+        smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+        float total = Float.parseFloat(smLocalStore.getService_total());
+        float Offer = Float.parseFloat(offers);
+         price_detail = total-((Offer/100)*total);
+       // offer.setText("₹ "+String.valueOf(price));
+
         ratings.setText(rating);
         setRatingBackround(rating);
         ws_distance.setText(dist);
