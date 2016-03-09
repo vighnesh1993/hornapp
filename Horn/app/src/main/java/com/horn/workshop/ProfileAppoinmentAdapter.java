@@ -36,6 +36,7 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
         TextView workshop;
         TextView status;
         TextView bookedon;
+        TextView pricetotal;
            public MyViewHolder(final View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -45,6 +46,7 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
             this.workshop = (TextView) itemView.findViewById(R.id.appointment_workshop);
             this.status = (TextView) itemView.findViewById(R.id.appointment_status);
             this.bookedon = (TextView) itemView.findViewById(R.id.appointment_bookedon);
+            this.pricetotal = (TextView) itemView.findViewById(R.id.appointment_total);
 
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
@@ -96,11 +98,13 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
             TextView workshop1=holder.workshop;
             TextView status1=holder.status;
             TextView bookedon1=holder.bookedon;
+            TextView pricetotal1=holder.pricetotal;
             id1.setText(": "+apnmnt.get(listPosition).getApmntids());
             date1.setText(": "+apnmnt.get(listPosition).getDates());
             workshop1.setText(": "+apnmnt.get(listPosition).getPartner_ids());
             status1.setText(": "+apnmnt.get(listPosition).getStatuss());
             bookedon1.setText(": "+apnmnt.get(listPosition).getAppointment_ons());
+            pricetotal1.setText(": ₹ "+apnmnt.get(listPosition).getprice_total());
             holder.setItem(apnmnt.get(listPosition).getApmntids());
 
         }

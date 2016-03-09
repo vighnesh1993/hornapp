@@ -5,22 +5,69 @@
     android:orientation="vertical"
     android:padding="15dp">
 
-    <EditText
-        android:id="@+id/registration"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:hint="Registration No"
-        android:textColor="#000000" />
+        android:id="@+id/add_car_popup"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/registration"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Registration No"
+            android:textColor="#000000" />
+        <EditText
+            android:id="@+id/km_done"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:hint="KMs Done"
+            android:textColor="#000000" />
 
-    <EditText
-        android:id="@+id/year"
+        <EditText
+            android:id="@+id/year"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:hint="Year of Reg"
+            android:textColor="#000000" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:layout_gravity="center"
-        android:hint="Year of Reg"
-        android:textColor="#000000" />
+        android:id="@+id/update_car_popup"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/insurance_due_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Insurance Due Date"
+            android:inputType="date"
+            android:textColor="#000000"
+            />
+        <EditText
+            android:id="@+id/insurer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:hint="Insurer"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/pollution_due_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:hint="Pollution Due Date"
+            android:textColor="#000000" />
+    </LinearLayout>
 
 
 </LinearLayout>
