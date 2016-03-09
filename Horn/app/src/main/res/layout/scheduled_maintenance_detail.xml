@@ -122,12 +122,13 @@
                         android:layout_alignEnd="@+id/rating" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="fill_parent"
                         android:layout_height="50dp"
                         android:layout_alignBottom="@+id/workshopdetail_photo"
                         android:layout_alignParentStart="false"
                         android:background="#55000000"
                         android:id="@+id/linearLayout6"
+                        android:orientation="horizontal"
                         android:layout_alignParentEnd="false">
 
                         <TextView
@@ -144,6 +145,7 @@
                             android:textStyle="bold"
                             android:gravity="center_vertical"
                             android:paddingLeft="15dp" />
+
                     </LinearLayout>
 
 
@@ -291,6 +293,26 @@
                         android:layout_gravity="left"
                         android:padding="15dp"
                         android:text="50% Offer on Scheduled Maintenance \n 25% Offer on Running Maintenance"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/workshopdetail_Offday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading"
                         android:textColor="@color/secondary_text"
                         android:textSize="14dp" />
 

@@ -8,6 +8,9 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +49,7 @@ public class ProfileAddCar extends AppCompatActivity {
     Button add_car;
     SQLiteHandler sqLiteHandler;
     ProgressDialog pDialog;
-    String reg_nos , year_regs;
+    String reg_nos , year_regs,km_dones;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,10 +157,15 @@ String car_id = smLocalStore.getProfileAddCar();
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
+                                EditText km_done = (EditText) commentDialog.findViewById(R.id.km_done);
                 EditText year_reg  = (EditText)commentDialog.findViewById(R.id.year);
                 reg_nos = reg_no.getText().toString();
                 year_regs = year_reg.getText().toString();
-               profile_add_Car_ok();
+                km_dones = km_done.getText().toString();
+
+                                    profile_add_Car_ok();
+
+
                             }
                         })
                 .setNegativeButton("Cancel",
@@ -168,10 +176,43 @@ String car_id = smLocalStore.getProfileAddCar();
                         });
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final AlertDialog alertDialog = alertDialogBuilder.create();
 
         // show it
         alertDialog.show();
+         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+        EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
+        reg_no.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    // Disable ok button
+                    alertDialog.getButton(
+                            AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                } else {
+                    // Something into edit text. Enable the button.
+                    alertDialog.getButton(
+                            AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                }
+            }
+        });
+
+
+//        EditText reg_no = (EditText) commentDialog.findViewById(R.id.registration);
+//        if( reg_no.getText().toString().trim().equals("")){
+//            Log.d("noreg","noregggg");
+//            reg_no.setError( "Registration no is required!" );
+//        }
 
 //        final EditText userInput = (EditText) commentDialog
 //                .findViewById(R.id.editTextDialogUserInput);
@@ -244,12 +285,13 @@ String car_id = smLocalStore.getProfileAddCar();
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
                 String  apmnt_user_email = user.get("email");
 
-Log.d("registration..",reg_nos+".."+year_regs);
+Log.d("registration..",reg_nos+".."+year_regs+".."+km_dones);
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("add_tomycar", car_id);
                 params.put("user_email", apmnt_user_email);
                 params.put("user_reg_no", reg_nos);
                 params.put("user_year_reg", year_regs);
+                params.put("user_km_done", km_dones);
 
 
                 return params;

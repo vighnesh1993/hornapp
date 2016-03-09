@@ -1,12 +1,15 @@
 package com.horn.workshop;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +19,20 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -36,6 +44,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,6 +52,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,18 +131,6 @@ public int count = 0;
       SM home ends
        */
 
-        /* tab sample */
-
-//        TabHost tabHost = (TabHost) findViewById(R.id.tabHost);
-//        TabSpec spec1= tabHost.newTabSpec("Tab 1");
-//        spec1.setContent(R.id.tab1);
-//        spec1.setIndicator("Tab 1");
-//
-//        TabSpec spec2= tabHost.newTabSpec("Tab 2");
-//        spec2.setContent(R.id.tab2);
-//        spec2.setIndicator("Tab 2");
-
-        /* tab sample ends */
 
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
@@ -244,6 +242,7 @@ public int count = 0;
 
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void dropdown_display() {
         /** SM vehicle dropdown **/
 
@@ -251,31 +250,94 @@ public int count = 0;
         String[] items = nameArray;//new String[]{"Etios", "Innova", "Fortuner"};
         varient = "1";
          make = "Maruthi";
-         model = "A-star";
+         model = "Suzuki";
 
         for (int j = 0; j < items.length; j++) {
+            final LinearLayout choosecar = (LinearLayout) findViewById(R.id.choosecar);
+            final LinearLayout ll = (LinearLayout) findViewById(R.id.vehicle);
+
+            final LinearLayout myvehicle_lyt = new LinearLayout(this);
+            int car_count;
+            if( items.length==1) {
+               car_count = 4;
+            }
+            else { car_count = 60; }
+            LinearLayout.LayoutParams myveh_param = new ActionMenuView.LayoutParams(choosecar.getWidth() - car_count, 100);
+            myveh_param.setMargins(3, 5, 3, 5);
+            myvehicle_lyt.setLayoutParams(myveh_param);
+            myvehicle_lyt.setOrientation(LinearLayout.HORIZONTAL);
+            myvehicle_lyt.setId(j);
+           // myvehicle_lyt.setVerticalGravity(View.TEXT_ALIGNMENT_GRAVITY);
+            myvehicle_lyt.setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
+            //myvehicle_lyt.setPadding(25, 0, 25, 0);
+
+            final ImageView myvehicle_image = new ImageView(this);
+            String carimage;
+            LinearLayout.LayoutParams myvehimg_param = new ActionMenuView.LayoutParams(150, ViewGroup.LayoutParams.MATCH_PARENT);
+            myvehicle_image.setLayoutParams(myvehimg_param);
+            if((carImageArray[j]).equals(""))
+            { carimage = "ic_directions_car_black_48dp.png"; }
+            else { carimage = carImageArray[j];}
+            String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" +carimage;
+            ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+            imageLoader.get(url, new ImageLoader.ImageListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Log.e(TAG, "Image Load Error: " + error.getMessage());
+                }
+
+                @TargetApi(Build.VERSION_CODES.M)
+                @Override
+                public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+                    if (response.getBitmap() != null) {
+                        // load image into imageview
+                        myvehicle_image.setImageBitmap(response.getBitmap());
+
+
+                    }
+                }
+            });
+
+
+            TextView myvehicle_txt = new TextView(this);
+            LinearLayout.LayoutParams myvehtxt_param = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            myvehicle_txt.setText(items[j]);
+            myvehicle_txt.setLayoutParams(myvehtxt_param);
+            myvehicle_txt.setTextSize(15);
+            myvehicle_txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            myvehicle_txt.setGravity(Gravity.CENTER);
+            myvehicle_lyt.addView(myvehicle_image);
+            myvehicle_lyt.addView(myvehicle_txt);
+            ll.addView(myvehicle_lyt);
+
+
+
+
+
+
             final Button myvehicle = new Button(this);
             myvehicle.setText(items[j]);
-            final LinearLayout ll = (LinearLayout) findViewById(R.id.vehicle);
-            final LinearLayout choosecar = (LinearLayout) findViewById(R.id.choosecar);
-            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-            myvehicle.setHeight(100);
-            myvehicle.setTextSize(15);
-            myvehicle.setWidth(choosecar.getWidth()-4);
-            myvehicle.setPadding(25, 0, 25, 0);
-            //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
-            myvehicle.setId(j);
-            myvehicle.setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
-                      
-            myvehicle.setLayoutParams(lp);
-            ll.addView(myvehicle, lp);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myvehicle.getLayoutParams();
-            layoutParams.setMargins(3, 5, 3, 5);
 
-            myvehicle.setLayoutParams(layoutParams);
+
+//            ActionBar.LayoutParams lp = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+//            myvehicle.setHeight(100);
+//            myvehicle.setTextSize(15);
+//            myvehicle.setWidth(choosecar.getWidth() - 4);
+//            myvehicle.setPadding(25, 0, 25, 0);
+//            //  myButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_room_black_48dp, 0, 0, 0);
+//            myvehicle.setId(j);
+//            myvehicle.setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
+//
+//            myvehicle.setLayoutParams(lp);
+//            ll.addView(myvehicle, lp);
+//            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) myvehicle.getLayoutParams();
+//            layoutParams.setMargins(3, 5, 3, 5);
+//
+//            myvehicle.setLayoutParams(layoutParams);
             final String itemss = items[j];
             final int vehicle_count = j;
-            myvehicle.setOnClickListener(new View.OnClickListener() {
+            myvehicle_lyt.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -288,11 +350,11 @@ public int count = 0;
 
                         findViewById(i).setBackgroundResource(R.drawable.vehicle_btn_normal_sm);
                     }
-                    myvehicle.setBackgroundResource(R.drawable.vehicle_btn_after_pressed);
+                    myvehicle_lyt.setBackgroundResource(R.drawable.vehicle_btn_after_pressed);
 
                     LinearLayout ll = (LinearLayout) findViewById(R.id.sm_service);
                     ll.removeAllViews();
-                    final String vehicle_km = "VXI";
+                    final String vehicle_km = "Celerio (CNG)";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_SM_SERVICES, new Response.Listener<String>() {
                         @Override
@@ -387,7 +449,7 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
                         ll.findViewById(i).setBackgroundResource(R.drawable.button_normal_sm);
                    }
                     myButton.setBackgroundResource(R.drawable.button_highlighted);
-
+myButton.setGravity(Gravity.CENTER_HORIZONTAL);
 
                     smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
                    // Spinner spinner = (Spinner) findViewById(R.id.vehicle);
@@ -397,13 +459,13 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
                     LinearLayout smservice = (LinearLayout) findViewById(R.id.SM_services);
 
                     smservice.setVisibility(View.VISIBLE);
-
-                    sm_services();
+                     sm_services();
                 }
             });
         }
 
     }
+
 
     public void sm_services() {
         pDialog = new ProgressDialog(this);
@@ -520,7 +582,7 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
 
                             }
                             //price_total = price_total;
-                            toatl_cost.setText("INR " + price_total);
+                            toatl_cost.setText("₹ " + price_total);
                         }
                     });
 
@@ -615,7 +677,7 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
 
                             }
                             //price_total = price_total;
-                            toatl_cost.setText("INR " + price_total);
+                            toatl_cost.setText("₹ " + price_total);
                         }
                     });
 
@@ -637,9 +699,9 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
         }
         total = total + price_total;
         //total = total + Float.parseFloat(labour_Charge)+Float.parseFloat(washing);
-        labour_cost.setText("INR " + labour_Charge);
+        labour_cost.setText("₹ " + labour_Charge);
 //        washing_cost.setText("INR " + washing);
-        toatl_cost.setText("INR " + (int) total);
+        toatl_cost.setText("₹ " + (int) total);
 
         search_wrkshp_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -655,6 +717,9 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
                 String desc = descedit.getText().toString();
                 smLocalStore = new SMLocalStore(ScheduledMaintenanceScreen.this);
                 smLocalStore.setSMdesc(desc);
+                TextView totalcost = (TextView)findViewById(R.id.total_cost_value);
+                String total_cost = totalcost.getText().toString();
+                smLocalStore.setService_total((total_cost).replaceAll("[^\\ds.]", ""));
 
                 provider = Settings.Secure.getString(getContentResolver(),
                         Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
@@ -704,7 +769,8 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
                         sm_service_listprice[service_list_qty.length()] = washing;
                         sm_service_listfield[service_list_qty.length()] = "";
                         sm_service_listarea[service_list_qty.length()] = "";
-                        SM_Services_display();
+                      SM_Services_display();
+
                     } else {
                         no_service();
                     }
@@ -746,6 +812,8 @@ LinearLayout sm_service1 = (LinearLayout) findViewById(R.id.sm_service1);
         stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG1);
     }
+
+
 
     public void no_service() {
         pDialog.dismiss();

@@ -51,7 +51,7 @@ import helper.SQLiteHandler;
  * Created by Sariga on 1/18/2016.
  */
 public class ScheduledMaintenanceAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    public String km_apnmt, vehicle_apnmt, workshopid_apnmt, description_apnmt, customername_apnmt, services_apmnt, date_apmnt, email_apnmt, phone_apnmt, make_apnmt, model_apnmt, regno_apnmt, time_apmnt;
+    public String km_apnmt, vehicle_apnmt, workshopid_apnmt, description_apnmt, customername_apnmt, services_apmnt, service_total,date_apmnt, email_apnmt, phone_apnmt, make_apnmt, model_apnmt, regno_apnmt, time_apmnt;
     private SMLocalStore smLocalStore;
     public static EditText timeview, dateviews, timeviews;
     private SQLiteHandler sqLiteHandler;
@@ -77,6 +77,9 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
         vehicle.setText(smLocalStore.getSMhome_make()+' '+smLocalStore.getSMhome_model()+' '+smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
         timeview = (EditText) findViewById(R.id.apmnt_time);
+        service_total = smLocalStore.getOffer_total();
+        EditText apmntprice = (EditText)findViewById(R.id.apmnt_price);
+        apmntprice.setText("₹ "+service_total);
 
     }
 
@@ -262,7 +265,8 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 workshopid_apnmt = smLocalStore.getSMworkshopdetail_id();
                 description_apnmt = smLocalStore.getSMdesc();
                 make_apnmt = smLocalStore.getSMhome_make();
-                 model_apnmt = smLocalStore.getSMhome_model();
+                model_apnmt = smLocalStore.getSMhome_model();
+
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
@@ -317,6 +321,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 params.put("model_apmnt", model_apnmt);
                 params.put("appointment_booking", "1");
                 params.put("booked_on", String.valueOf(booked_on));
+                params.put("price_total", service_total);
                 return params;
             }
 

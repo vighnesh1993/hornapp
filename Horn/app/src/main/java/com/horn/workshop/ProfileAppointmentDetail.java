@@ -55,6 +55,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         String appointment_on = jsonObject.getString("appointment_on");
                         String vehicle_name = jsonObject.getString("vehicle_name");
                         String id = jsonObject.getString("id");
+                        String price_total = jsonObject.getString("price_total");
                         String services_list = "";
                         for(int i=0;i<service.length();i++)
                         {
@@ -70,6 +71,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         TextView apmntservices = (TextView) findViewById(R.id.apmntservices);
                         TextView apmnttime = (TextView) findViewById(R.id.apmnttime);
                         TextView apmntvehicle = (TextView) findViewById(R.id.apmntvehicle);
+                        TextView price_totalt = (TextView) findViewById(R.id.apmnttotal);
 
                         SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
                         SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyy");
@@ -104,6 +106,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         apmntservices.setText(services_list);
                         apmnttime.setText(time1);
                         apmntvehicle.setText(vehicle_name);
+                        price_totalt.setText("₹ "+price_total);
 
 
                     }

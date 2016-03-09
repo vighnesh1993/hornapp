@@ -1,17 +1,23 @@
 package com.horn.workshop;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +49,7 @@ import app.AppController;
 public class ScheduledMaintenanceDetail extends AppCompatActivity {
     public SMLocalStore smLocalStore;
     private ProgressDialog pDialog;
-    public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
+    public String phone, name, category, address, workshopid, rating, profilepic, coordinates,offers,offdays;
     Integer pic;
     TextView ratings;
     final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
@@ -55,6 +61,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     private double coordLongitude = 0.0;
     ScheduledMaintenanceWorkshoplist sw;
     String dist;
+    float price_detail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,7 +115,11 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
+
+                String offer_sm=(String.valueOf(price_detail)).replaceAll("[^\\ds.]", "");
+                smLocalStore.setOffer_total(offer_sm);
                 startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
+
             }
         });
 //        Scrollview.OnScrollChangedListener mOnScrollChangedListener = new Scrollview.OnScrollChangedListener() {
@@ -168,6 +179,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         rating = jsonObject.getString("rating");
                         profilepic = jsonObject.getString("profilepic");
                         coordinates = jsonObject.getString("coordinates");
+                        offers = jsonObject.getString("offer");
+                        offdays = "0";
                         String[] parts = coordinates.split(",");
                         String part1 = parts[0]; // 004
                         String part2 = parts[1];
@@ -213,12 +226,15 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void workshopdisplay_detail() {
         pDialog.dismiss();
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
+
+        TextView offday = (TextView) findViewById(R.id.workshopdetail_Offday);
         TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
         final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
         ratings = (TextView) findViewById(R.id.rating);
@@ -244,6 +260,32 @@ if((category).equals("Authorised")) {category = "Exclusive"; }
         workshopaddress.setText(address);
         workshopcategory.setText(category);
         workshopphone.setText(phone);
+
+        int start = Integer.parseInt(offdays);
+        int end = Integer.parseInt(offdays)+1;
+        final SpannableStringBuilder sb = new SpannableStringBuilder("SMTWTFS");
+
+// Span to set text color to some RGB value
+        final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
+
+// Span to make text bold
+        final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+
+// Set the text color for first 4 characters
+        sb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+// make them also bold
+        sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        offday.setText(sb);
+        offday.setLetterSpacing(1);
+
+        smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+        float total = Float.parseFloat(smLocalStore.getService_total());
+        float Offer = Float.parseFloat(offers);
+         price_detail = total-((Offer/100)*total);
+       // offer.setText("₹ "+String.valueOf(price));
+
         ratings.setText(rating);
         setRatingBackround(rating);
         ws_distance.setText(dist);

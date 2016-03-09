@@ -104,6 +104,24 @@ android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:id="@+id/appointment_status"/>
     </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/appointment_total_lyt"
+            android:layout_marginTop="95dp"
+            android:padding="10dp">
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Total "
+                android:id="@+id/appointment_total_lbl"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/appointment_total"/>
+        </LinearLayout>
 
    </android.support.v7.widget.CardView>
 </LinearLayout>
