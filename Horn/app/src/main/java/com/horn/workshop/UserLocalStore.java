@@ -248,5 +248,20 @@ public class UserLocalStore {
         editor.putBoolean("placegps", placeGps);
         editor.commit();
     }
+
+    public void setindicator(boolean placeGps) {
+        editor.putBoolean("indicator", placeGps);
+        editor.commit();
+    }
+    public boolean getindicator() {
+
+        if (pref.getBoolean("indicator", false)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
 }
 

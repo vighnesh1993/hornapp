@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.ChooseLocation;
@@ -77,9 +78,9 @@ public class Login extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.input_password);
 
         //TODO: Remove before push the code *Start
-
-        inputPassword.setText("aneeshkp");
-        inputEmail.setText("aneeshkp1990@gmail.com");
+//
+//        inputPassword.setText("aneeshkp");
+//        inputEmail.setText("aneeshkp1990@gmail.com");
 
         //Remove before push the code *end
 
@@ -87,8 +88,7 @@ public class Login extends AppCompatActivity {
 
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         String loEmail = userLocalStore.getEmailForLogin();
-        //TODO : Uncomment line below before push
-       // inputEmail.setText(loEmail);
+        inputEmail.setText(loEmail);
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +253,7 @@ public class Login extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "No Network Connection", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
@@ -269,11 +269,11 @@ public class Login extends AppCompatActivity {
             }
 
         };
-       /* strReq.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
-        // Adding request to request queue
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        strReq.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        strReq.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 

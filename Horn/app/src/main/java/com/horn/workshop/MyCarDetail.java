@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,13 +19,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+=======
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+>>>>>>> origin/hornapp_sariga
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
@@ -46,6 +55,7 @@ import helper.SQLiteHandler;
  */
 public class MyCarDetail extends AppCompatActivity {
     public SMLocalStore smLocalStore;
+<<<<<<< HEAD
    public TextView car_id,car_names,car_make,car_model,car_varient,car_vehicle , car_registration,car_regyear,car_km_done,car_insurer,car_insure_date,car_pollution_date;
     ImageView car_image;
     SQLiteHandler sqLiteHandler;
@@ -55,17 +65,32 @@ public class MyCarDetail extends AppCompatActivity {
     String reg_nos , year_regs,km_dones,insurers,insure_dates,pollution_dates, car_insurers, car_insurance_dates,car_pollution_dates;
    int year,month,day;
     Calendar calendar;
+=======
+    TextView car_id, car_names, car_make, car_model, car_varient, car_vehicle, car_registration, car_regyear;
+    ImageView car_image;
+    SQLiteHandler sqLiteHandler;
+    ProgressDialog pDialog;
+    String reg_nos, year_regs;
+
+>>>>>>> origin/hornapp_sariga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_car_detail);
+<<<<<<< HEAD
 
+=======
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+>>>>>>> origin/hornapp_sariga
         displaydetails();
 
 
     }
-    public void displaydetails()
-    {
+
+    public void displaydetails() {
         String strreq = "addcar_detail";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
             @Override
@@ -86,6 +111,7 @@ public class MyCarDetail extends AppCompatActivity {
                         String car_vehicles = jsonObject.getString("car_vehicle");
                         String car_registrations = jsonObject.getString("car_registration");
                         String car_regyears = jsonObject.getString("car_regyear");
+<<<<<<< HEAD
                         String car_km_dones = jsonObject.getString("car_km_done");
                         car_insurers = jsonObject.getString("car_insurer");
                         car_insurance_dates = jsonObject.getString("car_insurance_date");
@@ -95,6 +121,18 @@ public class MyCarDetail extends AppCompatActivity {
                             case "0" : car_varients = "Petrol"; break;
                             case "1" : car_varients = "Diesel"; break;
                             case "2" : car_varients = "Duo"; break;
+=======
+                        switch (car_varients) {
+                            case "0":
+                                car_varients = "Petrol";
+                                break;
+                            case "1":
+                                car_varients = "Diesel";
+                                break;
+                            case "2":
+                                car_varients = "Duo";
+                                break;
+>>>>>>> origin/hornapp_sariga
                         }
                         car_names = (TextView) findViewById(R.id.mycar_name);
                         car_make = (TextView) findViewById(R.id.mycar_make);
@@ -149,7 +187,7 @@ public class MyCarDetail extends AppCompatActivity {
                         car_regyear.setText(car_regyears);
                         car_km_done.setText(car_km_dones);
 
-                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
+                        String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + car_images + "";
                         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
                         imageLoader.get(url, new ImageLoader.ImageListener() {
 
@@ -177,7 +215,7 @@ public class MyCarDetail extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MyCarDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCarDetail.this, "No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -185,7 +223,7 @@ public class MyCarDetail extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 sqLiteHandler = new SQLiteHandler(MyCarDetail.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  apmnt_user_email = user.get("email");
+                String apmnt_user_email = user.get("email");
                 smLocalStore = new SMLocalStore(MyCarDetail.this);
                 String car_id = smLocalStore.getProfileMyCar();
                 Map<String, String> params = new HashMap<String, String>();
@@ -196,12 +234,16 @@ public class MyCarDetail extends AppCompatActivity {
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }
-    public void registration_edit(View v)
-    {
+
+    public void registration_edit(View v) {
         car_registration = (TextView) findViewById(R.id.mycar_registration);
         car_regyear = (TextView) findViewById(R.id.mycar_regyear);
         car_km_done = (TextView) findViewById(R.id.mycar_kmdone);
@@ -219,20 +261,25 @@ public class MyCarDetail extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("ADD",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
 
                                 TextView reg_no = (TextView) commentDialog.findViewById(R.id.registration);
+<<<<<<< HEAD
                                 TextView year_reg  = (TextView)commentDialog.findViewById(R.id.year);
                                 TextView km_done = (TextView) commentDialog.findViewById(R.id.km_done);
                                 TextView insurer  = (TextView)commentDialog.findViewById(R.id.insurer);
                                 insurancedate  = (TextView)commentDialog.findViewById(R.id.insurance_due_date);
                                 TextView pollutiondate  = (TextView)commentDialog.findViewById(R.id.pollution_due_date);
                                 profile_edit_Car_ok(reg_no,year_reg,km_done,insurer,insurancedate,pollutiondate);
+=======
+                                TextView year_reg = (TextView) commentDialog.findViewById(R.id.year);
+                                profile_edit_Car_ok(reg_no, year_reg);
+>>>>>>> origin/hornapp_sariga
                             }
                         })
                 .setNegativeButton("Cancel",
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
+                            public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
                         });
@@ -240,8 +287,12 @@ public class MyCarDetail extends AppCompatActivity {
         // create alert dialog
         final AlertDialog alertDialog = alertDialogBuilder.create();
         TextView reg_no = (TextView) commentDialog.findViewById(R.id.registration);
+<<<<<<< HEAD
         TextView year_reg  = (TextView)commentDialog.findViewById(R.id.year);
         TextView km_done = (TextView)commentDialog.findViewById(R.id.km_done);
+=======
+        TextView year_reg = (TextView) commentDialog.findViewById(R.id.year);
+>>>>>>> origin/hornapp_sariga
         reg_no.setText(car_registration.getText());
         year_reg.setText(car_regyear.getText());
         km_done.setText(car_km_done.getText());
@@ -294,8 +345,13 @@ public class MyCarDetail extends AppCompatActivity {
             }
     });
     }
+<<<<<<< HEAD
     public void profile_edit_Car_ok(TextView reg_no,TextView year_reg,TextView km_done,TextView insurer,TextView insurancedate,TextView pollutiondate)
     {
+=======
+
+    public void profile_edit_Car_ok(TextView reg_no, TextView year_reg) {
+>>>>>>> origin/hornapp_sariga
         reg_nos = reg_no.getText().toString();
         year_regs = year_reg.getText().toString();
         km_dones = km_done.getText().toString();
@@ -330,20 +386,19 @@ public class MyCarDetail extends AppCompatActivity {
         insur_datelbl.setVisibility(View.VISIBLE);
 
     }
-    public void mycar_update(View v)
-    {
+
+    public void mycar_update(View v) {
         String strreq = "update_car";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("hi",response);
+                Log.d("hi", response);
                 try {
                     JSONObject jsonObject = new JSONObject(response);
                     if (jsonObject != null) {
                         int len = jsonObject.length();
-String status = jsonObject.getString("status");
-                        if(status.equals("success"))
-                        {
+                        String status = jsonObject.getString("status");
+                        if (status.equals("success")) {
                             Toast.makeText(MyCarDetail.this, "Updated Successfully !!!", Toast.LENGTH_LONG).show();
 
                             startActivity(new Intent(MyCarDetail.this, MyCars.class));
@@ -357,7 +412,7 @@ String status = jsonObject.getString("status");
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MyCarDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCarDetail.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -372,7 +427,7 @@ String status = jsonObject.getString("status");
                 smLocalStore = new SMLocalStore(MyCarDetail.this);
                 sqLiteHandler = new SQLiteHandler(MyCarDetail.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String  update_user_email = user.get("email");
+                String update_user_email = user.get("email");
                 smLocalStore = new SMLocalStore(MyCarDetail.this);
                 String car_id = smLocalStore.getProfileMyCar();
                 Map<String, String> params = new HashMap<String, String>();
@@ -390,7 +445,11 @@ String status = jsonObject.getString("status");
 
         };
 
-
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        stringRequest.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        stringRequest.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
     }
 

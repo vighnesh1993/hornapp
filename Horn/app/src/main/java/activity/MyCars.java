@@ -15,6 +15,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class MyCars extends AppCompatActivity {
     String[] nameArray, carImageArray, carIdArray;
     RecyclerView rCarView;
     SMLocalStore smLocalStore;
+    Button add_car_btn;
     public static ArrayList<CarData> carDatas;
     private MyCarAdapter adapter;
     SQLiteHandler sqLiteHandler;
@@ -63,7 +65,6 @@ public class MyCars extends AppCompatActivity {
     ActionMode actionMode;
     public int car_count = 0;
     public static String[] carVarientArray;
-
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -83,15 +84,22 @@ public class MyCars extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.show();
         show_mycars();
         nocars_found = (ImageView) findViewById(R.id.no_cars_img);
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
-    }
+        add_car_btn = (Button) findViewById(R.id.add_car_btn);
+        add_car_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyCars.this, AddCar.class));
+            }
+        });
 
+
+    }
 
     //        else
 //        {
@@ -99,6 +107,7 @@ public class MyCars extends AppCompatActivity {
 //            startActivity(intent2);
 //        }
     // }
+
     public void show_mycars(){
         pDialog.show();
     /*
@@ -135,6 +144,7 @@ public class MyCars extends AppCompatActivity {
                             }
                             nocars_found.setVisibility(View.GONE);
                             nocars_found_txt.setVisibility(View.GONE);
+                            add_car_btn.setVisibility(View.GONE);
                             mycarsDisplay();
                         } else {
 
@@ -150,7 +160,7 @@ public class MyCars extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pDialog.dismiss();
-                        Toast.makeText(MyCars.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyCars.this,"No Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }) {
 

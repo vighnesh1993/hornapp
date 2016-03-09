@@ -58,14 +58,20 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
         enable_gps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userLocalStore.setindicator(false);
                 if(getGpsStatus())
                 {
+                    userLocalStore.setindicator(false);
+                    userLocalStore.setMyManuallocationLatlog("");
+                    userLocalStore.setManualLocation("");
                     Intent callGPSSettingIntent = new Intent(
                             android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(callGPSSettingIntent);
                 }
                 else
                 {
+                    userLocalStore.setMyManuallocationLatlog("");
+                    userLocalStore.setManualLocation("");
                     startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
                 }
             }
@@ -218,17 +224,21 @@ public class PlacesAutoCompleteActivity extends AppCompatActivity implements Goo
 
     @Override
     public void onResume() {
+
         super.onResume();
+        Toast.makeText(this,"choose location", Toast.LENGTH_SHORT).show();
+
+
         if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()){
             Log.v("Google API","Connecting");
             mGoogleApiClient.connect();
         }
-       /* if(!getGpsStatus()){
-            userLocalStore.setPlaceActivityGPS(true);
+
+        if(!userLocalStore.getindicator()) {
+
+            userLocalStore.setMylocationLatlog("");
+           startActivity(new Intent(PlacesAutoCompleteActivity.this,MainActivity.class));
         }
-        if(userLocalStore.getPlaceActivityGPS()){
-           startActivity(new Intent(PlacesAutoCompleteActivity.this, MainActivity.class));
-        }*/
     }
 
     @Override

@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
     android:orientation="vertical">
+
     <include
         android:id="@+id/my_tool_bar"
         layout="@layout/my_tool_bar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+<<<<<<< HEAD
 <!--  SM Home   -->
 
 <include android:id="@+id/scheduled_maintenance_home"
@@ -80,18 +86,33 @@
                 </TabHost>
 
             </LinearLayout>
+=======
+            <!--  SM Home   -->
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/SM_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+>>>>>>> origin/hornapp_sariga
 
-    <!--  SM Services   -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/SM_services"
-        android:background="@color/off_white"
-        android:orientation="vertical"
-        android:visibility="gone">
-        <include android:id="@+id/scheduled_maintenance_services"
-            layout="@layout/scheduled_maintenance_services" />
-    </LinearLayout>
+                <include
+                    android:id="@+id/scheduled_maintenance_home"
+                    layout="@layout/scheduled_maintenance_home" />
+            </LinearLayout>
+
+            <!--  SM Services   -->
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/SM_services"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/off_white"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include
+                    android:id="@+id/scheduled_maintenance_services"
+                    layout="@layout/scheduled_maintenance_services" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
