@@ -50,23 +50,23 @@ public class RunningMaintenanceHome extends AppCompatActivity {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        showToast("One");
+                       // showToast("One");
                         break;
                     case 1:
-                        showToast("Two");
+                       // showToast("Two");
 
                         break;
                     case 2:
-                        showToast("Three");
+                       // showToast("Three");
                         break;
                     case 3:
-                        showToast("four");
+                        //showToast("four");
                         break;
                     case 4:
-                        showToast("five");
+                        //showToast("five");
                         break;
                     case 5:
-                        showToast("six");
+                        //showToast("six");
                         break;
                 }
             }
