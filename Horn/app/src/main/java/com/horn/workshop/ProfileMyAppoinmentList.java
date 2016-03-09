@@ -10,10 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -28,6 +26,7 @@ import java.util.Map;
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
+import helper.ServicesManager;
 
 /**
  * Created by Sariga on 2/5/2016.
@@ -39,11 +38,10 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private SMLocalStore smLocalStore;
     private static final String TAG = "SM_homekm";
-    public String[] partner_ids, apmntids, dates, statuss, appointment_ons;
+    public String[]  partner_ids,apmntids,dates,statuss,appointment_ons,price_totals;
     String strreqTAG = "apmntdetailTAG";
     ProfileAppoinmentAdapter adapter;
     public static ArrayList<ProfileappointmentData> apnmnt;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,12 +75,14 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                             JSONArray date = jsonObject.getJSONArray("date");
                             JSONArray status = jsonObject.getJSONArray("status");
                             JSONArray appointment_on = jsonObject.getJSONArray("appointment_on");
+                            JSONArray price_total = jsonObject.getJSONArray("price_total");
 
                             partner_ids = new String[partner_id.length()];
                             apmntids = new String[apmntid.length()];
                             dates = new String[date.length()];
                             statuss = new String[status.length()];
                             appointment_ons = new String[appointment_on.length()];
+                            price_totals = new String[price_total.length()];
 
                             for (int i = 0; i < partner_id.length(); i++) {
 
@@ -91,19 +91,23 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                                 dates[i] = date.getString(i);
                                 statuss[i] = status.getString(i);
                                 appointment_ons[i] = appointment_on.getString(i);
+                                price_totals[i] = price_total.getString(i);
 
                                 apnmnt.add(new ProfileappointmentData(
                                         partner_ids[i],
                                         apmntids[i],
                                         dates[i],
                                         statuss[i],
-                                        appointment_ons[i]
+                                        appointment_ons[i],
+                                        price_totals[i]
                                 ));
                             }
 
                             adapter = new ProfileAppoinmentAdapter(apnmnt);
                             recyclerView.setAdapter(adapter);
-                        } else if (status_apnmnt.equals("No_appointment")) {
+                        }
+                        else if (status_apnmnt.equals("No_appointment"))
+                        {
                             new AlertDialog.Builder(ProfileMyAppoinmentList.this)
                                     .setMessage("No appoinmtment has been booked yet")
                                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -125,7 +129,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ProfileMyAppoinmentList.this,"No Network Connection", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfileMyAppoinmentList.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -135,8 +139,8 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                 //  String apnmnt_id =  smLocalStore.getProfileAppointment();
                 sqLiteHandler = new SQLiteHandler(ProfileMyAppoinmentList.this);
                 HashMap<String, String> user = sqLiteHandler.getUserDetails();
-                String apmnt_user_email = user.get("email");
-                String apmnt_user_name = user.get("name");
+                String  apmnt_user_email = user.get("email");
+                String  apmnt_user_name = user.get("name");
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("apmnt_user_email", apmnt_user_email);
@@ -145,12 +149,10 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
             }
 
         };
-        AppController.getInstance().cancelPendingRequests("REQTAG");
-        stringRequest.setTag("REQTAG");
-        int socketTimeout = 30000;//30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(policy);
+
         AppController.getInstance().addToRequestQueue(stringRequest, strreqTAG);
+
+
 
 
     }

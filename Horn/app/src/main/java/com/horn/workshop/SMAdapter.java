@@ -1,8 +1,15 @@
 package com.horn.workshop;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +19,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import app.AppController;
@@ -38,6 +46,8 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         ImageView Picture;
         TextView Rating;
         TextView Distance;
+        TextView Offer;
+        TextView offday;
         //  Button Booknow;
         // private SMAdapter activity;
 
@@ -52,6 +62,8 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
             this.Picture = (ImageView) itemView.findViewById(R.id.workshopdetail_photo);
             this.Rating = (TextView) itemView.findViewById(R.id.rating);
             this.Distance = (TextView) itemView.findViewById(R.id.ws_distance);
+            this.Offer = (TextView) itemView.findViewById(R.id.offerprice_list);
+            this.offday = (TextView) itemView.findViewById(R.id.workshop_offday);
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
             //  Booknow.setOnClickListener(this);
@@ -100,6 +112,7 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         return myViewHolder;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int listPosition) {
 
@@ -107,18 +120,46 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         TextView address1 = holder.Address;
         TextView phone1 = holder.Phone;
         TextView category1 = holder.Category;
+        TextView offer1 = holder.Offer;
+        TextView offday1 = holder.offday;
         final ImageView picture1 = holder.Picture;
 
         final TextView rating1 = holder.Rating;
         TextView dis1 = holder.Distance;
         // TextView id = holder.id_;
-
-
+        smLocalStore = new SMLocalStore(context);
+        float total = Float.parseFloat(smLocalStore.getService_total());
+        float Offer = Float.parseFloat(workshopDataSet.get(listPosition).getOffer());
+        float price = total-((Offer/100)*total);
         name1.setText(workshopDataSet.get(listPosition).getName());
         address1.setText(workshopDataSet.get(listPosition).getAddress());
         phone1.setText(workshopDataSet.get(listPosition).getPhone());
         category1.setText(workshopDataSet.get(listPosition).getCategory());
         dis1.setText(workshopDataSet.get(listPosition).getDistance());
+
+
+        offer1.setText("₹" + String.valueOf(price));
+
+       int start = Integer.parseInt(workshopDataSet.get(listPosition).getOffday());
+       int end = Integer.parseInt(workshopDataSet.get(listPosition).getOffday())+1;
+        final SpannableStringBuilder sb = new SpannableStringBuilder("SMTWTFS");
+
+// Span to set text color to some RGB value
+        final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
+
+// Span to make text bold
+        final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+
+// Set the text color for first 4 characters
+        sb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+// make them also bold
+        sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        offday1.setText(sb);
+        offday1.setLetterSpacing((float) 0.5);
+
+
         String url = workshopDataSet.get(listPosition).getProfilepic();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {

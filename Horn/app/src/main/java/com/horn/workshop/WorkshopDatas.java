@@ -11,12 +11,14 @@ public class WorkshopDatas {
     String Phone;
     String category;
     String image;
+    String offer;
     int workshopid;
     String rating;
     String d;
+    String offday;
 //int id_;
 
-    public WorkshopDatas(String name, String address, String phone, String category, String image, int workshopid, String rating,String distance) {
+    public WorkshopDatas(String name, String address, String phone, String category, String image, int workshopid, String rating,String distance,String offer,String offday) {
         this.name = name;
         this.address = address;
         this.Phone = phone;
@@ -25,6 +27,8 @@ public class WorkshopDatas {
         this.workshopid = workshopid;
         this.rating = rating;
         this.d = distance;
+        this.offer = offer;
+        this.offday = offday;
 
     }
 
@@ -56,6 +60,12 @@ public class WorkshopDatas {
 
     public String getrating() {
         return rating;
+    }
+    public String getOffer() {
+        return offer;
+    }
+    public String getOffday() {
+        return offday;
     }
     //  public int getId() {
 //        return id_;
