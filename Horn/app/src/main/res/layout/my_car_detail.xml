@@ -49,8 +49,51 @@
                 <!--</LinearLayout>-->
 
             <!--</RelativeLayout>-->
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="250dp"
+                android:background="@drawable/car_bg">
+                <View
+                    android:layout_width="20dp"
+                    android:id="@+id/top_space"
+                    android:layout_height="55dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+                <ImageView
+                    android:id="@+id/mycar_photo"
+                    android:layout_width="250dp"
+                    android:layout_below="@+id/top_space"
+                    android:layout_height="145dp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="Loading..." />
 
-            <LinearLayout
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/addcar_photo"
+                    android:layout_alignParentEnd="false"
+                    android:layout_alignParentStart="false"
+                    android:background="#55000000">
+
+                    <TextView
+                        android:id="@+id/mycar_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignStart="@+id/workshopdetail_category"
+                        android:layout_gravity="left|center_vertical"
+                        android:fontFamily="sans-serif-light"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="Loading..."
+                        android:textColor="#ffffff"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </RelativeLayout>            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
