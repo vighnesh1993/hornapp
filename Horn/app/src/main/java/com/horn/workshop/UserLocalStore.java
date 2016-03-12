@@ -233,9 +233,16 @@ public class UserLocalStore {
 
     }
 
+
     public void setGPSLatlong(String mLatlong) {
         editor.putString("mGpsLatLong", mLatlong);
         editor.commit();
+    }
+    public void setGridImages(String gimages) {
+        editor.putString("gimages", gimages);
+        editor.commit();
+    }public String getGridImages() {
+        return pref.getString("gimages","");
     }
     public String getGPSLatlong() {
         return pref.getString("mGpsLatLong","");
