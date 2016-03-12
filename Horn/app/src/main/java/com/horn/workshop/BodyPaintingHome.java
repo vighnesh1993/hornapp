@@ -1,425 +1,858 @@
 package com.horn.workshop;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
 
-public class BodyPaintingHome extends AppCompatActivity {
-
-    Button upload_quotes;
+public class BodyPaintingHome extends FragmentActivity implements View.OnClickListener {
 
 
-   // ImageView iv;
+    final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    final int RANDOM_STRING_LENGTH = 10;
+    Button captureBtn = null;
+    final int CAMERA_CAPTURE = 1;
+    private Uri picUri;
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private GridView grid;
+    private List<String> listOfImagesPath;
+    List<String> tFileList = null;
+    public String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/";
+    String p[];
+    String s;
+    int i = 0;
+    String gimg = "";
+    ImageView ii;
+    private GoogleApiClient client;
+    RelativeLayout defaultimgl;
+    UserLocalStore userLocalStore;
 
-    Button upload;
-    public static final String TAG = "MY MESSAGE";
-
-    private ImageView imageView;
-
-    private Bitmap bitmap;
-    private SQLiteHandler db;
-    private ProgressDialog pDialog;
-
-    private Uri filePath;
-    private Uri file_uri;
-    private String image_name;
-    private File file;
-    private final int requestCode = 20;
-    private String encodeImage="";
-    String dataToSend;
-    String descupload,e;
-    EditText ed;
-    String  p[];
-    SMLocalStore smLocalStore;
-    //String x;
-    int k=0;
-    GridView imagegrid;
-    //Dialog fbDialogue;
-    String s,encodedImage;
-    String[] x;
-    int val=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.body_painting_home);
-        imagegrid= (GridView) findViewById(R.id.maingrid);
-        imageView= (ImageView) findViewById(R.id.imgview);
-        smLocalStore=new SMLocalStore(this);
-        Intent ob=getIntent();
-        String val=ob.getStringExtra("value");
-        ed= (EditText) findViewById(R.id.bp_desc);
-        String t=smLocalStore.getbpDescription();
-        if(t!="")
-        {
-            ed.setText(t);
+        grid = (GridView) findViewById(R.id.gridviewimg);
+        defaultimgl = (RelativeLayout) findViewById(R.id.defaultimgl);
+        userLocalStore = new UserLocalStore(BodyPaintingHome.this);
+
+        Intent ob = getIntent();
+        String a = ob.getStringExtra("value");
+
+        if (a.equals("1")) {
+            captureimng();
+            grid.setVisibility(View.GONE);
+        } else if (a.equals("5")) {
+            String str = userLocalStore.getGridImages();
+            str = userLocalStore.getGridImages();
+
+
+            Toast.makeText(getApplicationContext(), "deleted :" + str, Toast.LENGTH_SHORT).show();
+            Log.i("GRIDVIEW IMAGE :", str);
+            defaultimgl.setVisibility(View.GONE);
+            grid.setVisibility(View.VISIBLE);
+        } else if (a.equals("2")) {
+            captureimng();
+            defaultimgl.setVisibility(View.GONE);
+            grid.setVisibility(View.VISIBLE);
         }
 
-        if(val.equals("2"))
-        {
-            imageView.setVisibility(View.GONE);
-        }
-        if(val.equals("1"))
-        {
-            imagegrid.setVisibility(View.GONE);
-            k=0;
-        }
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
-        s=smLocalStore.getBpimages();
 
-        try
-        {
-                if (s != "") {
-                    x = s.split(",");
-                    int l = 0;
-                    l = x.length;
+        defaultimgl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ii.setVisibility(View.GONE);
 
-                    ImageAdapte imageAdapte = new ImageAdapte();
-                    imagegrid.setAdapter(imageAdapte);
+                try {
 
-                } else {
+                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+                    startActivityForResult(captureIntent, CAMERA_CAPTURE);
+                } catch (ActivityNotFoundException anfe) {
+                    String errorMessage = "Whoops - your device doesn't support capturing images!";
+                    Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
+                    toast.show();
                 }
+                defaultimgl.setVisibility(View.GONE);
+                grid.setVisibility(View.VISIBLE);
+            }
+        });
+       /*grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // do something here
+                *//*AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setView(grid);
+                builder.setTitle("Goto");
+                builder.show();*//**//**//**//*
 
-        }
-        catch (Exception e)
-        {
 
-        }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                ImageView imageView = new ImageView(grid.getContext());
+                imageView.setScaleType(ImageView.ScaleType.CENTER);
+                view.setDrawingCacheEnabled(true);
+                view.buildDrawingCache();
+                Bitmap bitmap = view.getDrawingCache();
+                imageView.setImageBitmap(bitmap);
+                builder.setView(imageView);
+                builder.create().show();*//*
+                Toast.makeText(getBaseContext(),"kkkkkkk:"+view.getTag(position),Toast.LENGTH_SHORT).show();
+            }
+        });*/
 
-        upload_quotes= (Button) findViewById(R.id.send_quotes);
-        upload_quotes.setOnClickListener(new View.OnClickListener() {
+
+        //GridViewDemo_ImagePath="";
+        //Button b = (Button) findViewById(R.id.clear);
+        Button b1 = (Button) findViewById(R.id.gallery);
+        b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (s != "") {
-                    String[] y = s.split(",");
-                    k=0;
-                    k = y.length;
-                    //k=k-1;
-                    File f1;
-                    p=new String[k];
-                    encodeImage="";
-                    Toast.makeText(getBaseContext(),"length :"+k,Toast.LENGTH_SHORT).show();
-                    for(int x=0;x<k;x++) {
+                Intent ob = new Intent(BodyPaintingHome.this, BodyPaintingGallery.class);
+                startActivity(ob);
 
-                        f1 = new File(y[x]);
-                        BitmapFactory.Options options1 = new BitmapFactory.Options();
-                        options1.inSampleSize = 8;
-                        Bitmap bitmap1 = BitmapFactory.decodeFile(f1.getAbsolutePath(), options1);
-                        encodeImage =encodeImage+getStringImage(bitmap1);
 
+//               Intent intent = new Intent();
+//                intent.setType("image*//**//*");
+//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent,"Select Picture"),1);
+//
+
+
+                /*Intent i = new Intent(GAction.ACTION_MULTIPLE_PICK);
+                startActivityForResult(i,200);*/
+
+            }
+        });
+
+
+        onGalleryImage();
+        /*b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
+                if (dir.isDirectory()) {
+                    String[] children = dir.list();
+                    for (int i = 0; i < children.length; i++) {
+                        new File(dir, children[i]).delete();
                     }
-                    sendquotes();
+                    SMLocalStore smLocalStore = new SMLocalStore(MainActivity.this);
                     smLocalStore.clearBpimages();
-                    s="";
-                    //k=0;
-                }
-               else {
-                    k=0;
-                    Toast.makeText(getBaseContext(),"l:"+k,Toast.LENGTH_SHORT).show();
-                    sendquotes();
-                   // encodeImage = "";
-                }
+                    Intent ob = new Intent(MainActivity.this, MainActivity.class);
+                    startActivity(ob);
 
+                }
             }
-        });
-        upload= (Button) findViewById(R.id.up_button);
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        });*/
+        tFileList = null;
+        listOfImagesPath = null;
 
-                String text=ed.getText().toString();
-                smLocalStore.bpDescription(text);
+        if (listOfImagesPath != null) {
 
-                final Dialog fbDialogue = new Dialog(BodyPaintingHome.this, android.R.style.Theme_Black_NoTitleBar);
-                fbDialogue.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-                fbDialogue.setContentView(R.layout.choice_upload);
-                ImageView c= (ImageView) fbDialogue.findViewById(R.id.camera);
-                c.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            grid.setLayoutParams(new GridView.LayoutParams(GridLayout.LayoutParams.FILL_PARENT, GridLayout.LayoutParams.FILL_PARENT));
 
-                        imageView.setVisibility(View.VISIBLE);
-                        imagegrid.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        getFileUri();
-                        i.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
-                        startActivityForResult(i, 20);
-                        fbDialogue.hide();
-                    }
-                });
+        }
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
 
+    private void captureimng() {
 
-                ImageView gal= (ImageView) fbDialogue.findViewById(R.id.gal);
-                gal.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        try {
 
-                        pDialog.setMessage("Loading ...");
-                        showDialog();
-                        imageView.setVisibility(View.GONE);
-                        imagegrid.setVisibility(View.VISIBLE);
-                        Intent ob=new Intent(BodyPaintingHome.this,BodyPaintingGallery.class);
-                        startActivity(ob);
-                        imageView.setVisibility(View.GONE);
-                    }
-                });
+           /* File f1 = new File(y[v]);
+            BitmapFactory.Options options1 = new BitmapFactory.Options();
+            options1.inSampleSize = 8;
+            Bitmap bitmap1 = BitmapFactory.decodeFile(f1.getAbsolutePath(), options1);*/
 
-                fbDialogue.setCancelable(true);
-                fbDialogue.show();
-                hideDialog();
+            BitmapFactory.Options options1 = new BitmapFactory.Options();
+            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.camera_icon);
+            // defaultimgl.setLayoutParams(new GridView.LayoutParams(200, 200));
+            //options1.inSampleSize = 8;
+            // String imgcurTime = dateFormat.format(new Date());
+            File imageDirectory = new File(GridViewDemo_ImagePath);
+            imageDirectory.mkdirs();
+
+            String _path = GridViewDemo_ImagePath + "zzzzzzzzzzz.jpg";
+            try {
+                FileOutputStream out = new FileOutputStream(_path);
+                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                out.close();
+            } catch (FileNotFoundException e) {
+                e.getMessage();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
-        });
-
-    }
-
-    public String getStringImage(Bitmap bmp){
-
-
-
-        int nh = (int) ( bmp.getHeight() * (512.0 / bmp.getWidth()) );
-        Bitmap scaled = Bitmap.createScaledBitmap(bmp, 512, nh, true);
-
-
-        // scaled.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        scaled.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-        byte[] imageBytes = baos.toByteArray();
-        e = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-        e=e+"<upload_string>";
-        return e;
-    }
-    private void sendquotes() {
-
-
-        //Toast.makeText(BodyPaintingHome.this,"imageViewOne.getDrawable():"+imageView.getDrawable(),Toast.LENGTH_SHORT).show();
-        descupload=ed.getText().toString();
-        Toast.makeText(BodyPaintingHome.this,"desccccc:"+descupload,Toast.LENGTH_SHORT).show();
-
-        if ((imageView.getDrawable()==null)&&s.equals(""))
-        {
-            encodeImage="null";
-        }
-
-        if(!descupload.equals(""))
-        {
-            String tag_string_req = "bitmap";
-            pDialog.setMessage("Uploading ...");
-            showDialog();
-
-            //Toast.makeText(getApplicationContext(), "inside", Toast.LENGTH_LONG).show();
-
-            StringRequest strReq = new StringRequest(Request.Method.POST,
-                    AppConfig.UPLOAD_URL, new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    Log.d(TAG, "Upload Response: " + response);
-                    hideDialog();
-
-                    try {
-                        JSONObject jObj = new JSONObject(response);
-                        String status = jObj.getString("status");
-                        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
-
-                        smLocalStore.clrbpDescription();
-                        Intent in=new Intent(BodyPaintingHome.this,BodyPaintingHome.class);
-                        in.putExtra("value","1");
-                        startActivity(in);
-
-
-                    } catch (JSONException e) {
-                        // JSON error
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Json error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e(TAG, "Login Error: " + error.getMessage());
-                    Toast.makeText(getApplicationContext(),
-                            "No Network Connection", Toast.LENGTH_LONG).show();
-                    hideDialog();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("encoded_string", encodeImage);
-                    params.put("length", ""+k);
-                    params.put("descupload", descupload);
-                    // Log.d("ENCODED STRING", encodeImage);
-                    return params;
-                }
-            };
-
-            // Adding request to request queue
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-        }
-        else
-        {
-            Toast.makeText(BodyPaintingHome.this,"Empty Quotes",Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
-    public class ImageAdapte extends BaseAdapter {
-
-        private LayoutInflater mInflater;
-
-        public ImageAdapte() {
-            mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return x.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ImageView imageView;
-            if (convertView == null) {
-                // if it's not recycled, initialize some attributes
-                imageView = new ImageView(BodyPaintingHome.this);
-                imageView.setLayoutParams(new GridView.LayoutParams(230, 230));
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            } else {
-                imageView = (ImageView) convertView;
-            }
-
-            File f=new File(x[position]);
-            final BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 8;
-            bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),options);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imageBytes = baos.toByteArray();
-            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-            imageView.setImageBitmap(bitmap);
-            return imageView;
-
+            listOfImagesPath = null;
+            listOfImagesPath = RetriveCapturedImagePath();
+            grid.setAdapter(new ImageListAdapter(this, listOfImagesPath));
+            listOfImagesPath = null;
+            listOfImagesPath = null;
+        } catch (Exception e) {
 
         }
-    }
-    private void getFileUri() {
-        image_name = "'sample_image.jpeg";
-        file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + image_name);
-        file_uri = Uri.fromFile(file);
+
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main2_drawer, menu);
+        return true;
+    }
+
+    public void onClick(View arg0) {
+// TODO Auto-generated method stub
+
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (this.requestCode == requestCode && resultCode == RESULT_OK) {
 
-           // Toast.makeText(getApplicationContext(),"onactivity",Toast.LENGTH_SHORT);
-            new UploadImage().execute();
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == CAMERA_CAPTURE) {
+
+                Bundle extras = data.getExtras();
+                Bitmap thePic = extras.getParcelable("data");
+                String imgcurTime = dateFormat.format(new Date());
+                File imageDirectory = new File(GridViewDemo_ImagePath);
+                imageDirectory.mkdirs();
+                String _path = GridViewDemo_ImagePath + imgcurTime + ".jpg";
+                try {
+                    FileOutputStream out = new FileOutputStream(_path);
+                    thePic.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                    out.close();
+                } catch (FileNotFoundException e) {
+                    e.getMessage();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                grid.setVisibility(View.VISIBLE);
+                defaultimgl.setVisibility(View.GONE);
+                listOfImagesPath = null;
+                listOfImagesPath = RetriveCapturedImagePath();
+                if (listOfImagesPath != null) {
+                    grid.setAdapter(new ImageListAdapter(this, listOfImagesPath));
+                    listOfImagesPath = null;
+                }
+                listOfImagesPath = null;
+            }
 
         }
-    }
-
-    public class UploadImage extends AsyncTask<Void,Void,Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-
-            bitmap = BitmapFactory.decodeFile(file_uri.getPath());
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-            int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-
-
-            scaled.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] array = stream.toByteArray();
-            encodeImage = Base64.encodeToString(array, 0);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            //Bitmap bitma = BitmapFactory.decodeFile(file_uri.getPath());
-            imageView.setImageBitmap(bitmap);
-        }
-    }
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent in=new Intent(BodyPaintingHome.this,MainActivity.class);
-        startActivity(in);
+        SMLocalStore smLocalStore = new SMLocalStore(BodyPaintingHome.this);
+        //smLocalStore.clearBpimages();
+        File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                new File(dir, children[i]).delete();
+            }
+            smLocalStore.clearBpimages();
+            Intent ob = new Intent(BodyPaintingHome.this, MainActivity.class);
+            startActivity(ob);
+
+        }
         finish();
+
+    }
+
+
+    public String generateRandomString() {
+
+        StringBuffer randStr = new StringBuffer();
+        for (int i = 0; i < RANDOM_STRING_LENGTH; i++) {
+            int number = getRandomNumber();
+            char ch = CHAR_LIST.charAt(number);
+            randStr.append(ch);
+        }
+        return randStr.toString();
+    }
+
+
+    private int getRandomNumber() {
+        int randomInt = 0;
+        Random randomGenerator = new Random();
+        randomInt = randomGenerator.nextInt(CHAR_LIST.length());
+        if (randomInt - 1 == -1) {
+            return randomInt;
+        } else {
+            return randomInt - 1;
+        }
+    }
+
+    protected void onGalleryImage() {
+
+
+        SMLocalStore smLocalStore = new SMLocalStore(this);
+        s = smLocalStore.getBpimages();
+        try {
+            if (s != "") {
+
+                String[] y = s.split(",");
+                int k = 0;
+                k = y.length;
+                //k=k-1;
+                File f1;
+                p = new String[k];
+
+                for (int v = 0; v < k; v++) {
+
+                    f1 = new File(y[v]);
+                    BitmapFactory.Options options1 = new BitmapFactory.Options();
+                    //options1.inSampleSize = 8;
+                    Bitmap bitmap1 = BitmapFactory.decodeFile(f1.getAbsolutePath(), options1);
+                    String imgcurTime = dateFormat.format(new Date());
+                    File imageDirectory = new File(GridViewDemo_ImagePath);
+                    imageDirectory.mkdirs();
+                    String st = generateRandomString();
+
+                    String _path = GridViewDemo_ImagePath + st + ".jpg";
+                    try {
+                        FileOutputStream out = new FileOutputStream(_path);
+                        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        out.close();
+                    } catch (FileNotFoundException e) {
+                        e.getMessage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    grid.setVisibility(View.VISIBLE);
+                    defaultimgl.setVisibility(View.GONE);
+                    listOfImagesPath = null;
+                    listOfImagesPath = RetriveCapturedImagePath();
+                    if (listOfImagesPath != null) {
+                        grid.setAdapter(new ImageListAdapter(this, listOfImagesPath));
+                        listOfImagesPath = null;
+                    }
+                    listOfImagesPath = null;
+
+                }
+
+            }
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    private List<String> RetriveCapturedImagePath() {
+
+        tFileList = null;
+        tFileList = new ArrayList<String>();
+        File f = new File(GridViewDemo_ImagePath);
+        if (f.exists()) {
+            File[] files = f.listFiles();
+            Arrays.sort(files);
+
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (file.isDirectory())
+                    continue;
+                tFileList.add(file.getPath());
+            }
+        }
+        return tFileList;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        client.connect();
+        /*Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop.imageuploadfinal/http/host/path")
+
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);*/
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "BodyPaintingHome Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "BodyPaintingHome Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.horn.workshop/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        /*Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://com.example.br1007.imageuploadfinal/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);*/
+        client.disconnect();
+    }
+
+
+
+    public class ImageListAdapter extends BaseAdapter {
+        private LayoutInflater mInflater;
+        ImageListAdapter ad;
+        private Context context;
+        private List<String> imgPic;
+
+
+        public ImageListAdapter(Context c, List<String> thePic) {
+            mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            imgPic = thePic;
+
+        }
+
+        public int getCount() {
+            if (imgPic != null)
+                return imgPic.size();
+            else
+                return 0;
+        }
+
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            grid.setVisibility(View.VISIBLE);
+            defaultimgl.setVisibility(View.GONE);
+            final ViewHolder holder;
+            BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+            bfOptions.inDither = false;                     //Disable Dithering mode
+            bfOptions.inPurgeable = true;                   //Tell to gc that whether it needs free memory, the Bitmap can be cleared
+            bfOptions.inInputShareable = true;            //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
+            bfOptions.inTempStorage = new byte[32 * 1024];
+            if (convertView == null) {
+                holder = new ViewHolder();
+                convertView = mInflater.inflate(
+                        R.layout.bpgallery, null);
+
+                holder.imageview = (ImageView) convertView.findViewById(R.id.thumbImage);
+                holder.img = (ImageView) convertView.findViewById(R.id.itemCheckBox);
+
+                convertView.setTag(holder);
+            } else {
+
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+
+
+            /*holder.checkbox.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+
+
+
+                    CheckBox cb = (CheckBox) v;
+                    int id = cb.getId();
+                    if (thumbnailsselection[id]) {
+                        cb.setChecked(false);
+                        thumbnailsselection[id] = false;
+                        cl--;
+                    } else {
+
+
+                        if(cl>=6)
+                        {
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPaintingGallery.this);
+                            builder.setTitle("Horn");
+                            builder.setMessage("You can select maximum upto 5 images");
+                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //dialog.cancel();
+
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            builder.show();
+                            cb.setChecked(false);
+                        }
+
+                        else
+                        {
+                            cb.setChecked(true);
+                            thumbnailsselection[id] = true;
+                            cl++;
+                        }
+
+                    }
+
+
+                }
+            });*/
+
+
+            //Toast.makeText(getApplicationContext(),"imgPic.size():" +imgPic.size(),Toast.LENGTH_SHORT).show();
+
+
+            holder.img.setId(position);
+            holder.imageview.setId(position);
+
+            try {
+                String dfer = imgPic.get(position);
+                String[] wwer = dfer.split("/");
+                int gger = wwer.length;
+                String dffed = wwer[gger - 1];
+                if (dffed.equals("zzzzzzzzzzz.jpg")) {
+                    holder.img.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+
+            }
+
+
+            holder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    File dir = new File(imgPic.get(position));
+                    if (dir.exists()) {
+                        dir.delete();
+                        holder.imageview.setVisibility(View.GONE);
+                        holder.img.setVisibility(View.GONE);
+                        imgPic.remove(position);
+                        grid.setAdapter(new ImageListAdapter(context, imgPic));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "no file", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            });
+
+
+            holder.imageview.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    int id = v.getId();
+                 /*   Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse("file://" + arrPath[id]), "image*//**//**//**//**//**//**//**//**//**//**//**//**//**//**//**//*");
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),"pathhhhhh :"+imgPic.get(position),Toast.LENGTH_SHORT).show();*/
+
+                    /*Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("content:/" + imgPic.get(position)));
+                    intent.setClassName("com.android.gallery3d", null);
+                    startActivity(intent);
+                    startActivity(new Intent(Intent.ACTION_VIEW));*/
+
+                    String dfer = imgPic.get(position);
+                    String[] wwer = dfer.split("/");
+                    int gger = wwer.length;
+                    String dffed = wwer[gger - 1];
+                    //Toast.makeText(getApplicationContext(), "String  :" +dffed, Toast.LENGTH_SHORT).show();
+
+                    if (dffed.equals("zzzzzzzzzzz.jpg")) {
+                        try {
+
+                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                            startActivityForResult(captureIntent, CAMERA_CAPTURE);
+                        } catch (ActivityNotFoundException anfe) {
+                            String errorMessage = "Whoops - your device doesn't support capturing images!";
+                            Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+
+
+                    } else {
+                        viewImage(imgPic.get(position));
+                        //Toast.makeText(BodyPaintingHome.this, "gallery view\n"+ Environment.getExternalStorageDirectory(), Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                                        Uri.parse("content:/"+imgPic.get(position)));
+//                                intent.setClassName("com.android.gallery3d",null);
+//                                startActivity(intent);
+//                                startActivity(new Intent(Intent.ACTION_VIEW));
+
+                    }
+
+                }
+            });
+
+            FileInputStream fs = null;
+            Bitmap bm;
+            try {
+                fs = new FileInputStream(new File(imgPic.get(position).toString()));
+
+                if (fs != null) {
+
+                    bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+                    holder.imageview.setImageBitmap(bm);
+                    holder.id = position;
+
+                }
+            } catch (Exception e) {
+
+            }
+           // Toast.makeText(getApplicationContext(), "imgPic.size():" + imgPic.size(), Toast.LENGTH_SHORT).show();
+            /*if (imgPic.size() == 1) {
+
+                //defaultimgl.setVisibility(View.VISIBLE);
+                //Toast.makeText(getApplicationContext(),"imgPic.size():" +imgPic.size(),Toast.LENGTH_SHORT).show();
+                grid.setVisibility(View.GONE);
+                defaultimgl.setVisibility(View.VISIBLE);
+            } else {
+                grid.setVisibility(View.VISIBLE);
+                defaultimgl.setVisibility(View.GONE);
+            }*/
+            // gimg=gimg+"hiiiiiiiiiiiiiiiiiiiiiii"+imgPic.get(position);
+            userLocalStore = new UserLocalStore(BodyPaintingHome.this);
+            userLocalStore.setGridImages(gimg);
+            return convertView;
+        }
+        /*userLocalStore=new UserLocalStore(BodyPaintingHome.this);
+        userLocalStore.setGridImages(gimg);*/
+    }
+
+
+
+    /*public class ImageListAdapter extends BaseAdapter {
+        private Context context;
+        private List<String> imgPic;
+
+        private LayoutInflater mInflater;
+
+        public ImageListAdapter(Context c, List<String> thePic) {
+            mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            context = c;
+            imgPic = thePic;
+        }
+
+        public int getCount() {
+            if (imgPic != null)
+                return imgPic.size();
+            else
+                return 0;
+        }
+
+        //---returns the ID of an item---
+        public Object getItem(int position) {
+            return position;
+        }
+
+        public long getItemId(int position) {
+            return position;
+        }
+
+        //---returns an ImageView view---
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ImageView imageView;
+
+            BitmapFactory.Options bfOptions = new BitmapFactory.Options();
+            bfOptions.inDither = false;                     //Disable Dithering mode
+            bfOptions.inPurgeable = true;                   //Tell to gc that whether it needs free memory, the Bitmap can be cleared
+            bfOptions.inInputShareable = true;             //Which kind of reference will be used to recover the Bitmap data after being clear, when it will be used in the future
+            bfOptions.inTempStorage = new byte[32 * 1024];
+            if (convertView == null) {
+                imageView = new ImageView(context);
+                //Toast.makeText(getApplicationContext(), "convrtview null", Toast.LENGTH_SHORT).show();
+                imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+
+
+            } else {
+               // Toast.makeText(getApplicationContext(), "convrtview not null", Toast.LENGTH_SHORT).show();
+
+                imageView = (ImageView) convertView;
+                imageView.setLayoutParams(new GridView.LayoutParams(200,200));
+
+            }
+            FileInputStream fs = null;
+            Bitmap bm;
+            try {
+                fs = new FileInputStream(new File(imgPic.get(position).toString()));
+
+                if (fs != null) {
+
+                    bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+                    imageView.setImageBitmap(bm);
+                    imageView.setId(position);
+                    imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
+
+
+                    imageView.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View view) {
+                            //Toast.makeText(getApplicationContext(), "imgPic.get(position) :" + imgPic.get(position), Toast.LENGTH_SHORT).show();
+                            Log.i("pathhh :", imgPic.get(position));
+                            String dfer = imgPic.get(position);
+                            String[] wwer = dfer.split("/");
+                            int gger = wwer.length;
+                            String dffed = wwer[gger-1];
+                            Toast.makeText(getApplicationContext(), "String  :" +dffed, Toast.LENGTH_SHORT).show();
+
+                            if (dffed.equals("zzzzzzzzzzz.jpg")) {
+                                try {
+
+                                    Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                                    startActivityForResult(captureIntent, CAMERA_CAPTURE);
+                                } catch (ActivityNotFoundException anfe) {
+                                    String errorMessage = "Whoops - your device doesn't support capturing images!";
+                                    Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
+
+
+                            } else {
+                                viewImage(imgPic.get(position));
+                                Toast.makeText(BodyPaintingHome.this, "gallery view\n"+ Environment.getExternalStorageDirectory(), Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+//                                        Uri.parse("content:/"+imgPic.get(position)));
+//                                intent.setClassName("com.android.gallery3d",null);
+//                                startActivity(intent);
+//                                startActivity(new Intent(Intent.ACTION_VIEW));
+
+                            }
+
+                        }
+
+                    });
+
+                } else {
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (fs != null) {
+                    try {
+                        fs.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return imageView;
+        }
+    }*/
+
+    public void viewImage(String x) {
+        /*File file = new File(Environment.getExternalStorageDirectory()
+                + "/Download/images-1.jpg");*/
+
+        File file = new File(x);
+        if (file.exists()) {
+            Uri path = Uri.fromFile(file);
+            Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+            pdfIntent.setDataAndType(path, "image/*");
+            pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            try {
+                startActivity(pdfIntent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(BodyPaintingHome.this, "No                                                                       Application available to view Image",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class ViewHolder {
+        ImageView imageview;
+        ImageView img;
+        int id;
     }
 }

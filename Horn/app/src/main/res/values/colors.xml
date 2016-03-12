@@ -26,7 +26,7 @@
     <color name="service_count_txt">#64f6e8</color>
     <color name="todeletec">#64f6e8</color>
     <color name="icon_tint">#44101010</color>
-
+    <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
     <color name="rating_0">#dc3131</color>
     <color name="rating_0.5">#e65421</color>
     <color name="rating_1">#ff7b05</color>
@@ -39,5 +39,7 @@
     <color name="rating_4.5">#5ca702</color>
     <color name="rating_5">#0bac3c</color>
     <color name="button_selected">#FFC69201</color>
+    <color name="transparent_0">#00101010</color>
+    <color name="gallery_check_bg">#963f51b5</color>
 
 </resources>

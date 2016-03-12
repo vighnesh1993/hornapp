@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <permission android:name="android.permission.ACTION_CALL" />
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -168,10 +169,11 @@
         <activity
             android:name=".MyCarDetail"
             android:label="My Car"
-            android:parentActivityName=".MyCarDetail">
+            android:parentActivityName=".MyCarDetail"
+            android:theme="@style/AppTheme.CustomBarTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyCarDetail" />
+                android:value=".MainActivity" />
         </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
@@ -216,7 +218,12 @@
             android:label="Gallery" />
         <activity
             android:name=".BodyPaintingHome"
-            android:label="Upload Data" />
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".BodyPaintingHome"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            android:label="BodyPaintingHome" >
+
+        </activity>
         <activity
             android:name=".BodyPaintingCapture"
             android:label="Capture" />

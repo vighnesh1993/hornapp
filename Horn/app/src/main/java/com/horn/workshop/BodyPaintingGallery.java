@@ -52,6 +52,9 @@ int cl=0;
         //pDialog = new ProgressDialog(this);
         //pDialog.setCancelable(false);
         cl=1;
+
+
+        //
         final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Images.Media._ID;
         Cursor imagecursor = managedQuery(
@@ -100,7 +103,6 @@ int cl=0;
                             "You've selected Total " + cnt + " image(s).",
                             Toast.LENGTH_LONG).show();
 
-
                     smLocalStore.setBpimages(selectImages);
 
                     //Log.d("SelectedImages", selectImages);
@@ -134,7 +136,7 @@ int cl=0;
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder;
+            final ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(
@@ -145,7 +147,8 @@ int cl=0;
 
                 convertView.setTag(holder);
             }
-            else {
+            else
+            {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.checkbox.setId(position);
@@ -154,17 +157,14 @@ int cl=0;
 
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
-
-
-
                     CheckBox cb = (CheckBox) v;
                     int id = cb.getId();
                     if (thumbnailsselection[id]) {
                         cb.setChecked(false);
                         thumbnailsselection[id] = false;
                         cl--;
+                        holder.checkbox.setBackgroundResource(R.color.transparent_0);
                     } else {
-
 
                         if(cl>=6)
                         {
@@ -174,8 +174,7 @@ int cl=0;
                             builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     //dialog.cancel();
-
-                                  dialog.dismiss();
+                                   dialog.dismiss();
                                 }
                             });
 
@@ -188,6 +187,7 @@ int cl=0;
                             cb.setChecked(true);
                             thumbnailsselection[id] = true;
                             cl++;
+                            holder.checkbox.setBackgroundResource(R.color.gallery_check_bg);
                         }
 
                     }
@@ -221,10 +221,7 @@ int cl=0;
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent in=new Intent(BodyPaintingGallery.this,BodyPaintingHome.class);
-        in.putExtra("value","1");
-        startActivity(in);
-         finish();
+        finish();
     }
 
 
