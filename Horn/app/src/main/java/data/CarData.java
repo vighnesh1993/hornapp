@@ -8,11 +8,13 @@ public class CarData {
     private String mName;
     private String imageName;
     private String carId;
+    private String carVarient;
 
-    public CarData(String name, String imageName,String carId) {
+    public CarData(String name, String imageName,String carId,String carVarient) {
         this.mName = name;
         this.imageName = imageName;
         this.carId = carId;
+        this.carVarient = carVarient;
     }
 
 
@@ -24,6 +26,9 @@ public class CarData {
     }
     public String getCarId() {
         return carId;
+    }
+    public String getVarient() {
+        return carVarient;
     }
 
 }

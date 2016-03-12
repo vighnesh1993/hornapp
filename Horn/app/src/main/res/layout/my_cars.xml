@@ -34,5 +34,15 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Add Car"
+        android:textAllCaps="false"
+        android:id="@+id/add_car_btn"
+        android:background="@drawable/nor_button_bg"
+        android:layout_below="@+id/nocars_founf_txt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp" />
 
 </RelativeLayout>

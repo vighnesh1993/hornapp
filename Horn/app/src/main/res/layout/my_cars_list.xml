@@ -8,11 +8,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_gravity="top">
 
         <ImageView
             android:id="@+id/mycar_image"
@@ -21,9 +22,10 @@
             android:layout_gravity="top" />
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center|center_vertical"
+            android:foregroundGravity="center_vertical">
 
             <TextView
                 android:id="@+id/mycar_name"
@@ -34,6 +36,15 @@
                 android:textColor="@color/primary_text"
                 android:layout_gravity="left"
                 android:textSize="18sp" />
+            <TextView
+                android:id="@+id/mycar_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="17dp"
+                android:text="loading..."
+                android:textColor="@color/secondary_text"
+                android:layout_gravity="left"
+                android:textSize="15sp" />
 
 
         </LinearLayout>

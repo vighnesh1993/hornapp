@@ -1,15 +1,21 @@
 package com.horn.workshop;
 
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.model.LatLng;
+import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,47 +42,45 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import adapters.Scrollview;
 import app.AppConfig;
 import app.AppController;
 
-public class ScheduledMaintenanceDetail extends AppCompatActivity {
+public class ScheduledMaintenanceDetail extends Activity {
     public SMLocalStore smLocalStore;
     private ProgressDialog pDialog;
-    public String phone, name, category, address, workshopid, rating, profilepic, coordinates;
+    public String phone, name, category, address, workshopid, rating, profilepic, coordinates, offers, offdays;
     Integer pic;
-    TextView ratings, workshopdetail_phone,workshopdetail_name,workshopdetail_address;
+    TextView ratings, workshopdetail_phone, workshopdetail_name, workshopdetail_address, abTitle;
     final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
-    Scrollview mOnScrollChangedListener;
-    private Drawable mActionBarBackgroundDrawable;
     private ImageButton call_dialer, location_redirect, share_detail, favorite;
     LatLng latLng1, latLng2;
     private double coordLatitude = 0.0;
     private double coordLongitude = 0.0;
     ScheduledMaintenanceWorkshoplist sw;
     String dist;
+    float price_detail;
+    ActionBar tAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scheduled_maintenance_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
-        setSupportActionBar(toolbar);
+        //setContentView(R.layout.scheduled_maintenance_detail);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // ((Scrollview) findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
+        FadingActionBarHelper helper = new FadingActionBarHelper()
+                .actionBarBackground(R.drawable.ab_background)
+                .headerLayout(R.layout.header)
+                .parallax(false)
+                .contentLayout(R.layout.scheduled_maintenance_detail);
+        setContentView(helper.createView(this));
+        helper.initActionBar(this);
 
-//        ed.putString("currentLatitude",""+currentLatitude);
-//        ed.putString("currentLongitude",""+currentLongitude);
+        tAction = getActionBar();
+        int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+        abTitle = (TextView) findViewById(titleId);
+        abTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.icons));
+
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
 
-       /* HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
-        String lat = latlog.get("lat");
-        String log = latlog.get("log");
-
-       double d1=Double.parseDouble(lat);
-       double d2=Double.parseDouble(log);*/
         call_dialer = (ImageButton) findViewById(R.id.call_dialer);
         location_redirect = (ImageButton) findViewById(R.id.location_redirect);
         share_detail = (ImageButton) findViewById(R.id.share_detail);
@@ -85,8 +90,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
         workshopdetail_address = (TextView) findViewById(R.id.workshopdetail_address);
 
         UserLocalStore userLocalStore = new UserLocalStore(this);
-
         String latlng1 = userLocalStore.getMylocationLatlog();
+
         String[] ltlg = latlng1.split(",");
         String ltlg1 = ltlg[0]; // 004
         String ltlg2 = ltlg[1];
@@ -109,17 +114,14 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
+
+                String offer_sm = (String.valueOf(price_detail)).replaceAll("[^\\ds.]", "");
+                smLocalStore.setOffer_total(offer_sm);
                 startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
+
             }
         });
-//        Scrollview.OnScrollChangedListener mOnScrollChangedListener = new Scrollview.OnScrollChangedListener() {
-//            public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-//                final int headerHeight = findViewById(R.id.scroll_view).getHeight() - getActionBar().getHeight();
-//                final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-//                final int newAlpha = (int) (ratio * 255);
-//                mActionBarBackgroundDrawable.setAlpha(newAlpha);
-//            }
-//        };
+
         getdetailFromDb(workshopid);
         call_dialer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +208,8 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                         rating = jsonObject.getString("rating");
                         profilepic = jsonObject.getString("profilepic");
                         coordinates = jsonObject.getString("coordinates");
+                        offers = jsonObject.getString("offer");
+                        offdays = "0";
                         String[] parts = coordinates.split(",");
                         String part1 = parts[0]; // 004
                         String part2 = parts[1];
@@ -231,8 +235,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceDetail.this,"No Network Connection", Toast.LENGTH_LONG).show();
-                        pDialog.show();
+                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -246,6 +249,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             }
 
         };
+
         AppController.getInstance().cancelPendingRequests("REQTAG");
         stringRequest.setTag("REQTAG");
         int socketTimeout = 30000;//30 seconds - change to what you want
@@ -255,13 +259,16 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void workshopdisplay_detail() {
         pDialog.dismiss();
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
         TextView workshopphone = (TextView) findViewById(R.id.workshopdetail_phone);
         TextView workshopaddress = (TextView) findViewById(R.id.workshopdetail_address);
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
-        final TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
+
+        TextView offday = (TextView) findViewById(R.id.workshopdetail_Offday);
+        TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
         final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
         ratings = (TextView) findViewById(R.id.rating);
         String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
@@ -285,9 +292,39 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
             category = "Exclusive";
         }
         workshopname.setText(name);
+        String lName = name.toLowerCase();
+        char alphabet = lName.charAt(0);
+        setactionBarIconwithAlphabet(alphabet);
+        abTitle.setText(name);
         workshopaddress.setText(address);
         workshopcategory.setText(category);
         workshopphone.setText(phone);
+
+        int start = Integer.parseInt(offdays);
+        int end = Integer.parseInt(offdays) + 1;
+        final SpannableStringBuilder sb = new SpannableStringBuilder("SMTWTFS");
+
+// Span to set text color to some RGB value
+        final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
+
+// Span to make text bold
+        final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
+
+// Set the text color for first 4 characters
+        sb.setSpan(fcs, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+// make them also bold
+        sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+
+        offday.setText(sb);
+        offday.setLetterSpacing(1);
+
+        smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+        float total = Float.parseFloat(smLocalStore.getService_total());
+        float Offer = Float.parseFloat(offers);
+        price_detail = total - ((Offer / 100) * total);
+        // offer.setText("₹ "+String.valueOf(price));
+
         ratings.setText(rating);
         setRatingBackround(rating);
         ws_distance.setText(dist);
@@ -299,12 +336,7 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 startActivity(ob);
             }
         });
-        location_redirect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ws_distance.performClick();
-            }
-        });
+
     }
 
     private void setRatingBackround(String ratingValue) {
@@ -343,5 +375,64 @@ public class ScheduledMaintenanceDetail extends AppCompatActivity {
                 ratings.setBackgroundResource(R.drawable.rating_bg_5);
                 break;
         }
+    }
+
+    private void setactionBarIconwithAlphabet(char alphabet) {
+        char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e', f = 'f', g = 'g', h = 'h', i = 'i', j = 'j', k = 'k', l = 'l', m = 'm',
+                n = 'n', o = 'o', p = 'p', q = 'q', r = 'r', s = 's', t = 't', u = 'u', v = 'v', w = 'w', x = 'x', y = 'y', z = 'z';
+        if (alphabet == a) {
+            tAction.setIcon(R.drawable.a);
+        } else if (alphabet == b) {
+            tAction.setIcon(R.drawable.b);
+        } else if (alphabet == c) {
+            tAction.setIcon(R.drawable.c);
+        } else if (alphabet == d) {
+            tAction.setIcon(R.drawable.d);
+        } else if (alphabet == e) {
+            tAction.setIcon(R.drawable.e);
+        } else if (alphabet == f) {
+            tAction.setIcon(R.drawable.f);
+        } else if (alphabet == g) {
+            tAction.setIcon(R.drawable.g);
+        } else if (alphabet == h) {
+            tAction.setIcon(R.drawable.h);
+        } else if (alphabet == i) {
+            tAction.setIcon(R.drawable.i);
+        } else if (alphabet == j) {
+            tAction.setIcon(R.drawable.j);
+        } else if (alphabet == k) {
+            tAction.setIcon(R.drawable.k);
+        } else if (alphabet == l) {
+            tAction.setIcon(R.drawable.l);
+        } else if (alphabet == m) {
+            tAction.setIcon(R.drawable.m);
+        } else if (alphabet == n) {
+            tAction.setIcon(R.drawable.n);
+        } else if (alphabet == o) {
+            tAction.setIcon(R.drawable.o);
+        } else if (alphabet == p) {
+            tAction.setIcon(R.drawable.p);
+        } else if (alphabet == q) {
+            tAction.setIcon(R.drawable.q);
+        } else if (alphabet == r) {
+            tAction.setIcon(R.drawable.r);
+        } else if (alphabet == s) {
+            tAction.setIcon(R.drawable.s);
+        } else if (alphabet == t) {
+            tAction.setIcon(R.drawable.t);
+        } else if (alphabet == u) {
+            tAction.setIcon(R.drawable.u);
+        } else if (alphabet == v) {
+            tAction.setIcon(R.drawable.v);
+        } else if (alphabet == w) {
+            tAction.setIcon(R.drawable.w);
+        } else if (alphabet == x) {
+            tAction.setIcon(R.drawable.x);
+        } else if (alphabet == y) {
+            tAction.setIcon(R.drawable.y);
+        } else {
+            tAction.setIcon(R.drawable.z);
+        }
+
     }
 }

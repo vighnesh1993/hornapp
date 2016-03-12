@@ -67,6 +67,10 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name="activity.PagerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
             android:name="activity.ChoiceLogin"
             android:label="@string/app_name"
             android:theme="@style/AppFullScreenTheme" />
@@ -127,11 +131,7 @@
         <activity
             android:name=".ScheduledMaintenanceDetail"
             android:label="Workshop Details"
-            android:parentActivityName=".ScheduledMaintenanceWorkshoplist"
-            android:theme="@style/AppTheme.CustomBarTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ScheduledMaintenanceWorkshoplist" />
+            android:theme="@style/AppTheme.Light.TranslucentActionBar">
         </activity>
         <activity
             android:name=".ScheduledMaintenanceAppointment"
@@ -282,6 +282,11 @@
             android:label="@string/title_activity_choose_location"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".RunningMaintenanceHome"
+            android:label="Running Maintenance"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

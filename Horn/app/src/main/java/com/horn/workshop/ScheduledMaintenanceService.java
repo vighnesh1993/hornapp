@@ -77,7 +77,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scheduled_maintenance_services);
+       // setContentView(R.layout.scheduled_maintenance_services);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
         setSupportActionBar(toolbar);
@@ -90,7 +90,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         pDialog.setMessage("Loading ...");
 
         labour_cost = (TextView) findViewById(R.id.labour_cost_value);
-        washing_cost = (TextView) findViewById(R.id.washing_cost_value);
+       // washing_cost = (TextView) findViewById(R.id.washing_cost_value);
         toatl_cost = (TextView) findViewById(R.id.total_cost_value);
         search_wrkshp_btn = (Button) findViewById(R.id.search_wrkshop_btn);
         labr_cost_lyt = (LinearLayout) findViewById(R.id.labour_layout);
@@ -98,7 +98,7 @@ public class ScheduledMaintenanceService extends AppCompatActivity {
         hLine1 = findViewById(R.id.hori_1);
         hLine2 = findViewById(R.id.hori_2);
         total_cost_tyt = (LinearLayout) findViewById(R.id.total_layout);
-        washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
+       // washing_cost_lyt = (LinearLayout) findViewById(R.id.washing_layout);
         /*
         * fetch the service list from db
         */
