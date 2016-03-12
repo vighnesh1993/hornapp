@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -45,6 +46,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.pkmmte.view.CircularImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -162,6 +164,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
                             smLocalStore.clearBpimages();
                             smLocalStore.clrbpDescription();
+
+
+
+
+
+                            File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
+                            if (dir.isDirectory()) {
+                                String[] children = dir.list();
+                                for (int i = 0; i < children.length; i++) {
+                                    new File(dir, children[i]).delete();
+                                }
+                                SMLocalStore smLocalStore = new SMLocalStore(MainActivity.this);
+                                smLocalStore.clearBpimages();
+
+                            }
+                            userLocalStore=new UserLocalStore(MainActivity.this);
+                            userLocalStore.setGridImages("");
                             Intent in = new Intent(MainActivity.this, BodyPaintingHome.class);
                             in.putExtra("value", "1");
                             startActivity(in);
