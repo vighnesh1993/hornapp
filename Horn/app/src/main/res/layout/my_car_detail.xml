@@ -10,45 +10,45 @@
             android:contextClickable="false"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-                <ImageView
-                    android:id="@+id/mycar_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:contentDescription="Loading..."
-                    android:scaleType="centerCrop"
-                    android:tint="@color/photo_tint" />
+                <!--<ImageView-->
+                    <!--android:id="@+id/mycar_photo"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="250dp"-->
+                    <!--android:contentDescription="Loading..."-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:tint="@color/photo_tint" />-->
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_alignBottom="@+id/mycar_photo"
-                    android:layout_alignParentStart="false"
-                    android:background="#55000000"
-                    android:id="@+id/linearLayout1"
-                    android:layout_alignParentEnd="false">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:layout_alignBottom="@+id/mycar_photo"-->
+                    <!--android:layout_alignParentStart="false"-->
+                    <!--android:background="#55000000"-->
+                    <!--android:id="@+id/linearLayout1"-->
+                    <!--android:layout_alignParentEnd="false">-->
 
-                    <TextView
-                        android:id="@+id/mycar_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/workshopdetail_category"
-                        android:layout_gravity="left|center_vertical"
-                        android:fontFamily="sans-serif-light"
-                        android:text="Loading..."
-                        android:textColor="#ffffff"
-                        android:textSize="17dp"
-                        android:textStyle="bold"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="15dp" />
-                </LinearLayout>
+                    <!--<TextView-->
+                        <!--android:id="@+id/mycar_name"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentBottom="true"-->
+                        <!--android:layout_alignStart="@+id/workshopdetail_category"-->
+                        <!--android:layout_gravity="left|center_vertical"-->
+                        <!--android:fontFamily="sans-serif-light"-->
+                        <!--android:text="Loading..."-->
+                        <!--android:textColor="#ffffff"-->
+                        <!--android:textSize="17dp"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingLeft="15dp" />-->
+                <!--</LinearLayout>-->
 
-            </RelativeLayout>
+            <!--</RelativeLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
