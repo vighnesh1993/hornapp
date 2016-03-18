@@ -49,7 +49,6 @@
                 android:contextClickable="false"
                 android:orientation="vertical">
 
-<<<<<<< HEAD
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
@@ -148,7 +147,6 @@
 
 
                 </RelativeLayout>
-=======
                 <!--<RelativeLayout-->
                 <!--android:layout_width="fill_parent"-->
                 <!--android:layout_height="wrap_content">-->
@@ -248,7 +246,7 @@
 
 
                 <!--</RelativeLayout>-->
->>>>>>> origin/hornapp_aneesh
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"

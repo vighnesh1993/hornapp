@@ -1,12 +1,10 @@
 package com.horn.workshop;
 
-<<<<<<< HEAD
 import android.app.ActionBar;
-=======
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
->>>>>>> origin/hornapp_aneesh
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;

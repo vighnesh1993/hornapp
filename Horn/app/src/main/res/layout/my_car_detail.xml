@@ -17,7 +17,7 @@
             android:contextClickable="false"
             android:orientation="vertical">
 
-<<<<<<< HEAD
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="250dp"
@@ -60,8 +60,7 @@
                 </LinearLayout>
 
             </RelativeLayout>
-=======
-            <!--<RelativeLayout-->
+  <!--<RelativeLayout-->
                 <!--android:layout_width="fill_parent"-->
                 <!--android:layout_height="wrap_content">-->
 
@@ -100,7 +99,7 @@
                 <!--</LinearLayout>-->
 
             <!--</RelativeLayout>-->
->>>>>>> master
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -334,13 +333,12 @@
                         android:textColor="@color/primary_text"
                         android:textSize="18dp" />
 
-<<<<<<< HEAD
+
                     <View
                         android:id="@+id/hori_12"
                         android:layout_width="fill_parent"
-                        android:layout_height="1dp"
-                        android:background="#c0c0c0" />
-=======
+                        android:layout_height="1dp"/>
+
                 <TextView
                     android:id="@+id/mycar_regyear"
                     android:layout_width="wrap_content"
@@ -472,18 +470,6 @@
                     android:textColor="@color/secondary_text"
                     android:textSize="14dp"
                     android:visibility="gone"/>
->>>>>>> master
-
-                    <TextView
-                        android:id="@+id/mycar_regyear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:editable="false"
-                        android:padding="15dp"
-                        android:text="Loading..."
-                        android:textColor="@color/secondary_text"
-                        android:textSize="14dp" />
 
                 </LinearLayout>
 
