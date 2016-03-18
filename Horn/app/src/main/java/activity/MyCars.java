@@ -15,6 +15,7 @@ import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,13 +57,14 @@ public class MyCars extends AppCompatActivity {
     String[] nameArray, carImageArray, carIdArray;
     RecyclerView rCarView;
     SMLocalStore smLocalStore;
+    Button add_car_btn;
     public static ArrayList<CarData> carDatas;
     private MyCarAdapter adapter;
     SQLiteHandler sqLiteHandler;
     GestureDetectorCompat gestureDetector;
     ActionMode actionMode;
-
     public int car_count = 0;
+    public static String[] carVarientArray;
     private ImageView nocars_found;
     private TextView nocars_found_txt;
 
@@ -88,8 +90,16 @@ public class MyCars extends AppCompatActivity {
         show_mycars();
         nocars_found = (ImageView) findViewById(R.id.no_cars_img);
         nocars_found_txt = (TextView) findViewById(R.id.nocars_founf_txt);
-    }
+        add_car_btn = (Button) findViewById(R.id.add_car_btn);
+        add_car_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyCars.this, AddCar.class));
+            }
+        });
 
+
+    }
 
     //        else
 //        {
@@ -97,6 +107,7 @@ public class MyCars extends AppCompatActivity {
 //            startActivity(intent2);
 //        }
     // }
+
     public void show_mycars(){
         pDialog.show();
     /*
@@ -120,16 +131,20 @@ public class MyCars extends AppCompatActivity {
                             JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                             JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                             JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                            JSONArray carVarientArrayj = jsonObject.getJSONArray("car_varient");
                             nameArray = new String[nameArrayj.length()];
                             carImageArray = new String[carImageArrayj.length()];
                             carIdArray = new String[carIdArrayj.length()];
+                            carVarientArray = new String[carVarientArrayj.length()];
                             for (int i = 0; i < nameArrayj.length(); i++) {
                                 nameArray[i] = nameArrayj.getString(i);
                                 carImageArray[i] = carImageArrayj.getString(i);
                                 carIdArray[i] = carIdArrayj.getString(i);
+                                carVarientArray[i] = carVarientArrayj.getString(i);
                             }
                             nocars_found.setVisibility(View.GONE);
                             nocars_found_txt.setVisibility(View.GONE);
+                            add_car_btn.setVisibility(View.GONE);
                             mycarsDisplay();
                         } else {
 
@@ -185,7 +200,8 @@ public class MyCars extends AppCompatActivity {
             carDatas.add(new CarData(
                     nameArray[i],
                     carImageArray[i],
-                    carIdArray[i]
+                    carIdArray[i],
+                    carVarientArray[i]
             ));
         }
         adapter = new MyCarAdapter(carDatas);

@@ -2,18 +2,10 @@ package com.horn.workshop;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
-import com.facebook.Profile;
-
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 /**
@@ -37,7 +29,19 @@ public class UserLocalStore {
         pref = _context.getSharedPreferences(SP_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+    public void setUserFirstTime(boolean firstTime) {
+        editor.putBoolean("firsttime", firstTime);
+        editor.commit();
 
+    }
+
+    public boolean getUserFirstTime() {
+        if (pref.getBoolean("firsttime", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public void setUserLoggedIn(boolean loggedIn) {
         editor.putBoolean("loggedIn", loggedIn);
         editor.commit();
@@ -274,6 +278,12 @@ public class UserLocalStore {
         }
 
 
+    }
+    public static Drawable tintMyDrawable(Drawable drawable, int color) {
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, color);
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
+        return drawable;
     }
 }
 

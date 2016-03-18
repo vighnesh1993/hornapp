@@ -1,5 +1,7 @@
 package com.horn.workshop;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -7,24 +9,26 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -47,7 +51,7 @@ import helper.SQLiteHandler;
  * Created by Sariga on 1/18/2016.
  */
 public class ScheduledMaintenanceAppointment extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-    public String km_apnmt, vehicle_apnmt, workshopid_apnmt, description_apnmt, customername_apnmt, services_apmnt, date_apmnt, email_apnmt, phone_apnmt, make_apnmt, model_apnmt, regno_apnmt, time_apmnt;
+    public String km_apnmt, vehicle_apnmt, workshopid_apnmt, description_apnmt, customername_apnmt, services_apmnt, service_total,date_apmnt, email_apnmt, phone_apnmt, make_apnmt, model_apnmt, regno_apnmt, time_apmnt;
     private SMLocalStore smLocalStore;
     public static EditText timeview, dateviews, timeviews;
     private SQLiteHandler sqLiteHandler;
@@ -70,9 +74,12 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
         EditText km = (EditText) findViewById(R.id.apmnt_km);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceAppointment.this);
         km.setText(smLocalStore.getSMhome_kms() + " KM");
-        vehicle.setText(smLocalStore.getSMhome_make() + ' ' + smLocalStore.getSMhome_model() + ' ' + smLocalStore.getSMhome_vehicle());
+        vehicle.setText(smLocalStore.getSMhome_make()+' '+smLocalStore.getSMhome_model()+' '+smLocalStore.getSMhome_vehicle());
         workshopname.setText(smLocalStore.getSMworkshop_name());
         timeview = (EditText) findViewById(R.id.apmnt_time);
+        service_total = smLocalStore.getOffer_total();
+        EditText apmntprice = (EditText)findViewById(R.id.apmnt_price);
+        apmntprice.setText("₹ "+service_total);
 
     }
 
@@ -229,7 +236,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                                 .setMessage("Your Appointment has been placed. \n Appointment id:" + jsonObject.getString("appointment_booked"))
                                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
+                                       // Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, ProfileMyAppoinmentList.class);
                                         Intent launchActivity1 = new Intent(ScheduledMaintenanceAppointment.this, MainActivity.class);
                                         startActivity(launchActivity1);
                                     }
@@ -246,7 +253,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceAppointment.this,"No Network Connection", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceAppointment.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
 
@@ -259,6 +266,7 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 description_apnmt = smLocalStore.getSMdesc();
                 make_apnmt = smLocalStore.getSMhome_make();
                 model_apnmt = smLocalStore.getSMhome_model();
+
                 // regno_apnmt =
                 services_apmnt = smLocalStore.getSMservices();
                 timeviews = (EditText) findViewById(R.id.apmnt_time);
@@ -313,16 +321,13 @@ public class ScheduledMaintenanceAppointment extends AppCompatActivity implement
                 params.put("model_apmnt", model_apnmt);
                 params.put("appointment_booking", "1");
                 params.put("booked_on", String.valueOf(booked_on));
+                params.put("price_total", service_total);
                 return params;
             }
 
         };
 
-        AppController.getInstance().cancelPendingRequests("REQTAG");
-        stringRequest.setTag("REQTAG");
-        int socketTimeout = 30000;//30 seconds - change to what you want
-        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        stringRequest.setRetryPolicy(policy);
+
         AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
     }

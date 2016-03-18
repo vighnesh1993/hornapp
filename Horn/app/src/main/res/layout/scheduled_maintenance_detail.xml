@@ -49,6 +49,7 @@
                 android:contextClickable="false"
                 android:orientation="vertical">
 
+<<<<<<< HEAD
                 <RelativeLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content">
@@ -147,6 +148,107 @@
 
 
                 </RelativeLayout>
+=======
+                <!--<RelativeLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content">-->
+
+                <!--<ImageView-->
+                <!--android:id="@+id/workshopdetail_photo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="350dp"-->
+                <!--android:contentDescription="Loading..."-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@drawable/horn_toload"-->
+                <!--android:tint="@color/photo_tint" />-->
+
+
+                <!--<TextView-->
+                <!--android:id="@+id/rating"-->
+                <!--android:layout_width="35dp"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textAlignment="inherit"-->
+                <!--android:textColor="@color/primary_text"-->
+                <!--android:textStyle="bold" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/workshopdetail_category"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_above="@+id/linearLayout6"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_marginBottom="10dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:background="@drawable/bg_for_authorised"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Autthorised"-->
+                <!--android:textColor="@color/com_facebook_share_button_text_color" />-->
+
+                <!--&lt;!&ndash;<TextView-->
+                <!--android:id="@+id/ws_distance"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignBottom="@+id/workshopdetail_category"-->
+                <!--android:layout_alignEnd="@+id/rating"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="24.45 km"-->
+                <!--android:textColor="@color/com_facebook_share_button_text_color" />&ndash;&gt;-->
+
+                <!--<ImageView-->
+                <!--android:id="@+id/imageKm"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_alignTop="@+id/ws_distance"-->
+                <!--android:layout_marginEnd="0dp"-->
+                <!--android:layout_toStartOf="@+id/ws_distance"-->
+                <!--android:src="@drawable/ic_room_black_48dp"-->
+                <!--android:tint="@color/icons" />-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/ws_distance"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_alignEnd="@+id/rating"-->
+                <!--android:layout_alignTop="@+id/workshopdetail_category"-->
+                <!--android:gravity="center"-->
+                <!--android:text="Loading..."-->
+                <!--android:textColor="@color/com_facebook_share_button_text_color" />-->
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/linearLayout6"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_alignBottom="@+id/workshopdetail_photo"-->
+                <!--android:layout_alignParentEnd="false"-->
+                <!--android:layout_alignParentStart="false"-->
+                <!--android:background="#55000000">-->
+
+                <!--<TextView-->
+                <!--android:id="@+id/workshopdetail_name"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignStart="@+id/workshopdetail_category"-->
+                <!--android:layout_gravity="left|center_vertical"-->
+                <!--android:fontFamily="sans-serif-light"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:text="Loading..."-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textStyle="bold" />-->
+                <!--</LinearLayout>-->
+
+
+                <!--</RelativeLayout>-->
+>>>>>>> origin/hornapp_aneesh
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -167,7 +269,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/nor_button_bg"
                         android:src="@drawable/ic_call_black_24dp"
-                         />
+                        />
 
                     <View
                         android:layout_width="1dp"
@@ -181,7 +283,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/nor_button_bg"
                         android:src="@drawable/ic_location_on_black_24dp"
-                       />
+                        />
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -194,7 +296,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/nor_button_bg"
                         android:src="@drawable/ic_share_black_24dp"
-                         />
+                        />
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -207,7 +309,7 @@
                         android:layout_weight="1"
                         android:background="@drawable/nor_button_bg"
                         android:src="@drawable/ic_favorite_border_black_24dp"
-                         />
+                        />
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -333,7 +435,26 @@
                         android:textSize="14dp" />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/workshopdetail_Offday"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:padding="15dp"
+                        android:text="Loading"
+                        android:textColor="@color/secondary_text"
+                        android:textSize="14dp" />
+
+                </LinearLayout>
                 <Button
                     android:id="@+id/book_now"
                     android:layout_width="fill_parent"

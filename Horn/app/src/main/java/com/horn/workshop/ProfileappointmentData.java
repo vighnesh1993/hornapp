@@ -12,15 +12,17 @@ public class ProfileappointmentData {
     String dates;
     String statuss;
     String appointment_ons;
+    String price_totals;
 
 //int id_;
 
-    public ProfileappointmentData(String partner_ids, String apmntids, String dates, String statuss, String appointment_ons) {
+    public ProfileappointmentData(String partner_ids, String apmntids, String dates, String statuss, String appointment_ons,String price_totals) {
         this.partner_ids = partner_ids;
                 this.apmntids = apmntids;
                 this.dates=dates;
                 this.statuss=statuss;
                 this.appointment_ons=appointment_ons;
+                this.price_totals=price_totals;
 
 
     }
@@ -45,6 +47,9 @@ public class ProfileappointmentData {
 
     public String getAppointment_ons() {
         return appointment_ons;
+    }
+    public String getprice_total() {
+        return price_totals;
     }
 
 

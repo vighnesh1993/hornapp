@@ -115,9 +115,27 @@ public class SMLocalStore {
         editor.putString("Profile_My_Car", mycar_id);
         editor.commit();
     }
+    public void setService_total(String service_total)
+    {
+        editor.putString("Service_total", service_total);
+        editor.commit();
+    }
+    public void setOffer_total(String offer_total)
+    {
+        editor.putString("offer_total", offer_total);
+        editor.commit();
+    }
     public String getProfileMyCar()
     {
         return pref.getString("Profile_My_Car", null);
+    }
+    public String getService_total()
+    {
+        return pref.getString("Service_total", null);
+    }
+    public String getOffer_total()
+    {
+        return pref.getString("offer_total", null);
     }
 
     public String getProfileAddCar()

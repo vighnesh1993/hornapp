@@ -101,7 +101,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="20sp" />
                 </LinearLayout>
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
@@ -128,7 +128,7 @@
                         android:textAlignment="textStart"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="20sp" />
-                </LinearLayout>
+                </LinearLayout>-->
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"

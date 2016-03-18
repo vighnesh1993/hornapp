@@ -46,6 +46,7 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
     public static String[] nameArray;
     public static String[] carImageArray;
     public static String[] carIdArray;
+    public static String[] carVarientArray;
     private ProgressDialog pDialog;
     private RecyclerView rCarView;
     private AddCarAdapter adapter;
@@ -82,7 +83,8 @@ public class AddCar extends AppCompatActivity implements SearchView.OnQueryTextL
         carDatas.add(new CarData(
                 nameArray[i],
                 carImageArray[i],
-                carIdArray[i]
+                carIdArray[i],
+                carVarientArray[i]
         ));
     }
     adapter = new AddCarAdapter(carDatas);
@@ -176,13 +178,16 @@ Log.d("sdsdsd", "car Response: " + response);
                         JSONArray nameArrayj = jsonObject.getJSONArray("car_names");
                         JSONArray carImageArrayj = jsonObject.getJSONArray("car_image");
                         JSONArray carIdArrayj = jsonObject.getJSONArray("car_id");
+                        JSONArray carVarientArrayj = jsonObject.getJSONArray("car_varient");
                         nameArray = new String[nameArrayj.length()];
                         carImageArray = new String[carImageArrayj.length()];
                         carIdArray = new String[carIdArrayj.length()];
+                        carVarientArray = new String[carVarientArrayj.length()];
                         for (int i = 0; i < nameArrayj.length(); i++) {
                             nameArray[i] = nameArrayj.getString(i);
                             carImageArray[i] = carImageArrayj.getString(i);
                             carIdArray[i] = carIdArrayj.getString(i);
+                            carVarientArray[i] = carVarientArrayj.getString(i);
                         }
                         pDialog.dismiss();
                         carsDisplay();

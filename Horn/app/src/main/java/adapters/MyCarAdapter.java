@@ -69,8 +69,10 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
 
         // Set item views based on the data model
         TextView textView = holder.nameTextView;
+        TextView varientView = holder.varientView;
         final ImageView carImage = holder.carImageView;
         textView.setText(carData.getName());
+        varientView.setText("Fuel Type : "+carData.getVarient());
         String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + carData.getImageName();
         ImageLoader imageLoader = AppController.getInstance().getImageLoader();
         imageLoader.get(url, new ImageLoader.ImageListener() {
@@ -103,6 +105,7 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public TextView nameTextView;
+        public TextView varientView;
         public ImageView carImageView;
       //  public Context context;
 
@@ -115,6 +118,7 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
             context = itemView.getContext();
             nameTextView = (TextView) itemView.findViewById(R.id.mycar_name);
             carImageView = (ImageView) itemView.findViewById(R.id.mycar_image);
+            varientView = (TextView) itemView.findViewById(R.id.mycar_desc);
 
         }
     }
