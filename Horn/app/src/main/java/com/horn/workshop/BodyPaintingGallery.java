@@ -35,16 +35,24 @@ public class BodyPaintingGallery extends AppCompatActivity {
     private boolean[] thumbnailsselection;
     private String[] arrPath;
     private ImageAdapter imageAdapter;
-int cl=0;
+    int cl=0;
     /*SharedPreferences sp;
     SharedPreferences.Editor myedit;*/
 
     SMLocalStore smLocalStore;
     //private ProgressDialog pDialog;
+    int imgcount,limit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.body_painting_gallery);
+
+        Intent ob=getIntent();
+        String l=ob.getStringExtra("length");
+
+        imgcount=Integer.parseInt(l);
+        limit=7-imgcount;
+        //Toast.makeText(getBaseContext(),"l :"+l,Toast.LENGTH_SHORT).show();
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
@@ -53,8 +61,6 @@ int cl=0;
         //pDialog.setCancelable(false);
         cl=1;
 
-
-        //
         final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Images.Media._ID;
         Cursor imagecursor = managedQuery(
@@ -94,17 +100,15 @@ int cl=0;
                         selectImages = selectImages + arrPath[i] + ",";
                     }
                 }
-                if (cnt == 0){
-                    Toast.makeText(getApplicationContext(),
-                            "Please select at least one image",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "You've selected Total " + cnt + " image(s).",
-                            Toast.LENGTH_LONG).show();
+                if (cnt == 0)
+                {
+                    Toast.makeText(getApplicationContext(),"Please select at least one image", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"You've selected Total " + cnt + " image(s).",Toast.LENGTH_LONG).show();
 
                     smLocalStore.setBpimages(selectImages);
-
                     //Log.d("SelectedImages", selectImages);
                     Intent ob=new Intent(BodyPaintingGallery.this,BodyPaintingHome.class);
                     ob.putExtra("value","2");
@@ -166,7 +170,7 @@ int cl=0;
                         holder.checkbox.setBackgroundResource(R.color.transparent_0);
                     } else {
 
-                        if(cl>=6)
+                        if(cl>=limit)
                         {
                             final AlertDialog.Builder builder = new AlertDialog.Builder(BodyPaintingGallery.this);
                             builder.setTitle("Horn");
@@ -198,7 +202,8 @@ int cl=0;
             holder.imageview.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
+
+                    //TODO Auto-generated method stub
                     int id = v.getId();
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
@@ -213,7 +218,8 @@ int cl=0;
             return convertView;
         }
     }
-    class ViewHolder {
+    class ViewHolder
+    {
         ImageView imageview;
         CheckBox checkbox;
         int id;

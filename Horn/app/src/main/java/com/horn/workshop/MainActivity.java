@@ -169,6 +169,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
                             if (dir.isDirectory()) {
                                 String[] children = dir.list();
+                                //Toast.makeText(getApplicationContext(), "Value Added Services : " + position, Toast.LENGTH_LONG).show();
+
                                 for (int i = 0; i < children.length; i++) {
                                     new File(dir, children[i]).delete();
                                 }
@@ -178,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             userLocalStore=new UserLocalStore(MainActivity.this);
                             userLocalStore.setGridImages("");
+                            userLocalStore.setBpquotes("");
                             Intent in = new Intent(MainActivity.this, BodyPaintingHome.class);
                             in.putExtra("value", "1");
                             startActivity(in);

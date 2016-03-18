@@ -259,6 +259,11 @@ public class UserLocalStore {
     public void setindicator(boolean placeGps) {
         editor.putBoolean("indicator", placeGps);
         editor.commit();
+    }public void setBpquotes(String quotes) {
+        editor.putString("quotes", quotes);
+        editor.commit();
+    }public String getBpquotes() {
+        return  (pref.getString("quotes",""));
     }
     public boolean getindicator() {
 

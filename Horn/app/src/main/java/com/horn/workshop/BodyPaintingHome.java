@@ -37,6 +37,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -71,14 +72,14 @@ import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
 
-public class BodyPaintingHome extends FragmentActivity implements View.OnClickListener {
+public class BodyPaintingHome extends AppCompatActivity implements View.OnClickListener {
 
 
     final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     final int RANDOM_STRING_LENGTH = 10;
-    Button captureBtn = null;
+    Button sendquotes;
     final int CAMERA_CAPTURE = 1;
-    private Uri picUri;
+    //private Uri picUri;
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private GridView grid;
     private List<String> listOfImagesPath;
@@ -87,46 +88,99 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
     String p[];
     String s;
     int i = 0;
-    String gimg = "";
-    ImageView ii;
+    String gimg="";
+   // ImageView ii;
     private GoogleApiClient client;
     RelativeLayout defaultimgl;
     UserLocalStore userLocalStore;
+    android.support.v7.app.ActionBar ab;
+    Toolbar toolbar;
+    LinearLayout liner_for_grid,gimage;
+    EditText send_qt;
+    private List<String> imgPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.body_painting_home);
+
+        send_qt= (EditText) findViewById(R.id.send_qt);
+        gimage = (LinearLayout) findViewById(R.id.gimage);
+        userLocalStore=new UserLocalStore(this);
+
+        liner_for_grid=(LinearLayout) findViewById(R.id.liner_for_grid);
+
         grid = (GridView) findViewById(R.id.gridviewimg);
         defaultimgl = (RelativeLayout) findViewById(R.id.defaultimgl);
-        userLocalStore = new UserLocalStore(BodyPaintingHome.this);
+
+
+        toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+
+        ab = getSupportActionBar();
+        ab.setTitle("Body and Painting");
+        ab.setDisplayHomeAsUpEnabled(true);
+
 
         Intent ob = getIntent();
         String a = ob.getStringExtra("value");
 
-        if (a.equals("1")) {
+        if (a.equals("1"))
+        {
             captureimng();
-            grid.setVisibility(View.GONE);
-        } else if (a.equals("5")) {
+
+//            gimage.setVisibility(View.GONE);
+//            liner_for_grid.setVisibility(View.VISIBLE);
+        }
+        else if (a.equals("0"))
+        {
+            String q=userLocalStore.getBpquotes();
+            send_qt.setText(q);
+
+//            gimage.setVisibility(View.GONE);
+//            liner_for_grid.setVisibility(View.VISIBLE);
+        }
+        else if (a.equals("5"))
+        {
+
             String str = userLocalStore.getGridImages();
-            str = userLocalStore.getGridImages();
-
-
             Toast.makeText(getApplicationContext(), "deleted :" + str, Toast.LENGTH_SHORT).show();
             Log.i("GRIDVIEW IMAGE :", str);
-            defaultimgl.setVisibility(View.GONE);
-            grid.setVisibility(View.VISIBLE);
-        } else if (a.equals("2")) {
-            captureimng();
-            defaultimgl.setVisibility(View.GONE);
-            grid.setVisibility(View.VISIBLE);
+            liner_for_grid.setVisibility(View.GONE);
+            gimage.setVisibility(View.VISIBLE);
+
+//            grid.setVisibility(View.VISIBLE);
         }
+        else if (a.equals("2"))
+        {
+            String q=userLocalStore.getBpquotes();
+            send_qt.setText(q);
+            onGalleryImage();
+//            grid.setVisibility(View.VISIBLE);
+           liner_for_grid.setVisibility(View.GONE);
+            gimage.setVisibility(View.VISIBLE);
 
-
-        defaultimgl.setOnClickListener(new View.OnClickListener() {
+        }
+        sendquotes= (Button) findViewById(R.id.send_quotes);
+        sendquotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ii.setVisibility(View.GONE);
+
+
+                userLocalStore.setBpquotes("");
+                Intent in = new Intent(BodyPaintingHome.this, BodyPaintingHome.class);
+                in.putExtra("value", "1");
+                startActivity(in);
+            }
+        });
+
+        liner_for_grid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
 
                 try {
 
@@ -138,8 +192,9 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                     Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
                     toast.show();
                 }
-                defaultimgl.setVisibility(View.GONE);
-                grid.setVisibility(View.VISIBLE);
+//                grid.setVisibility(View.VISIBLE);
+//                liner_for_grid.setVisibility(View.GONE);
+//                gimage.setVisibility(View.VISIBLE);
             }
         });
        /*grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -165,16 +220,23 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
             }
         });*/
 
-
-        //GridViewDemo_ImagePath="";
-        //Button b = (Button) findViewById(R.id.clear);
         Button b1 = (Button) findViewById(R.id.gallery);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent ob = new Intent(BodyPaintingHome.this, BodyPaintingGallery.class);
-                startActivity(ob);
+                String quotes=send_qt.getText().toString();
+                userLocalStore.setBpquotes(quotes);
+                int l=imgPic.size();
+                if(l<6)
+                {
+                    Intent ob = new Intent(BodyPaintingHome.this, BodyPaintingGallery.class);
+                    ob.putExtra("length",""+l);
+                    startActivity(ob);
+                }
+                else
+                {
+                    Toast.makeText(BodyPaintingHome.this, "You can upload maximum 5 images", Toast.LENGTH_SHORT).show();
+                }
 
 
 //               Intent intent = new Intent();
@@ -192,7 +254,7 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
         });
 
 
-        onGalleryImage();
+
         /*b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,6 +310,11 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
+
+
+
             listOfImagesPath = null;
             listOfImagesPath = RetriveCapturedImagePath();
             grid.setAdapter(new ImageListAdapter(this, listOfImagesPath));
@@ -261,7 +328,7 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main2_drawer, menu);
+        getMenuInflater().inflate(R.menu.blank_menu, menu);
         return true;
     }
 
@@ -282,17 +349,24 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                 File imageDirectory = new File(GridViewDemo_ImagePath);
                 imageDirectory.mkdirs();
                 String _path = GridViewDemo_ImagePath + imgcurTime + ".jpg";
-                try {
+                try
+                {
                     FileOutputStream out = new FileOutputStream(_path);
                     thePic.compress(Bitmap.CompressFormat.JPEG, 100, out);
                     out.close();
-                } catch (FileNotFoundException e) {
+                }
+                catch (FileNotFoundException e)
+                {
                     e.getMessage();
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                 }
-                grid.setVisibility(View.VISIBLE);
-                defaultimgl.setVisibility(View.GONE);
+//                grid.setVisibility(View.VISIBLE);
+               liner_for_grid.setVisibility(View.GONE);
+                gimage.setVisibility(View.VISIBLE);
+
                 listOfImagesPath = null;
                 listOfImagesPath = RetriveCapturedImagePath();
                 if (listOfImagesPath != null) {
@@ -301,7 +375,6 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                 }
                 listOfImagesPath = null;
             }
-
         }
     }
 
@@ -313,7 +386,8 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
         File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
+            for (int i = 0; i < children.length; i++)
+            {
                 new File(dir, children[i]).delete();
             }
             smLocalStore.clearBpimages();
@@ -360,11 +434,11 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                 String[] y = s.split(",");
                 int k = 0;
                 k = y.length;
-                //k=k-1;
                 File f1;
                 p = new String[k];
 
-                for (int v = 0; v < k; v++) {
+                for (int v = 0; v < k; v++)
+                {
 
                     f1 = new File(y[v]);
                     BitmapFactory.Options options1 = new BitmapFactory.Options();
@@ -374,23 +448,24 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                     File imageDirectory = new File(GridViewDemo_ImagePath);
                     imageDirectory.mkdirs();
                     String st = generateRandomString();
-
                     String _path = GridViewDemo_ImagePath + st + ".jpg";
                     try {
                         FileOutputStream out = new FileOutputStream(_path);
-                        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                        bitmap1.compress(Bitmap.CompressFormat.JPEG,10, out);
                         out.close();
                     } catch (FileNotFoundException e) {
                         e.getMessage();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+//                    grid.setVisibility(View.VISIBLE);
+                    liner_for_grid.setVisibility(View.GONE);
+                    gimage.setVisibility(View.VISIBLE);
 
-                    grid.setVisibility(View.VISIBLE);
-                    defaultimgl.setVisibility(View.GONE);
                     listOfImagesPath = null;
                     listOfImagesPath = RetriveCapturedImagePath();
-                    if (listOfImagesPath != null) {
+                    if (listOfImagesPath != null)
+                    {
                         grid.setAdapter(new ImageListAdapter(this, listOfImagesPath));
                         listOfImagesPath = null;
                     }
@@ -488,7 +563,6 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
         private LayoutInflater mInflater;
         ImageListAdapter ad;
         private Context context;
-        private List<String> imgPic;
 
 
         public ImageListAdapter(Context c, List<String> thePic) {
@@ -500,6 +574,7 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
         public int getCount() {
             if (imgPic != null)
                 return imgPic.size();
+
             else
                 return 0;
         }
@@ -514,8 +589,11 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
 
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            grid.setVisibility(View.VISIBLE);
-            defaultimgl.setVisibility(View.GONE);
+
+           // Toast.makeText(BodyPaintingHome.this, "imgPic.size(); : "+imgPic.size(), Toast.LENGTH_SHORT).show();
+
+           /* lGrid.setVisibility(View.VISIBLE);
+            defaultimgl.setVisibility(View.GONE);*/
             final ViewHolder holder;
             BitmapFactory.Options bfOptions = new BitmapFactory.Options();
             bfOptions.inDither = false;                     //Disable Dithering mode
@@ -588,8 +666,11 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
             //Toast.makeText(getApplicationContext(),"imgPic.size():" +imgPic.size(),Toast.LENGTH_SHORT).show();
 
 
-            holder.img.setId(position);
-            holder.imageview.setId(position);
+             /*   holder.img.setId(position);
+               holder.imageview.setId(position);*/
+
+
+
 
             try {
                 String dfer = imgPic.get(position);
@@ -599,11 +680,60 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                 if (dffed.equals("zzzzzzzzzzz.jpg")) {
                     holder.img.setVisibility(View.GONE);
                 }
+                if (dffed.equals("zzzzzzzzzzz.jpg")&&position==0) {
+
+                  /*  gimage.setVisibility(View.GONE);
+                    liner_for_grid.setVisibility(View.VISIBLE);*/
+                    String quotes=send_qt.getText().toString();
+                    userLocalStore.setBpquotes(quotes);
+                    Intent in = new Intent(BodyPaintingHome.this, BodyPaintingHome.class);
+                    in.putExtra("value", "0");
+                    startActivity(in);
+
+                }
+               /* if (position>5) {
+                    imgPic.remove(position);
+                    //grid.setAdapter(new ImageListAdapter(context, imgPic));
+                  Toast.makeText(getApplicationContext(),"Exceeded",Toast.LENGTH_SHORT).show();
+
+                }*/
+             /*   else
+                {*/
+                    holder.img.setId(position);
+                    holder.imageview.setId(position);
+
+
+                    FileInputStream fs = null;
+                    Bitmap bm;
+                    try {
+                        fs = new FileInputStream(new File(imgPic.get(position).toString()));
+
+                        if (fs != null) {
+
+
+                            bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+                            holder.imageview.setImageBitmap(bm);
+                            holder.id = position;
+
+                        }
+                    } catch (Exception e) {
+
+                    }
+
+                    userLocalStore = new UserLocalStore(BodyPaintingHome.this);
+                    userLocalStore.setGridImages(gimg);
+               // }
+
+
+
             } catch (Exception e) {
 
             }
-
-
+           /* if(position>=2)
+            {
+                //imgPic.remove(position);
+                grid.setAdapter(new ImageListAdapter(context, imgPic));
+            }*/
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -646,16 +776,29 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                     //Toast.makeText(getApplicationContext(), "String  :" +dffed, Toast.LENGTH_SHORT).show();
 
                     if (dffed.equals("zzzzzzzzzzz.jpg")) {
-                        try {
 
-                            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                            startActivityForResult(captureIntent, CAMERA_CAPTURE);
-                        } catch (ActivityNotFoundException anfe) {
-                            String errorMessage = "Whoops - your device doesn't support capturing images!";
-                            Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
+
+                            int l=imgPic.size();
+
+                            if(l<6)
+                            {
+                                try {
+                                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                                startActivityForResult(captureIntent, CAMERA_CAPTURE);
+                            } catch (ActivityNotFoundException anfe) {
+                                String errorMessage = "Whoops - your device doesn't support capturing images!";
+                                Toast toast = Toast.makeText(BodyPaintingHome.this, errorMessage, Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                            }
+                        else
+                            {
+                                Toast.makeText(BodyPaintingHome.this, "You can upload maximum 5 images", Toast.LENGTH_SHORT).show();
+                            }
+
+
 
 
                     } else {
@@ -672,39 +815,10 @@ public class BodyPaintingHome extends FragmentActivity implements View.OnClickLi
                 }
             });
 
-            FileInputStream fs = null;
-            Bitmap bm;
-            try {
-                fs = new FileInputStream(new File(imgPic.get(position).toString()));
 
-                if (fs != null) {
-
-                    bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-                    holder.imageview.setImageBitmap(bm);
-                    holder.id = position;
-
-                }
-            } catch (Exception e) {
-
-            }
-           // Toast.makeText(getApplicationContext(), "imgPic.size():" + imgPic.size(), Toast.LENGTH_SHORT).show();
-            /*if (imgPic.size() == 1) {
-
-                //defaultimgl.setVisibility(View.VISIBLE);
-                //Toast.makeText(getApplicationContext(),"imgPic.size():" +imgPic.size(),Toast.LENGTH_SHORT).show();
-                grid.setVisibility(View.GONE);
-                defaultimgl.setVisibility(View.VISIBLE);
-            } else {
-                grid.setVisibility(View.VISIBLE);
-                defaultimgl.setVisibility(View.GONE);
-            }*/
-            // gimg=gimg+"hiiiiiiiiiiiiiiiiiiiiiii"+imgPic.get(position);
-            userLocalStore = new UserLocalStore(BodyPaintingHome.this);
-            userLocalStore.setGridImages(gimg);
             return convertView;
         }
-        /*userLocalStore=new UserLocalStore(BodyPaintingHome.this);
-        userLocalStore.setGridImages(gimg);*/
+
     }
 
 

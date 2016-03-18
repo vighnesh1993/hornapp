@@ -62,7 +62,6 @@
                         android:src="@drawable/horn_toload"
                         android:tint="@color/photo_tint" />
 
-
                     <TextView
                         android:id="@+id/rating"
                         android:layout_width="35dp"

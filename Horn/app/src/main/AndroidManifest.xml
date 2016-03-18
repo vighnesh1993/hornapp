@@ -38,6 +38,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -219,9 +220,11 @@
         <activity
             android:name=".BodyPaintingHome"
             android:configChanges="orientation|screenSize"
-            android:parentActivityName=".BodyPaintingHome"
-            android:theme="@style/AppTheme.CustomBarTheme">
-            android:label="BodyPaintingHome" >
+            android:parentActivityName=".MainActivity"
+            android:label="BodyPaintingHome"
+            android:theme="@style/AppTheme.CustomBarTheme"
+
+            >
 
         </activity>
         <activity
