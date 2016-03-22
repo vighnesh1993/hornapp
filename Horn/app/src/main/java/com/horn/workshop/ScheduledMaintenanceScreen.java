@@ -3,11 +3,9 @@ package com.horn.workshop;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,8 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -30,9 +26,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -52,7 +46,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +58,7 @@ import helper.SQLiteHandler;
 /**
  * Created by Sariga on 2/16/2016.
  */
-public class ScheduledMaintenanceScreen extends AppCompatActivity {
+public class ScheduledMaintenanceScreen extends AppCompatActivity  {
     /*
     for SM home
      */
@@ -769,7 +762,8 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
                         sm_service_listprice[service_list_qty.length()] = washing;
                         sm_service_listfield[service_list_qty.length()] = "";
                         sm_service_listarea[service_list_qty.length()] = "";
-                      SM_Services_display();
+                    //  SM_Services_display();
+                        service_tab();
 
                     } else {
                         no_service();
@@ -833,6 +827,157 @@ myButton.setGravity(Gravity.CENTER_HORIZONTAL);
                 .setCancelable(false)
                 .show();
     }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void service_tab() {
+        pDialog.dismiss();
+        /* tab sample */
+        LinearLayout tablyt = (LinearLayout) findViewById(R.id.tab_lyt);
+        tablyt.setVisibility(View.VISIBLE);
+        TabHost tabHost=(TabHost)findViewById(R.id.tabHost);
+        tabHost.setup();
+
+        FrameLayout tabcont = (FrameLayout) findViewById(android.R.id.tabcontent);
+        for(int t = 0;t<sm_service_listarea.length;t++)
+        {
+            LinearLayout tabt=new LinearLayout(this);
+            LinearLayout.LayoutParams ll1 = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            tabt.setLayoutParams(ll1);
+            tabt.setOrientation(LinearLayout.VERTICAL);
+            tabt.setId(t);
+            tabcont.addView(tabt, 0);
+
+
+
+            labr_cost_lyt.setVisibility(View.VISIBLE);
+            total_cost_tyt.setVisibility(View.VISIBLE);
+//        washing_cost_lyt.setVisibility(View.VISIBLE);
+            search_wrkshp_btn.setVisibility(View.VISIBLE);
+            hLine1.setVisibility(View.VISIBLE);
+            // hLine2.setVisibility(View.VISIBLE);
+            TableLayout ll = new TableLayout(this);
+
+           // ll.removeAllViews();
+
+            TableRow rowh = new TableRow(this);
+            TableRow.LayoutParams lph = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+            rowh.setLayoutParams(lph);
+            TextView priceh = new TextView(this);
+            TextView qtyh = new TextView(this);
+            TextView sericeh = new TextView(this);
+            sericeh.setText("Services");
+            qtyh.setPadding(15, 0, 15, 0);
+            priceh.setPadding(15, 0, 15, 0);
+            sericeh.setPadding(15, 0, 15, 0);
+            qtyh.setTextSize(15);
+            priceh.setTextSize(15);
+            sericeh.setTextSize(15);
+            qtyh.setTextColor(Color.BLACK);
+            priceh.setTextColor(Color.BLACK);
+            sericeh.setTextColor(Color.BLACK);
+            sericeh.setGravity(Gravity.CENTER_VERTICAL);
+            qtyh.setText("Quantity");
+            priceh.setText("Price");
+            rowh.addView(sericeh);
+            TextView I = (TextView) findViewById(R.id.inspect);
+
+
+            rowh.addView(qtyh);
+            rowh.addView(priceh);
+            rowh.setMinimumHeight(100);
+            ll.addView(rowh, 0);
+            price_total = 0;
+            total = 0;
+            CheckBox[] check = new CheckBox[sm_service_list.length]; //maxCount is the number of rows in the database.
+            price_total += Float.parseFloat(labour_Charge);
+            price_total += Float.parseFloat(washing);
+
+            int j = 0;
+            int inspect = 0;
+
+            for (int i = 0; i < sm_service_list.length; i++) {
+                try {
+                    if ((((sm_service_listfield[i]).equals("I"))||(i==(sm_service_list.length)-1))&&(sm_service_listarea[i].equals(sm_service_listarea[t]))) {
+                        inspect++;
+                        if (inspect == 1) {
+                            I.setText("INSPECTION");
+                            I.setTextSize(15);
+                            I.setTextColor(Color.BLACK);
+                        }
+                        TableRow row = new TableRow(this);
+                        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
+                        row.setMinimumHeight(110);
+                        row.setLayoutParams(lp);
+
+
+                        price_total += Float.valueOf(sm_service_listprice[i]);
+                        final float price_tot = Float.valueOf(sm_service_listprice[i]);
+
+
+                        check[i] = new CheckBox(getApplicationContext()); //con is Context class passed as argument.
+                        check[i].setText(Integer.toString(i));
+                        check[i].setId(100 + i);
+                        check[i].setText(sm_service_list[i]);
+                        check[i].setTextColor(Color.parseColor("#000000"));
+                        check[i].setChecked(true);
+                        check[i].setMaxWidth(430);
+                        check[i].setMinWidth(430);
+                        row.addView(check[i]);
+                        check[i].setId(100 + i);
+                        selectedStrings.add(check[i].getText().toString());
+                        final String check_selected = check[i].getText().toString();
+                        check[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if (!buttonView.isChecked()) {
+                                    price_total -= price_tot;
+                                    selectedStrings.remove(check_selected);
+                                } else {
+                                    selectedStrings.add(check_selected);
+                                    price_total += price_tot;
+
+                                }
+                                //price_total = price_total;
+                                toatl_cost.setText("₹ " + price_total);
+                            }
+                        });
+
+                        TextView price = new TextView(this);
+                        TextView qty = new TextView(this);
+                        qty.setText(sm_service_listqty[i]);
+                        price.setText(sm_service_listprice[i]);
+                        price.setPadding(15, 10, 15, 10);
+                        qty.setPadding(15, 10, 15, 10);
+                        row.addView(qty);
+                        row.addView(price);
+                        row.setGravity(View.TEXT_ALIGNMENT_CENTER);
+                        tabt.addView(row);
+                        j++;
+                    }
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+            int k = 0;
+
+
+
+
+              TabSpec spec1=tabHost.newTabSpec(sm_service_listarea[t]);
+            spec1.setContent(t);
+            spec1.setIndicator(sm_service_listarea[t]);
+
+            tabHost.addTab(spec1);
+
+       }
+
+
+        /* tab sample ends */
+  }
+
+
+
 
 
 //    @Override
