@@ -142,6 +142,32 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ScheduledMaintenanceAppointment" />
         </activity>
+		<activity
+            android:name=".RMWorkshoplist"
+            android:label="@string/app_sm_wrkshops"
+            android:parentActivityName=".RunningMaintenanceHome"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RunningMaintenanceHome" />
+        </activity>
+        <activity
+            android:name=".RMDetail"
+            android:label="Workshop Details"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RMAppointment" />
+        </activity>
+        <activity
+            android:name=".RMAppointment"
+            android:label="Appointment"
+            android:parentActivityName=".RMAppointment"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RMAppointment" />
+        </activity>
         <activity
             android:name=".ProfileMyAppoinmentList"
             android:label="My Appointments"

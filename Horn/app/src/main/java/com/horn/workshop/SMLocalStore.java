@@ -21,6 +21,13 @@ public class SMLocalStore {
         pref = _context.getSharedPreferences(SM_vehicle, PRIVATE_MODE);
         editor = pref.edit();
     }
+    public void setRMhome(String vehicle, String varient,String make,String model) {
+        editor.putString("rm_vehicle", vehicle);
+        editor.putString("rm_varient", varient);
+        editor.putString("rm_make", make);
+        editor.putString("rm_model", model);
+        editor.commit();
+    }
 
     public void setSMhome(String vehicle, String km, String varient,String make,String model) {
         editor.putString("sm_vehicle", vehicle);
@@ -36,15 +43,29 @@ public class SMLocalStore {
         editor.commit();
     }
 
+    public void setRMdesc(String description) {
+        editor.putString("rm_description", description);
+        editor.commit();
+    }
+
     public void setSMservice(String labour, String total, String selectedstring) {
         editor.putString("sm_labour", labour);
         editor.putString("sm_total", total);
         editor.putString("sm_Selectedservice", selectedstring);
         editor.commit();
     }
+    public void setRMservice(String selectedstring) {
+
+        editor.putString("rm_Selectedservice", selectedstring);
+        editor.commit();
+    }
 
     public void setSMworkshoplist(String workshopid) {
         editor.putString("sm_workshopid", workshopid);
+        editor.commit();
+    }
+    public void setRMworkshoplist(String workshopid) {
+        editor.putString("rm_workshopid", workshopid);
         editor.commit();
     }
     public void setProfileAppointment(String apt_id){
@@ -74,6 +95,9 @@ public class SMLocalStore {
     public String getSMhome_vehicle() {
         return pref.getString("sm_vehicle", null);
     }
+    public String getRMhome_vehicle() {
+        return pref.getString("rm_vehicle", null);
+    }
     public String getProfileAppointment() {
         return pref.getString("profile_view_apt_id", null);
     }
@@ -81,9 +105,15 @@ public class SMLocalStore {
     public String getSMworkshopdetail_id() {
         return pref.getString("sm_workshopid", null);
     }
+    public String getRMworkshopdetail_id() {
+        return pref.getString("rm_workshopid", null);
+    }
 
     public String getSMhome_kms() {
-        return pref.getString("sm_kms", null);
+        return pref.getString("rm_kms", null);
+    }
+    public String getRMhome_kms() {
+        return pref.getString("rm_kms", null);
     }
 
     public String getSMhome_varient() {
@@ -92,17 +122,32 @@ public class SMLocalStore {
     public String getSMhome_make() {
         return pref.getString("sm_make", null);
     }
+    public String getRMhome_make() {
+        return pref.getString("rm_make", null);
+    }
     public String getSMhome_model() {
         return pref.getString("sm_model", null);
+    }
+    public String getRMhome_model() {
+        return pref.getString("rm_model", null);
     }
 
     public String getSMworkshop_name()
     {
         return pref.getString("sm_workshop_name",null);
     }
+    public String getRMworkshop_name()
+    {
+        return pref.getString("rm_workshop_name",null);
+    }
     public void setSMworkshopname(String workshopname)
     {
         editor.putString("sm_workshop_name", workshopname);
+        editor.commit();
+    }
+    public void setRMworkshopname(String workshopname)
+    {
+        editor.putString("rm_workshop_name", workshopname);
         editor.commit();
     }
     public void setProfileAddCar(String car_id)
@@ -124,6 +169,10 @@ public class SMLocalStore {
     {
         editor.putString("offer_total", offer_total);
         editor.commit();
+    } public void setRMOffer_total(String offer_total)
+    {
+        editor.putString("RMoffer_total", offer_total);
+        editor.commit();
     }
     public String getProfileMyCar()
     {
@@ -137,6 +186,10 @@ public class SMLocalStore {
     {
         return pref.getString("offer_total", null);
     }
+    public String getRMOffer_total()
+    {
+        return pref.getString("RMoffer_total", null);
+    }
 
     public String getProfileAddCar()
     {
@@ -146,9 +199,16 @@ public class SMLocalStore {
     {
         return pref.getString("sm_Selectedservice", null);
     }
+    public String getRMservices()
+    {
+        return pref.getString("rm_Selectedservice", null);
+    }
 
     public String getSMdesc() {
         return pref.getString("sm_description", null);
+    }
+    public String getRMdesc() {
+        return pref.getString("rm_description", null);
     }
 
     public String getBpimages() {
