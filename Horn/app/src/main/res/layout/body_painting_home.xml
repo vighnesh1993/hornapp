@@ -25,12 +25,16 @@
             android:layout_weight="0"
             android:background="@color/wallet_hint_foreground_holo_dark"
             android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/gallery"
+                android:drawableLeft="@drawable/gallery_choose"
+
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:background="@color/accent"
-                android:text="Choose from Gallery" />
+                android:text="Choose from Gallery"
+                />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +59,7 @@
                 android:verticalSpacing="2dp"
                 android:numColumns="auto_fit"
                 android:stretchMode="columnWidth"
-                 />
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -103,7 +107,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_weight=".5"
@@ -141,8 +144,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 
 </android.support.design.widget.CoordinatorLayout>
