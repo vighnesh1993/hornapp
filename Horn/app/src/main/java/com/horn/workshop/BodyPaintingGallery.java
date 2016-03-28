@@ -71,8 +71,10 @@ public class BodyPaintingGallery extends AppCompatActivity {
         this.thumbnails = new Bitmap[this.count];
         this.arrPath = new String[this.count];
         this.thumbnailsselection = new boolean[this.count];
-        for (int i = 0; i < this.count; i++) {
+        for (int i =0; i<this.count ; i++) {
             imagecursor.moveToPosition(i);
+
+            //imagecursor.moveToLast();
             int id = imagecursor.getInt(image_column_index);
             int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
             thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(
