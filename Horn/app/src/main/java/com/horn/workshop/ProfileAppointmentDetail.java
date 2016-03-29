@@ -3,6 +3,8 @@ package com.horn.workshop;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         String vehicle_name = jsonObject.getString("vehicle_name");
                         String id = jsonObject.getString("id");
                         String price_total = jsonObject.getString("price_total");
+                        String type = jsonObject.getString("type");
                         String services_list = "";
                         for(int i=0;i<service.length();i++)
                         {
@@ -73,6 +76,9 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         TextView apmnttime = (TextView) findViewById(R.id.apmnttime);
                         TextView apmntvehicle = (TextView) findViewById(R.id.apmntvehicle);
                         TextView price_totalt = (TextView) findViewById(R.id.apmnttotal);
+                        LinearLayout total_lyt = (LinearLayout) findViewById(R.id.apmnttotal_lyt);
+                        LinearLayout km_lyt = (LinearLayout) findViewById(R.id.apmntkm_lyt);
+
 
                         SimpleDateFormat parseFormat1 = new SimpleDateFormat("yyyy-mm-dd");
                         SimpleDateFormat displayFormat1 = new SimpleDateFormat("dd/mm/yyy");
@@ -108,6 +114,11 @@ public class ProfileAppointmentDetail  extends AppCompatActivity {
                         apmnttime.setText(time1);
                         apmntvehicle.setText(vehicle_name);
                         price_totalt.setText("₹ "+price_total);
+                        if(type.equals("rm"))
+                        {
+                            total_lyt.setVisibility(View.GONE);
+                            km_lyt.setVisibility(View.GONE);
+                        }
 
 
                     }

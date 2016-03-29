@@ -37,6 +37,8 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
         TextView status;
         TextView bookedon;
         TextView pricetotal;
+        TextView type;
+        LinearLayout total_lyt;
            public MyViewHolder(final View itemView) {
             super(itemView);
             context = itemView.getContext();
@@ -47,6 +49,7 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
             this.status = (TextView) itemView.findViewById(R.id.appointment_status);
             this.bookedon = (TextView) itemView.findViewById(R.id.appointment_bookedon);
             this.pricetotal = (TextView) itemView.findViewById(R.id.appointment_total);
+               this.total_lyt = (LinearLayout) itemView.findViewById(R.id.appointment_total_lyt);
 
             // this.Booknow = (Button) itemView.findViewById(R.id.booknow);
             itemView.setOnClickListener(this);
@@ -104,8 +107,14 @@ public class ProfileAppoinmentAdapter extends RecyclerView.Adapter<ProfileAppoin
             workshop1.setText(": "+apnmnt.get(listPosition).getPartner_ids());
             status1.setText(": "+apnmnt.get(listPosition).getStatuss());
             bookedon1.setText(": "+apnmnt.get(listPosition).getAppointment_ons());
-            pricetotal1.setText(": ₹ "+apnmnt.get(listPosition).getprice_total());
+            pricetotal1.setText(": ₹ " + apnmnt.get(listPosition).getprice_total());
             holder.setItem(apnmnt.get(listPosition).getApmntids());
+            String types = apnmnt.get(listPosition).gettype();
+            if(types.equals("rm"))
+            {
+                pricetotal1.setVisibility(View.GONE);
+                holder.total_lyt.setVisibility(View.GONE);
+            }
 
         }
 

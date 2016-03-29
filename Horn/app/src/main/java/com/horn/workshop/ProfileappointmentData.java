@@ -13,17 +13,18 @@ public class ProfileappointmentData {
     String statuss;
     String appointment_ons;
     String price_totals;
+    String type;
 
 //int id_;
 
-    public ProfileappointmentData(String partner_ids, String apmntids, String dates, String statuss, String appointment_ons,String price_totals) {
+    public ProfileappointmentData(String partner_ids, String apmntids, String dates, String statuss, String appointment_ons,String price_totals,String type) {
         this.partner_ids = partner_ids;
                 this.apmntids = apmntids;
                 this.dates=dates;
                 this.statuss=statuss;
                 this.appointment_ons=appointment_ons;
                 this.price_totals=price_totals;
-
+                this.type = type;
 
     }
 
@@ -51,7 +52,7 @@ public class ProfileappointmentData {
     public String getprice_total() {
         return price_totals;
     }
-
+public String gettype(){return type;}
 
 
 }

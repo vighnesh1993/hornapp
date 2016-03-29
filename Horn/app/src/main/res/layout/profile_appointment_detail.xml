@@ -104,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:id="@+id/apmntkm_lyt"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/rounded_cor_white_bg"
                     android:orientation="vertical">
@@ -415,6 +416,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/rounded_cor_white_bg"
+                    android:id="@+id/apmnttotal_lyt"
                     android:orientation="vertical">
 
                     <TextView
