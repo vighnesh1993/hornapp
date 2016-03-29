@@ -26,11 +26,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
@@ -58,6 +61,10 @@ public class RunningMaintenanceHome extends AppCompatActivity {
     String carid_rm,make_rm,model_rm,varient_rm,vehicle_rm;
     static public String id_for_view;
     SMLocalStore smLocalStore;
+    String status;
+    static public String rm_response;
+    String Strreq = "REQTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +80,11 @@ public class RunningMaintenanceHome extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                String selectedstring = "fffff";
+
                 smLocalStore = new SMLocalStore(RunningMaintenanceHome.this);
 
-                smLocalStore.setRMservice(selectedstring);
+                EditText suggestion = (EditText)findViewById(R.id.rm_suggestion);
 
-                String desc = "test";
-
-                smLocalStore.setRMdesc(desc);
                 smLocalStore.setRMhome(vehicle_rm, varient_rm, make_rm, model_rm);
 
 
@@ -97,8 +101,9 @@ public class RunningMaintenanceHome extends AppCompatActivity {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             }
 
-            private void setupViewPager(ViewPager viewPager, String carid_rms) {
+            private void setupViewPager(ViewPager viewPager, String carid_rms,String result) {
                 id_for_view = carid_rms;
+                rm_response = result;
                 ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
                 adapter.addFrag(new DummyFragment("wheel",carid_rms), "Wheel");
                 adapter.addFrag(new DummyFragment("eletrical",carid_rms), "Electrical");
@@ -106,12 +111,13 @@ public class RunningMaintenanceHome extends AppCompatActivity {
                 adapter.addFrag(new DummyFragment("trans",carid_rms), "Transmission");
                 adapter.addFrag(new DummyFragment("engine",carid_rms), "Engine");
                 adapter.addFrag(new DummyFragment("body",carid_rms), "Body");
+                adapter.addFrag(new DummyFragment("suggestion",carid_rms), "Suggestion");
                 viewPager.setAdapter(adapter);
             }
             public void display_dropdown()
             {
                 pDialog = new ProgressDialog(this);
-                pDialog.setMessage("Loding...");
+                pDialog.setMessage("Loading...");
                 pDialog.setCancelable(false);
                 pDialog.show();
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_ADDCARDETAIL, new Response.Listener<String>() {
@@ -187,8 +193,9 @@ public class RunningMaintenanceHome extends AppCompatActivity {
                 };
 
 
-                AppController.getInstance().addToRequestQueue(stringRequest, strreq);
 
+
+                AppController.getInstance().addToRequestQueue(stringRequest, Strreq);
 
             }
     public void display_vehicle()
@@ -205,7 +212,7 @@ public class RunningMaintenanceHome extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //vehicle_rm = dropdown.getSelectedItem().toString();
                 vehicle_rm = carVarientnameArray[position];
-               make_rm = carMakeArray[position];
+                make_rm = carMakeArray[position];
                 model_rm = carModelArray[position];
                 varient_rm = carVarientArray[position];
 
@@ -224,57 +231,116 @@ public class RunningMaintenanceHome extends AppCompatActivity {
     {
         display_tablayout(carid_rm);
     }
-    public void display_tablayout(String carid_rm)
+    public void display_tablayout(final String carid_rm)
     {
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.tabanim_viewpager);
-        setupViewPager(viewPager,carid_rm);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabanim_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setVisibility(View.VISIBLE);
-        viewPager.setVisibility(View.VISIBLE);
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        getDbdetails(carid_rm, "test", new VolleyCallback() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onSuccess(String result) {
+                final ViewPager viewPager = (ViewPager) findViewById(R.id.tabanim_viewpager);
+                setupViewPager(viewPager, carid_rm,result);
+                viewPager.setOffscreenPageLimit(7);
 
-                viewPager.setCurrentItem(tab.getPosition());
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.tabanim_tabs);
+                tabLayout.setupWithViewPager(viewPager);
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
 
-                switch (tab.getPosition()) {
-                    case 0:
-                        // showToast("One");
-                        break;
-                    case 1:
-                        // showToast("Two");
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
 
-                        break;
-                    case 2:
-                        // showToast("Three");
-                        break;
-                    case 3:
-                        //showToast("four");
-                        break;
-                    case 4:
-                        //showToast("five");
-                        break;
-                    case 5:
-                        //showToast("six");
-                        break;
-                }
-            }
+                        viewPager.setCurrentItem(tab.getPosition());
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                        switch (tab.getPosition()) {
+                            case 0:
+                                // showToast("One");
+                                break;
+                            case 1:
+                                // showToast("Two");
 
-            }
+                                break;
+                            case 2:
+                                // showToast("Three");
+                                break;
+                            case 3:
+                                //showToast("four");
+                                break;
+                            case 4:
+                                //showToast("five");
+                                break;
+                            case 5:
+                                //showToast("six");
+                                break;
+                        }
+                    }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
 
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
             }
         });
-    }
 
+    }
+    public void getDbdetails(final String carid_rms, String service, final VolleyCallback callback)
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConfig.URL_RM_DATA, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject != null) {
+                        int len = jsonObject.length();
+                        status = jsonObject.getString("status");
+                        if (status.equals("true")) {
+
+                            callback.onSuccess(response);
+                        }
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(RunningMaintenanceHome.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                smLocalStore = new SMLocalStore(RunningMaintenanceHome.this);
+                // Posting parameters to login url
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("carid_rm", carid_rms);
+                params.put("rm_home", "rm_home");
+
+                return params;
+            }
+
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest, Strreq);
+
+
+
+    }
+    public interface VolleyCallback{
+        void onSuccess(String result);
+    }
             @Override
             public boolean onCreateOptionsMenu(Menu menu) {
                 getMenuInflater().inflate(R.menu.blank_menu, menu);
@@ -353,7 +419,7 @@ public class RunningMaintenanceHome extends AppCompatActivity {
                     }
 
                     final Context context = getContext();
-                    adapter = new SimpleRecyclerAdapter(service,id_for_view, getContext());
+                    adapter = new SimpleRecyclerAdapter(service,id_for_view,rm_response,getContext());
                     recyclerView.setAdapter(adapter);
                     return view;
                 }

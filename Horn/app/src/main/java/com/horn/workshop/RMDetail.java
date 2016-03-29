@@ -88,20 +88,20 @@ public class RMDetail extends AppCompatActivity {
 
         UserLocalStore userLocalStore=new UserLocalStore(this);
 
-        String latlng1=userLocalStore.getMylocationLatlog();
-
-
-
-
-        String[] ltlg = latlng1.split(",");
-        String ltlg1 = ltlg[0]; // 004
-        String ltlg2 = ltlg[1];
-
-        double d1=Double.parseDouble(ltlg1);
-        double d2=Double.parseDouble(ltlg2);
-
-
-        latLng1=new LatLng(d1,d2);
+//        String latlng1=userLocalStore.getMylocationLatlog();
+//
+//
+//
+//
+//        String[] ltlg = latlng1.split(",");
+//        String ltlg1 = ltlg[0]; // 004
+//        String ltlg2 = ltlg[1];
+//
+//        double d1=Double.parseDouble(ltlg1);
+//        double d2=Double.parseDouble(ltlg2);
+//
+//
+//        latLng1=new LatLng(d1,d2);
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
@@ -184,7 +184,7 @@ public class RMDetail extends AppCompatActivity {
                         coordLongitude=Double.parseDouble(part2);
                         latLng2 = new LatLng(coordLatitude, coordLongitude);
                         sw=new RMWorkshoplist();
-                       dist=sw.getDistance(latLng1,latLng2);
+//                       dist=sw.getDistance(latLng1,latLng2);
 
 
                         pic = R.drawable.workshop_sample;
@@ -274,9 +274,9 @@ if((category).equals("Authorised")) {category = "Exclusive"; }
         offday.setLetterSpacing(1);
 
         smLocalStore = new SMLocalStore(RMDetail.this);
-        float total = Float.parseFloat(smLocalStore.getService_total());
-        float Offer = Float.parseFloat(offers);
-         price_detail = total-((Offer/100)*total);
+//        float total = Float.parseFloat(smLocalStore.getService_total());
+//        float Offer = Float.parseFloat(offers);
+//         price_detail = total-((Offer/100)*total);
        // offer.setText("₹ "+String.valueOf(price));
 
         ratings.setText(rating);

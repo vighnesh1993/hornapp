@@ -38,7 +38,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
     private static RecyclerView recyclerView;
     private SMLocalStore smLocalStore;
     private static final String TAG = "SM_homekm";
-    public String[]  partner_ids,apmntids,dates,statuss,appointment_ons,price_totals;
+    public String[]  partner_ids,apmntids,dates,statuss,appointment_ons,price_totals,types;
     String strreqTAG = "apmntdetailTAG";
     ProfileAppoinmentAdapter adapter;
     public static ArrayList<ProfileappointmentData> apnmnt;
@@ -76,6 +76,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                             JSONArray status = jsonObject.getJSONArray("status");
                             JSONArray appointment_on = jsonObject.getJSONArray("appointment_on");
                             JSONArray price_total = jsonObject.getJSONArray("price_total");
+                            JSONArray type = jsonObject.getJSONArray("type");
 
                             partner_ids = new String[partner_id.length()];
                             apmntids = new String[apmntid.length()];
@@ -83,6 +84,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                             statuss = new String[status.length()];
                             appointment_ons = new String[appointment_on.length()];
                             price_totals = new String[price_total.length()];
+                            types = new String[type.length()];
 
                             for (int i = 0; i < partner_id.length(); i++) {
 
@@ -92,6 +94,7 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                                 statuss[i] = status.getString(i);
                                 appointment_ons[i] = appointment_on.getString(i);
                                 price_totals[i] = price_total.getString(i);
+                                types[i] = type.getString(i);
 
                                 apnmnt.add(new ProfileappointmentData(
                                         partner_ids[i],
@@ -99,7 +102,8 @@ public class ProfileMyAppoinmentList extends AppCompatActivity {
                                         dates[i],
                                         statuss[i],
                                         appointment_ons[i],
-                                        price_totals[i]
+                                        price_totals[i],
+                                        types[i]
                                 ));
                             }
 

@@ -24,6 +24,8 @@ import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -104,7 +106,8 @@ public class RMWorkshoplist extends AppCompatActivity implements  GoogleApiClien
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         userLocalStore = new UserLocalStore(this);
-
+        TextView offer = (TextView)findViewById(R.id.offerprice_list);
+//        offer.setVisibility(View.GONE);
         String latlng = userLocalStore.getMylocationLatlog();
  
 
@@ -140,48 +143,48 @@ public class RMWorkshoplist extends AppCompatActivity implements  GoogleApiClien
             try
             {
                 String[] parts = coordinateArray[i].split(",");
-                String part1 = parts[0]; // 004
-                String part2 = parts[1];
-                Log.e("part1 :",parts[0]);
-                Log.e("part2 :",parts[1]);
-
-                coordLatitude=Double.parseDouble(part1);
-                coordLongitude=Double.parseDouble(part2);
+//                String part1 = parts[0]; // 004
+//                String part2 = parts[1];
+//                Log.e("part1 :",parts[0]);
+//                Log.e("part2 :",parts[1]);
+//
+//                coordLatitude=Double.parseDouble(part1);
+//                coordLongitude=Double.parseDouble(part2);
             }
             catch (Exception e)
             {
                 Log.e("Exception :",""+e);
             }
 
-            String[] parts = coordinateArray[i].split(",");
-            String part1 = parts[0]; // 004
-            String part2 = parts[1];
+//            String[] parts = coordinateArray[i].split(",");
+//            String part1 = parts[0]; // 004
+//            String part2 = parts[1];
 
             //Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
 
             // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
 
-            coordLatitude=Double.parseDouble(part1);
-            coordLongitude=Double.parseDouble(part2);
-
-            latLng1 = new LatLng(coordLatitude, coordLongitude);
+//            coordLatitude=Double.parseDouble(part1);
+//            coordLongitude=Double.parseDouble(part2);
+//
+//            latLng1 = new LatLng(coordLatitude, coordLongitude);
 
             UserLocalStore userLocalStore=new UserLocalStore(this);
 
-            String latlng1=userLocalStore.getMylocationLatlog();
+//            String latlng1=userLocalStore.getMylocationLatlog();
 
 
 
 
-            String[] ltlg = latlng1.split(",");
-            String ltlg1 = ltlg[0]; // 004
-            String ltlg2 = ltlg[1];
+//            String[] ltlg = latlng1.split(",");
+//            String ltlg1 = ltlg[0]; // 004
+//            String ltlg2 = ltlg[1];
+//
+//            double ltt=Double.parseDouble(ltlg1);
+//            double lgg=Double.parseDouble(ltlg2);
+//            latLng=new LatLng(ltt,lgg);
 
-            double ltt=Double.parseDouble(ltlg1);
-            double lgg=Double.parseDouble(ltlg2);
-            latLng=new LatLng(ltt,lgg);
-
-            distance[i]=getDistance(latLng, latLng1);
+//            distance[i]=getDistance(latLng, latLng1);
              //Toast.makeText(getApplicationContext(),"distance:"+distance[i],Toast.LENGTH_LONG).show();
 
            // Toast.makeText(getApplicationContext(),"coordLatitude :"+coordLatitude+" coordLongitude :"+coordLongitude,Toast.LENGTH_LONG).show();
@@ -204,33 +207,33 @@ public class RMWorkshoplist extends AppCompatActivity implements  GoogleApiClien
         recyclerView.setAdapter(adapter);
     }
 
-    public String getDistance(LatLng origin, LatLng dest) {
-        Location l1=new Location("One");
-
-
-        l1.setLatitude(origin.latitude);
-        l1.setLongitude(origin.longitude);
-
-        Location l2=new Location("Two");
-        l2.setLatitude(dest.latitude);
-        l2.setLongitude(dest.longitude);
-
-        float distance=l1.distanceTo(l2);
-        String dist=distance+" M";
-
-        if(distance>1000.0f)
-        {
-            distance=distance/1000.0f;
-
-
-            DecimalFormat df = new DecimalFormat("#.##");
-            double di = Double.valueOf(df.format(distance));
-
-            dist=di+" KM";
-        }
-        return dist;
-
-    }
+//    public String getDistance(LatLng origin, LatLng dest) {
+//        Location l1=new Location("One");
+//
+//
+//        l1.setLatitude(origin.latitude);
+//        l1.setLongitude(origin.longitude);
+//
+//        Location l2=new Location("Two");
+//        l2.setLatitude(dest.latitude);
+//        l2.setLongitude(dest.longitude);
+//
+//        float distance=l1.distanceTo(l2);
+//        String dist=distance+" M";
+//
+//        if(distance>1000.0f)
+//        {
+//            distance=distance/1000.0f;
+//
+//
+//            DecimalFormat df = new DecimalFormat("#.##");
+//            double di = Double.valueOf(df.format(distance));
+//
+//            dist=di+" KM";
+//        }
+//        return dist;
+//
+//    }
     public void onStart() {
         super.onStart();
 
@@ -261,16 +264,16 @@ public class RMWorkshoplist extends AppCompatActivity implements  GoogleApiClien
         UserLocalStore userLocalStore=new UserLocalStore(this);
         // String mylatlog=userLocalStore.getMylocationLatlog();
 
-        String latlng1=userLocalStore.getMylocationLatlog();
-
-
-        String[] ltlg = latlng1.split(",");
-        String ltlg1 = ltlg[0]; // 004
-        String ltlg2 = ltlg[1];
-
-
-        currentLatitude=Double.parseDouble(ltlg1);
-        currentLongitude=Double.parseDouble(ltlg2);
+//        String latlng1=userLocalStore.getMylocationLatlog();
+//
+//
+//        String[] ltlg = latlng1.split(",");
+//        String ltlg1 = ltlg[0]; // 004
+//        String ltlg2 = ltlg[1];
+//
+//
+//        currentLatitude=Double.parseDouble(ltlg1);
+//        currentLongitude=Double.parseDouble(ltlg2);
 
         /*currentLatitude = location.getLatitude();
         currentLongitude = location.getLongitude();*/
@@ -283,7 +286,7 @@ public class RMWorkshoplist extends AppCompatActivity implements  GoogleApiClien
 
         smLocalStore.setSmwCurrentLatlng(""+currentLatitude,""+currentLongitude);
 
-        latLng = new LatLng(currentLatitude, currentLongitude);
+//        latLng = new LatLng(currentLatitude, currentLongitude);
 
 
         //latLng = new LatLng(8.499586,76.959026);

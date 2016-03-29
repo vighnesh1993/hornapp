@@ -120,17 +120,17 @@ public class RMAdapter extends RecyclerView.Adapter<RMAdapter.MyViewHolder> {
         final TextView rating1 = holder.Rating;
         TextView dis1 = holder.Distance;
         smLocalStore = new SMLocalStore(context);
-        float total = Float.parseFloat(smLocalStore.getService_total());
-        float Offer = Float.parseFloat(workshopDataSet.get(listPosition).getOffer());
-        float price = total-((Offer/100)*total);
+//        float total = Float.parseFloat(smLocalStore.getService_total());
+//        float Offer = Float.parseFloat(workshopDataSet.get(listPosition).getOffer());
+//        float price = total-((Offer/100)*total);
         name1.setText(workshopDataSet.get(listPosition).getName());
         address1.setText(workshopDataSet.get(listPosition).getAddress());
         phone1.setText(workshopDataSet.get(listPosition).getPhone());
         category1.setText(workshopDataSet.get(listPosition).getCategory());
         dis1.setText(workshopDataSet.get(listPosition).getDistance());
+offer1.setVisibility(View.INVISIBLE);
 
-
-        offer1.setText("₹" + String.valueOf(price));
+//        offer1.setText("₹" + String.valueOf(price));
 
        int start = Integer.parseInt(workshopDataSet.get(listPosition).getOffday());
        int end = Integer.parseInt(workshopDataSet.get(listPosition).getOffday())+1;
