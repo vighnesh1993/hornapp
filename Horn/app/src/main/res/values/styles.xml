@@ -84,4 +84,47 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+    <style name="MenuButtonsSmall">
+        <item name="fab_size">mini</item>
+        <item name="fab_colorNormal">#1565C0</item>
+        <item name="fab_colorPressed">#2272CD</item>
+        <item name="fab_colorRipple">#62B2FF</item>
+    </style>
+
+    <style name="MenuButtonsSmall.Accent">
+        <item name="fab_colorNormal">#FFBE05</item>
+        <item name="fab_colorPressed">#c79403</item>
+        <item name="fab_colorRipple">#846201</item>
+    </style>
+    <style name="MenuButtonsSmall.Accident">
+        <item name="fab_colorNormal">#c0392b</item>
+        <item name="fab_colorPressed">#a62c20</item>
+        <item name="fab_colorRipple">#911723</item>
+    </style>
+    <style name="MenuButtonsSmall.Key">
+        <item name="fab_colorNormal">#19964e</item>
+        <item name="fab_colorPressed">#1c9e2f</item>
+        <item name="fab_colorRipple">#158e48</item>
+    </style>
+    <style name="MenuButtonsSmall.Starting">
+        <item name="fab_colorNormal">#2980b9</item>
+        <item name="fab_colorPressed">#1e6da1</item>
+        <item name="fab_colorRipple">#165e8e</item>
+    </style>
+    <style name="MenuButtonsSmall.Towing">
+        <item name="fab_colorNormal">#8e44ad</item>
+        <item name="fab_colorPressed">#793496</item>
+        <item name="fab_colorRipple">#62267b</item>
+    </style>
+    <style name="MenuButtonsSmall.Fuel">
+        <item name="fab_colorNormal">#e73870</item>
+        <item name="fab_colorPressed">#c42f5e</item>
+        <item name="fab_colorRipple">#a41c48</item>
+    </style>
+    <style name="MenuButtonsSmall.Puncture">
+        <item name="fab_colorNormal">#f39c12</item>
+        <item name="fab_colorPressed">#c47f11</item>
+        <item name="fab_colorRipple">#af700c</item>
+    </style>
 </resources>

@@ -1,5 +1,11 @@
 package com.horn.workshop;
 
+<<<<<<< HEAD
+=======
+import android.app.ActionBar;
+
+import android.annotation.TargetApi;
+>>>>>>> master
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
