@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    android:orientation="vertical">
+
+    <!--<include
+        android:id="@+id/my_tool_bar"
+        layout="@layout/my_tool_bar" />-->
+
+        <LinearLayout
+            android:id="@+id/sm_serv"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/my_tool_bar"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:background="@drawable/rounded_cor_white_bg"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:theme="@style/AppTheme">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="10dp"
+                    android:id="@+id/choosecar"
+                    android:paddingBottom="10dp">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:tint="@color/primary_text"
+                        android:src="@drawable/ic_directions_car_black_48dp"
+                        android:layout_marginRight="@dimen/abc_action_bar_overflow_padding_start_material"
+                        android:id="@+id/imageView3" />
+                    <!--<View-->
+                        <!--android:layout_width="2dp"-->
+                        <!--android:layout_height="fill_parent"-->
+                        <!--android:background="#60000000" />-->
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:text="Choose Your Car"
+                        android:layout_weight="0.5"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <!--<Spinner-->
+                    <!--android:id="@+id/vehicle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawingCacheQuality="high"-->
+                    <!--android:background="@android:drawable/btn_dropdown"-->
+                    <!--android:spinnerMode="dialog" />-->
+                <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/vehicle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="horizontal">
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/sm_service1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:visibility="gone"
+                    android:background="@drawable/rounded_cor_white_bg"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_menu_speed"
+
+                            android:id="@+id/imageKm"
+                            android:layout_marginRight="@dimen/abc_action_bar_overflow_padding_start_material" />
+                        <!--<View-->
+                        <!--android:layout_width="2dp"-->
+                        <!--android:layout_height="fill_parent"-->
+                        <!--android:background="#60000000" />-->
+                        <TextView
+                            android:id="@+id/textKm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_text"
+                            android:text="Select Kilo Meter"
+                            android:layout_weight="0.5"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/sm_service"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+                    </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+
+
+        </LinearLayout>
+    </RelativeLayout>

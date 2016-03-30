@@ -11,6 +11,26 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.trinitypush.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.BROADCAST_SMS" />
+    <uses-permission android:name="android.permission.GPS_ENABLED_CHANGE" />
+    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <permission android:name="android.permission.ACTION_CALL" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="app.AppController"
@@ -18,6 +38,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -41,7 +62,15 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="activity.PagerActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name="activity.ChoiceLogin"
             android:label="@string/app_name"
@@ -64,6 +93,116 @@
         <activity
             android:name="activity.OtpVerification"
             android:theme="@style/AppTheme.CustomePopUpTheme" />
+        <activity
+            android:name=".ScheduledMaintenanaceHome"
+            android:label="@string/label_sm"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceDesc"
+            android:label="@string/app_sm_desc"
+            android:parentActivityName=".ScheduledMaintenanaceHome"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanaceHome" />
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceService"
+            android:label="@string/app_sm_servicelbl"
+            android:parentActivityName=".ScheduledMaintenanceDesc"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceDesc" />
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceWorkshoplist"
+            android:label="@string/app_sm_wrkshops"
+            android:parentActivityName=".ScheduledMaintenanceService"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceService" />
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceDetail"
+            android:label="Workshop Details"
+            android:theme="@style/AppTheme.Light.TranslucentActionBar">
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceAppointment"
+            android:label="Appointment"
+            android:parentActivityName=".ScheduledMaintenanceAppointment"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceAppointment" />
+        </activity>
+		<activity
+            android:name=".RMWorkshoplist"
+            android:label="@string/app_sm_wrkshops"
+            android:parentActivityName=".RunningMaintenanceHome"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RunningMaintenanceHome" />
+        </activity>
+        <activity
+            android:name=".RMDetail"
+            android:label="Workshop Details"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RMAppointment" />
+        </activity>
+        <activity
+            android:name=".RMAppointment"
+            android:label="Appointment"
+            android:parentActivityName=".RMAppointment"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RMAppointment" />
+        </activity>
+        <activity
+            android:name=".ProfileMyAppoinmentList"
+            android:label="My Appointments"
+            android:parentActivityName=".ProfileMyAppoinmentList">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileMyAppoinmentList" />
+        </activity>
+        <activity
+            android:name=".ProfileAppointmentDetail"
+            android:label="My Appointments"
+            android:parentActivityName=".ProfileAppointmentDetail">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileAppointmentDetail" />
+        </activity>
+        <activity
+            android:name=".ProfileAddCar"
+            android:label="Add Car"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:parentActivityName=".ProfileAddCar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProfileAddCar" />
+        </activity>
+        <activity
+            android:name=".MyCarDetail"
+            android:label="My Car"
+            android:parentActivityName=".MyCarDetail"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <!-- SMS Receiver -->
         <receiver android:name="receiver.SmsReceiver">
             <intent-filter android:priority="99999">
@@ -85,7 +224,99 @@
         <activity
             android:name="activity.ChangePassword"
             android:theme="@style/AppTheme.CustomePopUpTheme" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".MapsActivity"
+            android:label="Routing"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".BodyPaintingGallery"
+            android:label="Gallery" />
+        <activity
+            android:name=".BodyPaintingHome"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".MainActivity"
+            android:label="BodyPaintingHome"
+            android:theme="@style/AppTheme.CustomBarTheme"
+
+            >
+
+        </activity>
+        <activity
+            android:name=".BodyPaintingCapture"
+            android:label="Capture" />
+        <activity
+            android:name=".BodyPaintingGalleryUpload"
+            android:label="Upload" />
+        <activity
+            android:name=".UploadChoice"
+            android:label="Choice" />
+
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".PlacesAutoCompleteActivity"
+            android:label="@string/label_sm"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="activity.MyCars"
+            android:label="@string/label_my_cars"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="activity.AddCar"
+            android:label="@string/label_add_car"
+            android:parentActivityName="activity.AddCar"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="activity.AddCar" />
+        </activity>
+        <activity
+            android:name=".ScheduledMaintenanceScreen"
+            android:label="Scheduled Maintenance"
+            android:parentActivityName=".ScheduledMaintenanceScreen"
+            android:theme="@style/AppTheme.CustomBarTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ScheduledMaintenanceScreen" />
+        </activity>
+        <activity
+            android:name=".ChooseLocation"
+            android:label="@string/title_activity_choose_location"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".RunningMaintenanceHome"
+            android:label="Running Maintenance"
+            android:theme="@style/AppTheme.CustomBarTheme"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

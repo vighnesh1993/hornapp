@@ -1,0 +1,148 @@
+<!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/off_white"
+    android:fitsSystemWindows="true"
+    tools:context="com.horn.workshop.MapsActivity">-->
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignTop="@+id/lll"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.horn.workshop.MapsActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<include-->
+            <!--layout="@layout/app_bar_main2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+
+    </RelativeLayout>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        tools:context="com.horn.workshop.MapsActivity"
+        android:layout_above="@+id/lll" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_logggo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:id="@+id/lll"
+       >
+        <LinearLayout android:layout_height="2dp"
+            android:layout_width="match_parent"
+            android:background="@color/primary"
+            />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/llll">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:padding="5dp"
+            android:textColor="@color/primary_text"
+            android:id="@+id/wname"
+            android:text="SRI SAI AUTO MOTIVES"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="5dp"
+            android:textSize="17sp" />
+
+       <!-- <TextView
+            android:id="@+id/ratg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:text="5"
+
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="end"
+            android:textAlignment="inherit"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold" />-->
+
+
+
+        <TextView
+            android:id="@+id/ratg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:textAlignment="inherit"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="10dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:id="@+id/waddres"
+            android:text="Thiruvananthapuram, the capital of Kerala rtrfefreferf 4rf4rfe  4tg5yh5tgrtg tyhgtyhtg "
+            android:password="false"
+            android:layout_margin="5dp" />
+
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:id="@+id/getdir"
+            android:background="@color/accent"
+            android:paddingRight="20dp"
+            android:paddingStart="10dp"
+            android:drawableEnd="@drawable/ic_directions_black_24dp"
+           android:text="Get Direction"
+            android:textAllCaps="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:textAlignment="viewStart"/>
+    </LinearLayout>
+
+</RelativeLayout>
+
+    <!--
+
+    </android.support.design.widget.CoordinatorLayout>-->
+

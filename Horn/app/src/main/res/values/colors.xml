@@ -8,12 +8,14 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="button_default">#d9d9d9</color>
 
     <color name="blue_grey_500">#607D8B</color>
     <color name="blue_grey_600">#546E7A</color>
     <color name="blue_grey_700">#455A64</color>
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
+
 
     <color name="horn_login_button">#0a4366</color>
     <color name="horn_login_button_pressed">#FF02395B</color>
@@ -24,6 +26,35 @@
     <color name="off_white">#e2e2e2</color>
     <color name="photo_tint">#88101010</color>
     <color name="service_count_txt">#64f6e8</color>
+    <color name="todeletec">#64f6e8</color>
+    <color name="icon_tint">#44101010</color>
+    <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
+    <color name="rating_0">#dc3131</color>
+    <color name="rating_0.5">#e65421</color>
+    <color name="rating_1">#ff7b05</color>
+    <color name="rating_1.5">#ffaa05</color>
+    <color name="rating_2">#ffc705</color>
+    <color name="rating_2.5">#c1c803</color>
+    <color name="rating_3">#c1c803</color>
+    <color name="rating_3.5">#9ab711</color>
+    <color name="rating_4">#6ec803</color>
+    <color name="rating_4.5">#5ca702</color>
+    <color name="rating_5">#0bac3c</color>
+    <color name="button_selected">#FFC69201</color>
+<<<<<<< HEAD
+    <color name="transparent_0">#00101010</color>
+    <color name="gallery_check_bg">#963f51b5</color>
+=======
+
+    <color name="transparent_0">#00101010</color>
+    <color name="gallery_check_bg">#963f51b5</color>
+
+>>>>>>> master
+    <color name="black_trans80">#14000000</color>
+    <color name="cyan">#00BCD4</color>
+    <color name="green">#4CAF50</color>
+    <color name="orange">#FF9800</color>
+    <color name="indicator_unselected">#4D000000</color>
 
 
 </resources>

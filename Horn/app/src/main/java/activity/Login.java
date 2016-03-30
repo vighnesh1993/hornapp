@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -17,10 +18,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.horn.workshop.ChooseLocation;
 import com.horn.workshop.MainActivity;
 import com.horn.workshop.R;
 import com.horn.workshop.UserLocalStore;
@@ -71,6 +76,13 @@ public class Login extends AppCompatActivity {
 
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
+
+        //TODO: Remove before push the code *Start
+//
+//        inputPassword.setText("aneeshkp");
+//        inputEmail.setText("aneeshkp1990@gmail.com");
+
+        //Remove before push the code *end
 
         loginBtn = (Button) findViewById(R.id.btn_login);
 
@@ -191,13 +203,9 @@ public class Login extends AppCompatActivity {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
 
-                    // Check for error node in json
                     if (!error) {
-                        // user successfully logged in
-                        // Create login session
-                        userLocalStore.setUserLoggedIn(true);
 
-                        // Now store the user in SQLite
+                        userLocalStore.setUserLoggedIn(true);
                         String uid = jObj.getString("uid");
 
                         JSONObject user = jObj.getJSONObject("user");
@@ -206,13 +214,26 @@ public class Login extends AppCompatActivity {
                         String phone = user.getString("phone");
                         String created_at = user.getString("created_at");
 
-                        // Inserting row in users table
-                        db.addUser(name, email, phone, uid, created_at);
-                        //db.updateUser(name, email, phone, uid, created_at);
 
-                        // Launch main activity
-                        startActivity(new Intent(Login.this, MainActivity.class));
-                        finish();
+                        db.addUser(name, email, phone, uid, created_at);
+
+                        if(getGpsStatus()){
+                            userLocalStore.setManualLocation("");
+                            Toast.makeText(getApplicationContext(),"getMyManuallocationLatlog: "+userLocalStore.getMyManuallocationLatlog(),Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(Login.this, ChooseLocation.class));
+                            finish();
+
+                        }else {
+                            userLocalStore.setMyManuallocationLatlog("");
+                            Toast.makeText(getApplicationContext(),"getMyManuallocationLatlog: "+userLocalStore.getMyManuallocationLatlog(),Toast.LENGTH_SHORT).show();
+
+                            userLocalStore.setManualLocation("");
+                            startActivity(new Intent(Login.this, MainActivity.class));
+
+                            //startActivity(new Intent(Login.this, ChooseLocation.class));
+                        }
+
                     } else {
                         // Error in login. Get the error message
                         String errorMsg = jObj.getString("error_msg");
@@ -232,7 +253,7 @@ public class Login extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Login Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
+                        "No Network Connection", Toast.LENGTH_LONG).show();
                 hideDialog();
             }
         }) {
@@ -248,8 +269,11 @@ public class Login extends AppCompatActivity {
             }
 
         };
-
-        // Adding request to request queue
+        AppController.getInstance().cancelPendingRequests("REQTAG");
+        strReq.setTag("REQTAG");
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        strReq.setRetryPolicy(policy);
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
@@ -261,5 +285,12 @@ public class Login extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
+    }
+
+    private boolean getGpsStatus(){
+
+        String provider = Settings.Secure.getString(getContentResolver(),
+                Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        return provider.equals("");
     }
 }

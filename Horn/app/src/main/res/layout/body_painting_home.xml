@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_cor_white_bg"
+    android:fitsSystemWindows="true"
+    tools:context="com.horn.workshop.scheduled_maintenance_desc">
+
+    <include
+        android:id="@+id/my_tool_bar"
+        layout="@layout/my_tool_bar" />
+
+
+    <LinearLayout
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:background="@color/off_white"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:background="@color/wallet_hint_foreground_holo_dark"
+            android:layout_height="wrap_content">
+
+           <!-- <Button
+                android:id="@+id/gallery"
+                android:drawableLeft="@drawable/gallery_choose"
+
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@color/accent"
+                android:text="Choose from Gallery"
+                />-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="#f3e283"
+                android:gravity="center"
+                android:id="@+id/gallery"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:id="@+id/choosegal"
+                    android:src="@drawable/bpgallery"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textAllCaps="true"
+                    android:layout_margin="5dp"
+                    android:layout_toEndOf="@+id/choosegal"
+                    android:text="Choose from gallery"/>
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/icons"
+            android:id="@+id/gimage"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+            <GridView
+                android:id="@+id/gridviewimg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnWidth="90dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:verticalSpacing="2dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/liner_for_grid"
+            android:background="@color/off_white"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/defaultimgl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/gallery"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_above="@+id/rel"
+                android:background="@color/icons"
+                android:orientation="vertical"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/japan"
+                android:layout_marginTop="10dp">
+
+
+                <ImageView
+                    android:id="@+id/defaultimg"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/bpcam"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Take maximum 5 photos of your car body"
+                    android:id="@+id/textView5"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/defaultimg"
+                    android:layout_centerHorizontal="true" />
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight=".5"
+            android:background="@color/icons"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:focusableInTouchMode="true"
+
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:background="@null"
+                android:id="@+id/send_qt"
+                android:hint="Description..." />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:background="@color/wallet_hint_foreground_holo_dark"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/send_quotes"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_width="match_parent"
+                android:textSize="16sp"
+                android:background="@drawable/nor_button_bg"
+                android:text="SEND QUOTES" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

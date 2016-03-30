@@ -22,5 +22,20 @@
         android:orderInCategory="100"
         android:title="Rate App"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/LocMap"
+        android:orderInCategory="100"
+        android:title="Map"
+        app:showAsAction="never" />
+    <!--<item
+        android:id="@+id/action_compass"
+        android:icon="@drawable/ic_explore_white_24dp"
+        android:title="Current Location"
+        app:showAsAction="ifRoom" />-->
 
+    <item
+        android:id="@+id/action_choose_loc"
+        android:icon="@drawable/ic_location_on_white_24dp"
+        android:title="Choose Location"
+        app:showAsAction="ifRoom" />
 </menu>

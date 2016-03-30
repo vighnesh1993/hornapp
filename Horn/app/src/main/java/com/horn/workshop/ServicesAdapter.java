@@ -2,6 +2,7 @@ package com.horn.workshop;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,12 +57,14 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         public TextView servicesName;
         public TextView servicesCount;
         public ImageView servicesImage;
+        public android.support.v7.widget.CardView container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             servicesName = (TextView) itemView.findViewById(R.id.servicesName);
             servicesCount = (TextView) itemView.findViewById(R.id.servicesCount);
             servicesImage = (ImageView) itemView.findViewById(R.id.countryImage);
+            container = (CardView) itemView.findViewById(R.id.item_container);
         }
 
     }

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="home_activities">
+        <item>FAB &amp; Toolbar Animation</item>
+        <item>Transparent Toolbar Test</item>
+        <item>Navigation Drawer</item>
+        <item>Toolbar Animation with Image</item>
+        <item>Material Style Tabs</item>
+        <item>Card View Toolbar</item>
+        <item>Quick Return Pattern</item>
+        <item>Reveal Animation</item>
+        <item>Gmail Style List</item>
+        <item>Introductory View Pager</item>
+
+
+    </string-array>
+
+    <string-array name="home_activities_subtitle">
+    <item>G+ like on scroll hide animation</item>
+    <item>Overlaid transparent Toolbar</item>
+    <item>Material Design drawer with scrim</item>
+    <item>Using the new Support Design Library</item>
+    <item>Tab strip with Design Support Lib</item>
+    <item>Nested Toolbar in card</item>
+    <item>UI Pattern using Design Support Lib</item>
+    <item>Circular Reveal for pre Lollipop</item>
+    <item>Colored list icons</item>
+    <item>Google style product tour</item>
+
+</string-array>
+    <string-array name="wheel_services">
+        <item>Wheel Alignment</item>
+        <item>Wheel Balancing</item>
+        <item>Tyre Puncher</item>
+        <item>Using the new Support Design LibraryUsing the new Support Design Library</item>
+        <item>Steering wheel vibrates on high speed Using the new Support Design Library</item>
+        <item>Using the new Support Design LibraryUsing the new Support Design Library</item>
+        <item>Steering wheel vibrates on high speed Using the new Support Design Library</item>
+    </string-array>
+
+    <string-array name="price">
+        <item>2347</item>
+        <item>3547</item>
+        <item>124</item>
+        <item>8746</item>
+        <item>1257</item>
+        <item>8746</item>
+        <item>1257</item>
+    </string-array>
+
+    <string-array name="quantity">
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+    </string-array>
+
+    <string-array name="electrical_services">
+        <item>Wiper not working</item>
+        <item>Wiper Blade replacement</item>
+        <item>Horn Replacement</item>
+        <item>Headlight Bulb Replacement</item>
+        <item>Headlight focussing</item>
+    </string-array>
+    <string-array name="bs_services">
+        <item>Front suspension replacement</item>
+        <item>Rear suspension replacement</item>
+        <item>Front suspension noise</item>
+        <item>Front Noise on rough road</item>
+        <item>Noise while applying Brake</item>
+    </string-array>
+    <string-array name="trans_services">
+        <item>Clutch Hard</item>
+        <item>Low Clutch</item>
+        <item>Low Pick-up</item>
+        <item>Gear shifting Hard</item>
+        <item>Less pick-up and pulling</item>
+    </string-array>
+    <string-array name="engine_services">
+        <item>Low mileage</item>
+        <item>Engine rough noise</item>
+        <item>Oil leak from engine</item>
+        <item>Overheating</item>
+        <item>Dummy</item>
+    </string-array>
+    <string-array name="body_services">
+        <item>Noise on Rough Road</item>
+        <item>All door setting</item>
+        <item>Front Bumber refitting</item>
+        <item>Rear Bumber refitting</item>
+        <item>Dummy</item>
+    </string-array>
+</resources>

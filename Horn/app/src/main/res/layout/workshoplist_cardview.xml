@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/workshop_list"
+        android:layout_width="match_parent"
+        android:layout_height="370dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        card_view:cardCornerRadius="5dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:contextClickable="false">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layt1">
+
+                <ImageView
+                    android:id="@+id/workshopdetail_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/horn_toload"
+                    android:scaleType="centerCrop"
+                    android:tint="@color/photo_tint"
+                    android:contentDescription="Loading..." />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:textAlignment="inherit"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="10dp" />
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:text="Autthorised"
+                    android:id="@+id/workshopdetail_category"
+                    android:gravity="center"
+                    android:background="@drawable/bg_for_authorised"
+                    android:textColor="@color/com_facebook_share_button_text_color"
+                    android:layout_alignBottom="@+id/workshopdetail_photo"
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="10dp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_alignBottom="@+id/workshopdetail_category"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/workshopdetail_category"
+                    android:gravity="right"
+                    android:layout_marginRight="10dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_room_black_48dp"
+                        android:id="@+id/imageKm"
+                        android:tint="@color/icons"
+                        android:layout_alignTop="@+id/workshopdetail_category"
+                        android:layout_toStartOf="@+id/ws_distance" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="244.45 km"
+                        android:layout_gravity="center"
+                        android:id="@+id/ws_distance"
+                        android:gravity="center"
+                        android:textColor="@color/icons"
+                        />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="10dp"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:weightSum="1">
+
+
+                <TextView
+                    android:id="@+id/workshop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="loading..."
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="17dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="left|start"
+                   />
+
+                    <TextView
+                        android:id="@+id/offerprice_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="loading.."
+                         android:layout_gravity="right|end"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginTop="-25dp"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="17dp"
+                        android:padding="3dp"
+                        android:textStyle="bold"
+                        />
+
+
+
+                <TextView
+                    android:id="@+id/workshop_address"
+                    android:text="Loading..."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="11dp"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/workshop_offday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="17dp"
+                    android:text="Loading..."
+                    android:layout_marginTop="15dp"
+                    android:textIsSelectable="false"
+                     android:layout_gravity="left"
+          />
+
+                <TextView
+                    android:id="@+id/workshop_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="21dp"
+                    android:text="+919745023134"
+                    android:textIsSelectable="false"
+                    android:layout_marginTop="-20dp"
+                     android:layout_gravity="right"
+                    />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

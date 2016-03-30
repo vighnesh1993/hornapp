@@ -2,18 +2,10 @@ package com.horn.workshop;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
-import android.util.Log;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
-import com.facebook.Profile;
-
-import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 /**
@@ -37,7 +29,19 @@ public class UserLocalStore {
         pref = _context.getSharedPreferences(SP_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+    public void setUserFirstTime(boolean firstTime) {
+        editor.putBoolean("firsttime", firstTime);
+        editor.commit();
 
+    }
+
+    public boolean getUserFirstTime() {
+        if (pref.getBoolean("firsttime", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public void setUserLoggedIn(boolean loggedIn) {
         editor.putBoolean("loggedIn", loggedIn);
         editor.commit();
@@ -77,6 +81,7 @@ public class UserLocalStore {
             return false;
         }
     }
+
     public boolean getGuestUserLoggedIn() {
         if (pref.getBoolean("gstLoggedIn", false)) {
             return true;
@@ -159,29 +164,126 @@ public class UserLocalStore {
         user.put("email", pref.getString("guestEmail", null));
         return user;
     }
-    public void storeUserForPasswordChange(String email, String phone){
+
+    public void storeUserForPasswordChange(String email, String phone) {
         editor.putString("fpUserEmail", email);
         editor.putString("fpUserPhone", phone);
         editor.commit();
     }
 
-    public HashMap<String,String> getUserForPasswordChange(){
+    public HashMap<String, String> getUserForPasswordChange() {
         HashMap<String, String> user = new HashMap<String, String>();
         user.put("fpUserEmail", pref.getString("fpUserEmail", null));
         user.put("fpUserPhone", pref.getString("fpUserPhone", null));
         return user;
     }
 
-    public void setUserRequestForChangePassword(boolean requsted){
+    public void setUserRequestForChangePassword(boolean requsted) {
         editor.putBoolean("passwordRequest", requsted);
         editor.commit();
     }
+
     public boolean getUserRequestForChangePassword() {
         if (pref.getBoolean("passwordRequest", false)) {
             return true;
         } else {
             return false;
         }
+    }
+    public void setManualLocationLatlong(String mLatlong) {
+        editor.putString("mLatLong", mLatlong);
+        editor.commit();
+    }
+    public String getManualLocationLatlong() {
+        return pref.getString("mLatLong","");
+    }
+    public void setManualLocation(String mLocation) {
+        editor.putString("mLocation", mLocation);
+        editor.commit();
+    }
+
+    public String getManualLocation() {
+        return pref.getString("mLocation","");
+    }
+    public boolean getManualLocationChoosen() {
+        if (pref.getBoolean("gLchoosen", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void setManualLocationChoosen(boolean mLocation) {
+        editor.putBoolean("gLchoosen", mLocation);
+        editor.commit();
+
+    }
+    public void setMylocationLatlog(String myLocation) {
+        editor.putString("myLocation", myLocation);
+        editor.commit();
+
+    }public void setMyManuallocationLatlog(String mymLocation) {
+        editor.putString("mymLocation", mymLocation);
+        editor.commit();
+
+    }public String getMyManuallocationLatlog() {
+        return pref.getString("mymLocation", "");
+
+    }public String getMylocationLatlog() {
+        return pref.getString("myLocation","");
+
+    }
+
+
+    public void setGPSLatlong(String mLatlong) {
+        editor.putString("mGpsLatLong", mLatlong);
+        editor.commit();
+    }
+    public void setGridImages(String gimages) {
+        editor.putString("gimages", gimages);
+        editor.commit();
+    }public String getGridImages() {
+        return pref.getString("gimages","");
+    }
+    public String getGPSLatlong() {
+        return pref.getString("mGpsLatLong","");
+    }
+
+    public boolean getPlaceActivityGPS() {
+        if (pref.getBoolean("placegps", false)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void setPlaceActivityGPS(boolean placeGps) {
+        editor.putBoolean("placegps", placeGps);
+        editor.commit();
+    }
+
+    public void setindicator(boolean placeGps) {
+        editor.putBoolean("indicator", placeGps);
+        editor.commit();
+    }public void setBpquotes(String quotes) {
+        editor.putString("quotes", quotes);
+        editor.commit();
+    }public String getBpquotes() {
+        return  (pref.getString("quotes",""));
+    }
+    public boolean getindicator() {
+
+        if (pref.getBoolean("indicator", false)) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+    public static Drawable tintMyDrawable(Drawable drawable, int color) {
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, color);
+        DrawableCompat.setTintMode(drawable, PorterDuff.Mode.SRC_IN);
+        return drawable;
     }
 }
 
