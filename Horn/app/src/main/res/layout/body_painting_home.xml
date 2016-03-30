@@ -26,7 +26,7 @@
             android:background="@color/wallet_hint_foreground_holo_dark"
             android:layout_height="wrap_content">
 
-            <Button
+           <!-- <Button
                 android:id="@+id/gallery"
                 android:drawableLeft="@drawable/gallery_choose"
 
@@ -34,8 +34,44 @@
                 android:layout_width="match_parent"
                 android:background="@color/accent"
                 android:text="Choose from Gallery"
-                />
+                />-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:background="#f3e283"
+                android:gravity="center"
+                android:id="@+id/gallery"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="5dp"
+                    android:id="@+id/choosegal"
+                    android:src="@drawable/bpgallery"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textAllCaps="true"
+                    android:layout_margin="5dp"
+                    android:layout_toEndOf="@+id/choosegal"
+                    android:text="Choose from gallery"/>
+
+
+            </RelativeLayout>
+
+
+
         </LinearLayout>
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:background="@color/icons"
@@ -86,11 +122,10 @@
 
                 <ImageView
                     android:id="@+id/defaultimg"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_camera_alt_black_18dp"
-                    android:tint="@color/wallet_hint_foreground_holo_dark"
+                    android:src="@drawable/bpcam"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true" />
 
@@ -99,6 +134,7 @@
                     android:layout_height="wrap_content"
                     android:text="Take maximum 5 photos of your car body"
                     android:id="@+id/textView5"
+                    android:layout_marginTop="10dp"
                     android:layout_below="@+id/defaultimg"
                     android:layout_centerHorizontal="true" />
 
@@ -120,13 +156,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:ems="10"
-                android:maxHeight="200dp"
+                android:focusableInTouchMode="true"
+
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:background="@null"
                 android:id="@+id/send_qt"
-                android:hint="Description/Quotes to send..." />
+                android:hint="Description..." />
         </LinearLayout>
 
 
@@ -138,8 +174,10 @@
             <Button
                 android:id="@+id/send_quotes"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
                 android:layout_width="match_parent"
-                android:background="@color/accent"
+                android:textSize="16sp"
+                android:background="@drawable/nor_button_bg"
                 android:text="SEND QUOTES" />
         </LinearLayout>
 

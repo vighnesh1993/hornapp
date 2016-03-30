@@ -218,20 +218,16 @@ public class BodyPaintingGalleryUpload extends AppCompatActivity {
             }) {
                 @Override
                 protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> params = new HashMap<String, String>();
+
+                    Map<String, String> params = new HashMap<String,String>();
                     params.put("encoded_string",en);
-                    params.put("descgalupload", descgalupload);
+                    params.put("descgalupload",descgalupload);
                     return params;
                 }
             };
-            // Adding request to request queue
-        strReq.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-            AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        strReq.setRetryPolicy(new DefaultRetryPolicy(30000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
 
     }
 

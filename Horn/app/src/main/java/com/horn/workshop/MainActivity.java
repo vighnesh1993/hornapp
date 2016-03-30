@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private android.support.v7.app.ActionBar ab;
     String subLocality = "";
 
+    FloatingActionMenu materialDesignFAM;
+    com.github.clans.fab.FloatingActionButton floatingActionButton1, floatingActionButton2, floatingActionButton3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,19 +98,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         userLocalStore = new UserLocalStore(this);
         userLocalStore.setMylocationLatlog(userLocalStore.getMyManuallocationLatlog());
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundColor(Color.BLACK);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View view) {
-                fab.getDrawable().mutate().setTint(Color.WHITE);
-                Snackbar.make(view, "" +
-                        "Hey! I am Emergency Coming Soon.. :)", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setBackgroundColor(Color.BLACK);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @TargetApi(Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(View view) {
+//                fab.getDrawable().mutate().setTint(Color.WHITE);
+//                Snackbar.make(view, "" +
+//                        "Hey! I am Emergency Coming Soon.. :)", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//
+//            }
+//        });
 
+        materialDesignFAM = (FloatingActionMenu) findViewById(R.id.material_design_android_floating_action_menu);
+        floatingActionButton1 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item1);
+        floatingActionButton2 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item2);
+        floatingActionButton3 = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.material_design_floating_action_menu_item3);
+/*
+        FloatingActionButton ffg = (FloatingActionButton) materialDesignFAM.getParent();
+        ffg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "" +
+                       "Hey! I am Emergency Coming Soon.. :)", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-        });
+        });*/
 
         ab = getSupportActionBar();
         String mLocation = userLocalStore.getManualLocation();
@@ -159,14 +178,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             //Toast.makeText(getApplicationContext(),"Scheduled Maintenance : " +position,Toast.LENGTH_LONG).show();
                         } else if (position == 1) {
                             Toast.makeText(getApplicationContext(), "Running Maintenance : " + position, Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(MainActivity.this,RunningMaintenanceHome.class));
+                            startActivity(new Intent(MainActivity.this, RunningMaintenanceHome.class));
                         } else if (position == 2) {
                             //Toast.makeText(getApplicationContext(), "Body and Painting : " + position, Toast.LENGTH_LONG).show();
                             smLocalStore.clearBpimages();
                             smLocalStore.clrbpDescription();
-
-
-
 
 
                             File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridViewDemo/");
@@ -181,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 smLocalStore.clearBpimages();
 
                             }
-                            userLocalStore=new UserLocalStore(MainActivity.this);
+                            userLocalStore = new UserLocalStore(MainActivity.this);
                             userLocalStore.setGridImages("");
                             userLocalStore.setBpquotes("");
                             Intent in = new Intent(MainActivity.this, BodyPaintingHome.class);
@@ -198,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         sqLiteHandler = new SQLiteHandler(this);
 
+
         if (userLocalStore.getGoogleUserLoggedIn()) {
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
@@ -207,8 +224,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                     .build();
         }
+        floatingActionButton1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu first item clicked
 
+            }
+        });
+        floatingActionButton2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu second item clicked
 
+            }
+        });
+        floatingActionButton3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO something when floating action menu third item clicked
+
+            }
+        });
     }
 
     private void handleNewLocation(Location location) {
