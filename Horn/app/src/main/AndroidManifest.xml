@@ -188,6 +188,7 @@
         <activity
             android:name=".ProfileAddCar"
             android:label="Add Car"
+            android:theme="@style/AppTheme.CustomBarTheme"
             android:parentActivityName=".ProfileAddCar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

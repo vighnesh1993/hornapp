@@ -1,16 +1,19 @@
 package com.horn.workshop;
 
+<<<<<<< HEAD
+=======
 import android.app.ActionBar;
 
 import android.annotation.TargetApi;
+>>>>>>> master
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -33,10 +36,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.maps.model.LatLng;
-import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +46,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import adapters.Scrollview;
 import app.AppConfig;
 import app.AppController;
 
@@ -52,8 +55,10 @@ public class ScheduledMaintenanceDetail extends Activity {
     private ProgressDialog pDialog;
     public String phone, name, category, address, workshopid, rating, profilepic, coordinates, offers, offdays;
     Integer pic;
-    TextView ratings, workshopdetail_phone, workshopdetail_name, workshopdetail_address, abTitle;
+    TextView ratings, workshopdetail_phone,workshopdetail_name,workshopdetail_address, abTitle;
     final ColorDrawable cd = new ColorDrawable(Color.rgb(68, 74, 83));
+    Scrollview mOnScrollChangedListener;
+    private Drawable mActionBarBackgroundDrawable;
     private ImageButton call_dialer, location_redirect, share_detail, favorite;
     LatLng latLng1, latLng2;
     private double coordLatitude = 0.0;
@@ -62,26 +67,34 @@ public class ScheduledMaintenanceDetail extends Activity {
     String dist;
     float price_detail;
     ActionBar tAction;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.scheduled_maintenance_detail);
+        setContentView(R.layout.scheduled_maintenance_detail);
 
-        FadingActionBarHelper helper = new FadingActionBarHelper()
-                .actionBarBackground(R.drawable.ab_background)
-                .headerLayout(R.layout.header)
-                .parallax(false)
-                .contentLayout(R.layout.scheduled_maintenance_detail);
-        setContentView(helper.createView(this));
-        helper.initActionBar(this);
+//        FadingActionBarHelper helper = new FadingActionBarHelper()
+//                .actionBarBackground(R.drawable.ab_background)
+//                .headerLayout(R.layout.header)
+//                .parallax(false)
+//                .contentLayout(R.layout.scheduled_maintenance_detail);
+//        setContentView(helper.createView(this));
+//        helper.initActionBar(this);
 
         tAction = getActionBar();
         int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
         abTitle = (TextView) findViewById(titleId);
         abTitle.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.icons));
+        // ((Scrollview) findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
 
+//        ed.putString("currentLatitude",""+currentLatitude);
+//        ed.putString("currentLongitude",""+currentLongitude);
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
+
+//       HashMap<String, String> latlog = smLocalStore.getSmwCurrentLatlng();
+//        String lat = latlog.get("lat");
+//        String log = latlog.get("log");
+//       double d1=Double.parseDouble(lat);
+//       double d2=Double.parseDouble(log);
 
         call_dialer = (ImageButton) findViewById(R.id.call_dialer);
         location_redirect = (ImageButton) findViewById(R.id.location_redirect);
@@ -92,8 +105,8 @@ public class ScheduledMaintenanceDetail extends Activity {
         workshopdetail_address = (TextView) findViewById(R.id.workshopdetail_address);
 
         UserLocalStore userLocalStore = new UserLocalStore(this);
-        String latlng1 = userLocalStore.getMylocationLatlog();
 
+        String latlng1 = userLocalStore.getMylocationLatlog();
         String[] ltlg = latlng1.split(",");
         String ltlg1 = ltlg[0]; // 004
         String ltlg2 = ltlg[1];
@@ -116,11 +129,9 @@ public class ScheduledMaintenanceDetail extends Activity {
             @Override
             public void onClick(View v) {
                 smLocalStore.setSMworkshopname(name);
-
                 String offer_sm = (String.valueOf(price_detail)).replaceAll("[^\\ds.]", "");
                 smLocalStore.setOffer_total(offer_sm);
                 startActivity(new Intent(ScheduledMaintenanceDetail.this, ScheduledMaintenanceAppointment.class));
-
             }
         });
 
@@ -237,7 +248,8 @@ public class ScheduledMaintenanceDetail extends Activity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ScheduledMaintenanceDetail.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ScheduledMaintenanceDetail.this,"No Network Connection", Toast.LENGTH_LONG).show();
+                        pDialog.show();
                     }
                 }) {
 
@@ -251,7 +263,6 @@ public class ScheduledMaintenanceDetail extends Activity {
             }
 
         };
-
         AppController.getInstance().cancelPendingRequests("REQTAG");
         stringRequest.setTag("REQTAG");
         int socketTimeout = 30000;//30 seconds - change to what you want
@@ -261,7 +272,6 @@ public class ScheduledMaintenanceDetail extends Activity {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void workshopdisplay_detail() {
         pDialog.dismiss();
         TextView workshopname = (TextView) findViewById(R.id.workshopdetail_name);
@@ -270,30 +280,35 @@ public class ScheduledMaintenanceDetail extends Activity {
         TextView workshopcategory = (TextView) findViewById(R.id.workshopdetail_category);
 
         TextView offday = (TextView) findViewById(R.id.workshopdetail_Offday);
-        TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
-        final ImageView workshopimage = (ImageView) findViewById(R.id.workshopdetail_photo);
+        final TextView ws_distance = (TextView) findViewById(R.id.ws_distance);
+        final ImageView workshopimage = (ImageView) findViewById(R.id.image_header);
         ratings = (TextView) findViewById(R.id.rating);
         String url = "http://blueripples.org/horn/ajax-data/profilepics/" + profilepic;
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-            }
-
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    // load image into imageview
-                    workshopimage.setImageBitmap(response.getBitmap());
-                }
-            }
-        });
+        Picasso.with(getApplicationContext())
+                .load(String.valueOf(getResources().getDrawable(R.drawable.horn_toload)))
+                .placeholder(R.drawable.horn_toload)
+                .into(workshopimage);
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//            }
+//
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                if (response.getBitmap() != null) {
+//                    // load image into imageview
+//                    workshopimage.setImageBitmap(response.getBitmap());
+//                }
+//            }
+//        });
         if ((category).equals("Authorised")) {
             category = "Exclusive";
         }
         workshopname.setText(name);
+
         String lName = name.toLowerCase();
         char alphabet = lName.charAt(0);
         setactionBarIconwithAlphabet(alphabet);
@@ -301,6 +316,7 @@ public class ScheduledMaintenanceDetail extends Activity {
         workshopaddress.setText(address);
         workshopcategory.setText(category);
         workshopphone.setText(phone);
+
 
         int start = Integer.parseInt(offdays);
         int end = Integer.parseInt(offdays) + 1;
@@ -319,7 +335,7 @@ public class ScheduledMaintenanceDetail extends Activity {
         sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
         offday.setText(sb);
-        offday.setLetterSpacing(1);
+//        offday.setLetterSpacing(1);
 
         smLocalStore = new SMLocalStore(ScheduledMaintenanceDetail.this);
         float total = Float.parseFloat(smLocalStore.getService_total());
@@ -338,7 +354,12 @@ public class ScheduledMaintenanceDetail extends Activity {
                 startActivity(ob);
             }
         });
-
+        location_redirect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ws_distance.performClick();
+            }
+        });
     }
 
     private void setRatingBackround(String ratingValue) {
@@ -378,7 +399,6 @@ public class ScheduledMaintenanceDetail extends Activity {
                 break;
         }
     }
-
     private void setactionBarIconwithAlphabet(char alphabet) {
         char a = 'a', b = 'b', c = 'c', d = 'd', e = 'e', f = 'f', g = 'g', h = 'h', i = 'i', j = 'j', k = 'k', l = 'l', m = 'm',
                 n = 'n', o = 'o', p = 'p', q = 'q', r = 'r', s = 's', t = 't', u = 'u', v = 'v', w = 'w', x = 'x', y = 'y', z = 'z';

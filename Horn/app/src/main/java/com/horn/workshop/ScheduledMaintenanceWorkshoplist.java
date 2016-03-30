@@ -1,26 +1,17 @@
 package com.horn.workshop;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,8 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -49,8 +38,6 @@ import java.util.Map;
 
 import app.AppConfig;
 import app.AppController;
-
-import static com.horn.workshop.R.drawable.a;
 
 /**
  * Created by Sariga on 1/8/2016.
@@ -164,16 +151,9 @@ public class ScheduledMaintenanceWorkshoplist extends AppCompatActivity implemen
                 Log.e("Exception :",""+e);
             }
 
-            String[] parts = coordinateArray[i].split(",");
-            String part1 = parts[0]; // 004
-            String part2 = parts[1];
-
             //Toast.makeText(getApplicationContext(),"coordinateArray[i] :"+coordinateArray[i]+"phone :"+phoneArray[i],Toast.LENGTH_LONG).show();
 
             // Toast.makeText(getApplicationContext(),"part a:"+part1+"partb :"+part2,Toast.LENGTH_LONG).show();
-
-            coordLatitude=Double.parseDouble(part1);
-            coordLongitude=Double.parseDouble(part2);
 
             latLng1 = new LatLng(coordLatitude, coordLongitude);
 

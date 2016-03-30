@@ -15,9 +15,9 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
 import com.horn.workshop.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,22 +74,26 @@ public class MyCarAdapter extends RecyclerView.Adapter<MyCarAdapter.ViewHolder> 
         textView.setText(carData.getName());
         varientView.setText("Fuel Type : "+carData.getVarient());
         String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + carData.getImageName();
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-            }
-
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    // load image into imageview
-                    carImage.setImageBitmap(response.getBitmap());
-                }
-            }
-        });
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//            }
+//
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                if (response.getBitmap() != null) {
+//                    // load image into imageview
+//                    carImage.setImageBitmap(response.getBitmap());
+//                }
+//            }
+//        });
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.car_placeholder)
+                .into(carImage);
 
     }
 

@@ -1,15 +1,17 @@
 package com.horn.workshop;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
+import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+=======
 
 import android.support.v7.widget.Toolbar;
 
@@ -17,12 +19,10 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 
+>>>>>>> master
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,8 +31,8 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -161,22 +161,26 @@ public class MyCarDetail extends AppCompatActivity {
                         car_km_done.setText(car_km_dones);
 
                         String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
-                        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-                        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-                            }
-
-                            @Override
-                            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                                if (response.getBitmap() != null) {
-                                    // load image into imageview
-                                    car_image.setImageBitmap(response.getBitmap());
-                                }
-                            }
-                        });
+                        Picasso.with(getApplicationContext())
+                                .load(url)
+                                .placeholder(R.drawable.car_placeholder)
+                                .into(car_image);
+//                        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//                        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                                if (response.getBitmap() != null) {
+//                                    // load image into imageview
+//                                    car_image.setImageBitmap(response.getBitmap());
+//                                }
+//                            }
+//                        });
 
 
                     }

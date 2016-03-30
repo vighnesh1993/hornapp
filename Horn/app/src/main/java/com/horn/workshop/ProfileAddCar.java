@@ -1,13 +1,12 @@
 package com.horn.workshop;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -23,13 +22,11 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.StringRequest;
-import com.google.android.gms.maps.model.LatLng;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +51,11 @@ public class ProfileAddCar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_add_car);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_tool_bar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         displaydetails();
     }
     public void displaydetails()
@@ -95,22 +97,26 @@ public class ProfileAddCar extends AppCompatActivity {
                         car_vehicle.setText(car_vehicles);
 
                         String url = "http://blueripples.org/horn/ajax-data/vehicle-images/"+car_images+"";
-                        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-                        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-                            }
-
-                            @Override
-                            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                                if (response.getBitmap() != null) {
-                                    // load image into imageview
-                                    car_image.setImageBitmap(response.getBitmap());
-                                }
-                            }
-                        });
+                        Picasso.with(getApplicationContext())
+                                .load(url)
+                                .placeholder(R.drawable.ic_directions_car_24dp)
+                                .into(car_image);
+//                        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//                        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//                            }
+//
+//                            @Override
+//                            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                                if (response.getBitmap() != null) {
+//                                    // load image into imageview
+//                                    car_image.setImageBitmap(response.getBitmap());
+//                                }
+//                            }
+//                        });
 
 
                     }
