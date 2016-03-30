@@ -155,9 +155,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:inputType="textMultiLine"
                 android:focusableInTouchMode="true"
-                android:maxHeight="200dp"
+
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:background="@null"
