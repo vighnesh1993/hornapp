@@ -3,11 +3,9 @@ package com.horn.workshop;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,25 +17,16 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ActionMenuView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.TabHost.TabSpec;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -52,7 +41,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -262,9 +250,9 @@ public int count = 0;
                car_count = 4;
             }
             else { car_count = 60; }
-            LinearLayout.LayoutParams myveh_param = new ActionMenuView.LayoutParams(choosecar.getWidth() - car_count, 100);
-            myveh_param.setMargins(3, 5, 3, 5);
-            myvehicle_lyt.setLayoutParams(myveh_param);
+//            LinearLayout.LayoutParams myveh_param = new ActionMenuView.LayoutParams(choosecar.getWidth() - car_count, 100);
+//            myveh_param.setMargins(3, 5, 3, 5);
+//            myvehicle_lyt.setLayoutParams(myveh_param);
             myvehicle_lyt.setOrientation(LinearLayout.HORIZONTAL);
             myvehicle_lyt.setId(j);
            // myvehicle_lyt.setVerticalGravity(View.TEXT_ALIGNMENT_GRAVITY);
@@ -273,8 +261,8 @@ public int count = 0;
 
             final ImageView myvehicle_image = new ImageView(this);
             String carimage;
-            LinearLayout.LayoutParams myvehimg_param = new ActionMenuView.LayoutParams(150, ViewGroup.LayoutParams.MATCH_PARENT);
-            myvehicle_image.setLayoutParams(myvehimg_param);
+//            LinearLayout.LayoutParams myvehimg_param = new ActionMenuView.LayoutParams(150, ViewGroup.LayoutParams.MATCH_PARENT);
+//            myvehicle_image.setLayoutParams(myvehimg_param);
             if((carImageArray[j]).equals(""))
             { carimage = "ic_directions_car_black_48dp.png"; }
             else { carimage = carImageArray[j];}
@@ -301,9 +289,9 @@ public int count = 0;
 
 
             TextView myvehicle_txt = new TextView(this);
-            LinearLayout.LayoutParams myvehtxt_param = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    //        LinearLayout.LayoutParams myvehtxt_param = new ActionMenuView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             myvehicle_txt.setText(items[j]);
-            myvehicle_txt.setLayoutParams(myvehtxt_param);
+    //        myvehicle_txt.setLayoutParams(myvehtxt_param);
             myvehicle_txt.setTextSize(15);
             myvehicle_txt.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             myvehicle_txt.setGravity(Gravity.CENTER);

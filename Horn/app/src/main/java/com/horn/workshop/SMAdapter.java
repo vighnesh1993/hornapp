@@ -16,13 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.squareup.picasso.Picasso;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-
-import app.AppController;
 
 //import static android.support.v4.app.ActivityCompat.startActivity;
 
@@ -157,26 +153,30 @@ public class SMAdapter extends RecyclerView.Adapter<SMAdapter.MyViewHolder> {
         sb.setSpan(bss, start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
         offday1.setText(sb);
-        offday1.setLetterSpacing((float) 0.5);
+//        offday1.setLetterSpacing((float) 0.5);
 
 
         String url = workshopDataSet.get(listPosition).getProfilepic();
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-            }
-
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    // load image into imageview
-                    picture1.setImageBitmap(response.getBitmap());
-                }
-            }
-        });
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.horn_toload)
+                .into(picture1);
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//            }
+//
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                if (response.getBitmap() != null) {
+//                    // load image into imageview
+//                    picture1.setImageBitmap(response.getBitmap());
+//                }
+//            }
+//        });
         holder.setItem(workshopDataSet.get(listPosition).getworkshopid());
 
         String ratingValue = workshopDataSet.get(listPosition).getrating();

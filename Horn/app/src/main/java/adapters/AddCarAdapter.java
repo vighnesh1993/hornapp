@@ -3,24 +3,20 @@ package adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.horn.workshop.ProfileAddCar;
 import com.horn.workshop.R;
-import com.horn.workshop.RecyclerItemClickListener;
 import com.horn.workshop.SMLocalStore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import app.AppController;
 import data.CarData;
 
 /**
@@ -103,22 +99,26 @@ public class AddCarAdapter extends RecyclerView.Adapter<AddCarAdapter.MyViewHold
         textView.setText(mCarDatas.get(position).getName());
         carVarient.setText("Fuel Type : "+mCarDatas.get(position).getVarient());
         String url = "http://blueripples.org/horn/ajax-data/vehicle-images/" + mCarDatas.get(position).getImageName();
-        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        imageLoader.get(url, new ImageLoader.ImageListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // Log.e(TAG, "Image Load Error: " + error.getMessage());
-            }
-
-            @Override
-            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
-                if (response.getBitmap() != null) {
-                    // load image into imageview
-                    carImage.setImageBitmap(response.getBitmap());
-                }
-            }
-        });
+//        ImageLoader imageLoader = AppController.getInstance().getImageLoader();
+//        imageLoader.get(url, new ImageLoader.ImageListener() {
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                // Log.e(TAG, "Image Load Error: " + error.getMessage());
+//            }
+//
+//            @Override
+//            public void onResponse(ImageLoader.ImageContainer response, boolean arg1) {
+//                if (response.getBitmap() != null) {
+//                    // load image into imageview
+//                    carImage.setImageBitmap(response.getBitmap());
+//                }
+//            }
+//        });
+        Picasso.with(context)
+                .load(url)
+                .placeholder(R.drawable.car_placeholder)
+                .into(carImage);
         holder.setItem(mCarDatas.get(position).getCarId());
     }
 
